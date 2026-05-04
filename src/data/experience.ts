@@ -1,0 +1,65 @@
+import type { ExperienceItem } from '@/types';
+
+export const experience: ExperienceItem[] = [
+  {
+    id: 'sickkids',
+    company: 'The Hospital for Sick Children',
+    role: 'R&D Engineer',
+    dateRange: 'Jan 2026 – Present',
+    location: 'Toronto, ON',
+    type: 'research',
+    description: 'Leading a cross-lab initiative evaluating transcranial focused ultrasound neuromodulation and OPM-MEG neural monitoring across neuroscience and hardware teams.',
+    wins: [
+      'Led 9+ researchers/engineers across neuroscience and hardware teams',
+      'Co-authored a $225,000 internal research grant',
+      '~67% SNR improvement via shielded cabling and signal filtering in MNE-Python',
+      'Prototyped a wearable neuromodulation helmet through 11+ transducer/sensor configurations',
+    ],
+    stack: ['MNE-Python', 'SolidWorks', 'Signal Processing', 'OPM-MEG', 'Ultrasound'],
+  },
+  {
+    id: 'uwaterloo-research',
+    company: 'Vision & Image Processing Lab + Critical ML Lab',
+    role: 'Undergraduate Research Assistant',
+    dateRange: 'Aug 2025 – Present',
+    location: 'Waterloo, ON',
+    type: 'research',
+    description: 'Implementing and evaluating active learning pipelines for annotation efficiency and segmentation performance. Applying methods to brain tumor datasets for medical imaging.',
+    wins: [
+      'Compared annotation efficiency across active learning sampling strategies',
+      'Led medical imaging implementation on brain tumor dataset',
+      'Co-authored manuscript on RL-based active learning under review at ICML 2026',
+    ],
+    stack: ['Python', 'PyTorch', 'Active Learning', 'Semantic Segmentation', 'Medical Imaging'],
+  },
+  {
+    id: 'harvard',
+    company: 'Harvard Medical School — Tearney Lab',
+    role: 'Machine Learning Research Intern',
+    dateRange: 'May 2025 – Aug 2025',
+    location: 'Boston, MA',
+    type: 'research',
+    description: "Developed a deep learning pipeline for Parkinson's disease diagnosis through segmentation of esophageal OCT images. Presented at the Wellman Center for Photomedicine at MGH.",
+    wins: [
+      "Built deep learning pipeline for Parkinson's diagnosis via esophageal OCT",
+      'Translated 16+ clinical design requirements into model architecture decisions',
+      'Achieved 85%+ classification accuracy with LT-U-Net model',
+      'Presented at the Wellman Center for Photomedicine, Massachusetts General Hospital',
+    ],
+    stack: ['Python', 'PyTorch', 'OCT Imaging', 'LT-U-Net', 'Deep Learning'],
+  },
+  {
+    id: 'united-mobility',
+    company: 'United Mobility',
+    role: 'Co-founder',
+    dateRange: 'Mar 2025 – Sep 2025',
+    location: 'Waterloo, ON',
+    type: 'startup',
+    description: 'Led development and deployment of a decentralized e-scooter platform, owning execution across engineering, partnerships, and app product design.',
+    wins: [
+      'Drove cross-functional execution across software and business strategy',
+      "Won People's Choice Award at UW Velocity Future Cities Pitch Competition",
+    ],
+    stack: ['Product Design', 'Cross-functional Leadership', 'App Development'],
+  },
+];

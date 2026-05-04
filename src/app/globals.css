@@ -1,26 +1,105 @@
 @import "tailwindcss";
 
+/* ─── Design tokens (CSS custom properties) ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Neural */
+  --color-neural-purple: #7F77DD;
+  --color-neural-purple-light: #AFA9EC;
+  --color-neural-purple-dark: #3C3489;
+
+  /* Synapse */
+  --color-synapse-teal: #1D9E75;
+  --color-synapse-teal-light: #5DCAA5;
+
+  /* Axon */
+  --color-axon-amber: #BA7517;
+  --color-axon-amber-light: #EF9F27;
+
+  /* Dendrite */
+  --color-dendrite-coral: #D85A30;
+  --color-dendrite-coral-light: #F0997B;
+
+  /* Background */
+  --color-bg-base: #0a0a12;
+  --color-bg-surface: #12121f;
+  --color-bg-card: #1a1a2e;
+
+  /* Text */
+  --color-text-primary: #f0f0f5;
+  --color-text-secondary: #9898b0;
+  --color-text-muted: #5a5a78;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Tailwind v4 theme extension ─── */
+@theme {
+  /* Colors */
+  --color-neural-purple: #7F77DD;
+  --color-neural-purple-light: #AFA9EC;
+  --color-neural-purple-dark: #3C3489;
+
+  --color-synapse-teal: #1D9E75;
+  --color-synapse-teal-light: #5DCAA5;
+
+  --color-axon-amber: #BA7517;
+  --color-axon-amber-light: #EF9F27;
+
+  --color-dendrite-coral: #D85A30;
+  --color-dendrite-coral-light: #F0997B;
+
+  --color-bg-base: #0a0a12;
+  --color-bg-surface: #12121f;
+  --color-bg-card: #1a1a2e;
+
+  --color-text-primary: #f0f0f5;
+  --color-text-secondary: #9898b0;
+  --color-text-muted: #5a5a78;
+
+  /* Fonts — CSS vars injected by next/font via layout.tsx */
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  /* Animations */
+  --animate-pulse-slow: pulse 3s ease-in-out infinite;
+  --animate-signal: signal 2s ease-out forwards;
+  --animate-node-breathe: nodeBreathe 3s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Keyframes ─── */
+@keyframes signal {
+  0%   { opacity: 0; transform: scale(0.5); }
+  50%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes nodeBreathe {
+  0%, 100% { transform: scale(1);   opacity: 0.8; }
+  50%       { transform: scale(1.1); opacity: 1;   }
+}
+
+/* ─── Global base styles ─── */
+html {
+  scroll-behavior: smooth;
+  background: #0a0a12;
+  scrollbar-width: thin;
+  scrollbar-color: #7F77DD #12121f;
+}
+
+::selection {
+  background: #7F77DD;
+  color: #f0f0f5;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── View transitions — action potential easing ─── */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
