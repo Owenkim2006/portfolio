@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import type { Project } from '@/types';
 
 // ─── Shared constants ─────────────────────────────────────────────────────────
@@ -167,55 +168,46 @@ function ImageSlideshow({ project, currentSlide, setCurrentSlide }: {
           style={{ position: 'absolute', inset: 0 }}
         >
           {hasImages ? (
-            <img
-              src={project.images![currentSlide]}
-              alt={`${project.name} screenshot ${currentSlide + 1}`}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+              <Image
+                src={project.images![currentSlide]}
+                alt={`${project.name} screenshot ${currentSlide + 1}`}
+                fill
+                style={{ objectFit: 'cover', borderRadius: 8 }}
+                sizes="(max-width: 768px) 92vw, 720px"
+              />
+            </div>
           ) : (
             <PlaceholderSlide index={currentSlide} category={project.category} projectId={project.id} />
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Prev arrow */}
-      <button
-        aria-label="Previous slide"
-        onClick={prev}
+      <button aria-label="Previous slide" onClick={prev}
         style={{ ...arrowBtn, left: 10 }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.8)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.5)')}
-      >
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.5)')}>
         <ChevronLeft />
       </button>
 
-      {/* Next arrow */}
-      <button
-        aria-label="Next slide"
-        onClick={next}
+      <button aria-label="Next slide" onClick={next}
         style={{ ...arrowBtn, right: 10 }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.8)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.5)')}
-      >
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.5)')}>
         <ChevronRight />
       </button>
 
-      {/* Dot indicators */}
       <div style={{
         position: 'absolute', bottom: 10, left: 0, right: 0,
         display: 'flex', justifyContent: 'center', gap: 6, zIndex: 2,
       }}>
         {Array.from({ length: totalSlides }).map((_, i) => (
-          <button
-            key={i}
-            aria-label={`Go to slide ${i + 1}`}
-            onClick={() => setCurrentSlide(i)}
+          <button key={i} aria-label={`Go to slide ${i + 1}`} onClick={() => setCurrentSlide(i)}
             style={{
               width: 6, height: 6, borderRadius: '50%', border: 'none', padding: 0,
               cursor: 'pointer', transition: 'background 200ms',
               background: i === currentSlide ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)',
-            }}
-          />
+            }} />
         ))}
       </div>
     </div>
@@ -232,32 +224,25 @@ interface Props {
 export default function ProjectModal({ project, onClose }: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Reset slide when project changes
   useEffect(() => { setCurrentSlide(0); }, [project?.id]);
 
-  // Stable refs so the keyboard handler doesn't need to re-register
   const handlersRef = useRef({ onClose, setCurrentSlide });
   handlersRef.current = { onClose, setCurrentSlide };
 
   useEffect(() => {
     if (!project) return;
 
-    document.body.style.overflow = 'hidden';
-
     const hasImages = (project.images?.length ?? 0) > 0;
     const totalSlides = hasImages ? project.images!.length : 3;
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handlersRef.current.onClose();
-      else if (e.key === 'ArrowLeft') handlersRef.current.setCurrentSlide(s => (s - 1 + totalSlides) % totalSlides);
-      else if (e.key === 'ArrowRight') handlersRef.current.setCurrentSlide(s => (s + 1) % totalSlides);
+      if (e.key === 'Escape')       handlersRef.current.onClose();
+      if (e.key === 'ArrowLeft')    handlersRef.current.setCurrentSlide(s => (s - 1 + totalSlides) % totalSlides);
+      if (e.key === 'ArrowRight')   handlersRef.current.setCurrentSlide(s => (s + 1) % totalSlides);
     };
 
     window.addEventListener('keydown', handleKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKey);
-    };
+    return () => window.removeEventListener('keydown', handleKey);
   }, [project]);
 
   if (!project) return null;
@@ -265,40 +250,39 @@ export default function ProjectModal({ project, onClose }: Props) {
   const cat = CATEGORY_META[project.category];
 
   return (
-    <>
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 100,
-          background: 'rgba(5,5,15,0.85)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-        }}
-      />
-
-      {/* Panel */}
+    // Backdrop — fullscreen flex container for centering.
+    // Only animates opacity so its layout is never transformed.
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 100,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 16,
+        background: 'rgba(5,5,15,0.88)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+      }}
+    >
+      {/* Panel — scale/y animation only, no centering transforms */}
       <motion.div
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 8 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
         onClick={e => e.stopPropagation()}
         style={{
-          position: 'fixed', top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 'min(720px, 92vw)',
+          position: 'relative',
+          width: 'min(720px, 100%)',
           maxHeight: '88vh',
           overflowY: 'auto',
           background: 'rgba(14,14,26,0.98)',
-          border: '1px solid rgba(127,119,221,0.25)',
+          border: '1px solid rgba(127,119,221,0.2)',
           borderRadius: 20,
           padding: 32,
-          zIndex: 101,
         }}
       >
         {/* 1. Header row */}
@@ -402,6 +386,6 @@ export default function ProjectModal({ project, onClose }: Props) {
           {project.links.map(link => <LinkPill key={link.href} link={link} />)}
         </div>
       </motion.div>
-    </>
+    </motion.div>
   );
 }

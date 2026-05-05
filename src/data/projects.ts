@@ -17,6 +17,8 @@ export const projects: Project[] = [
       'Designed for low-latency inference on edge hardware',
     ],
     featured: true,
+    // TODO: add images to public/images/projects/
+    // images: ['/images/projects/fortifai-1.png', '/images/projects/fortifai-2.png', '/images/projects/fortifai-3.png'],
     images: [],
     links: [
       { label: 'GitHub', href: '#', type: 'github' },
@@ -38,6 +40,8 @@ export const projects: Project[] = [
       'Cross-functional execution across software and business strategy',
     ],
     featured: true,
+    // TODO: add images to public/images/projects/
+    // images: ['/images/projects/united-mobility-1.png', '/images/projects/united-mobility-2.png', '/images/projects/united-mobility-3.png'],
     images: [],
     links: [
       { label: 'Devpost', href: '#', type: 'devpost' },
@@ -59,6 +63,8 @@ export const projects: Project[] = [
       'Designed for early detection in home and clinical settings',
     ],
     featured: false,
+    // TODO: add images to public/images/projects/
+    // images: ['/images/projects/strokealert-1.png', '/images/projects/strokealert-2.png'],
     images: [],
     links: [
       { label: 'GitHub', href: '#', type: 'github' },
@@ -80,6 +86,8 @@ export const projects: Project[] = [
       'Designed for a range of motor abilities and cerebral palsy presentations',
     ],
     featured: false,
+    // TODO: add images to public/images/projects/
+    // images: ['/images/projects/kidsability-1.png', '/images/projects/kidsability-2.png'],
     images: [],
     links: [],
   },
@@ -99,6 +107,8 @@ export const projects: Project[] = [
       'Real-time crypto price API integration',
     ],
     featured: false,
+    // TODO: add images to public/images/projects/
+    // images: ['/images/projects/cryptocompanion-1.png', '/images/projects/cryptocompanion-2.png'],
     images: [],
     links: [
       { label: 'Devpost', href: '#', type: 'devpost' },
@@ -119,6 +129,8 @@ export const projects: Project[] = [
       'Local file storage with search and retrieval system',
     ],
     featured: false,
+    // TODO: add images to public/images/projects/
+    // images: ['/images/projects/qr-generator-1.png', '/images/projects/qr-generator-2.png'],
     images: [],
     links: [
       { label: 'GitHub', href: '#', type: 'github' },

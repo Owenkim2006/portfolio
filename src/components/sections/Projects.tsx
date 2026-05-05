@@ -95,6 +95,75 @@ function LinkPill({ link }: { link: Project['links'][number] }) {
   );
 }
 
+// ─── Auto-slide hook ──────────────────────────────────────────────────────────
+
+function useAutoSlide(count: number, interval: number, paused: boolean) {
+  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    if (paused) return;
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % count);
+    }, interval);
+    return () => clearInterval(timer);
+  }, [count, interval, paused]);
+  return current;
+}
+
+// ─── Featured card slideshow ──────────────────────────────────────────────────
+
+const SLIDE_COUNT = 3;
+
+function FeaturedCardSlideshow({ project, paused }: { project: Project; paused: boolean }) {
+  const current = useAutoSlide(SLIDE_COUNT, 3000, paused);
+  const patternId = `card-slide-${project.id}`;
+
+  return (
+    <div style={{ height: 160, position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={current}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(135deg, rgba(26,26,46,0.9) 0%, rgba(18,18,31,1) 100%)',
+          }}
+        >
+          <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0 }} aria-hidden="true">
+            <defs>
+              <pattern id={`${patternId}-${current}`} width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#7F77DD" strokeWidth="0.5" opacity="0.06" />
+                <circle cx="0" cy="0" r="2" fill="#7F77DD" opacity="0.1" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill={`url(#${patternId}-${current})`} />
+          </svg>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CategoryIcon category={project.category} size={48} />
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Dot indicators */}
+      <div style={{
+        position: 'absolute', bottom: 8, left: 0, right: 0,
+        display: 'flex', justifyContent: 'center', gap: 6, zIndex: 2,
+        pointerEvents: 'none',
+      }}>
+        {Array.from({ length: SLIDE_COUNT }).map((_, i) => (
+          <div key={i} style={{
+            width: 6, height: 6, borderRadius: '50%',
+            background: i === current ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.25)',
+            transition: 'background 300ms',
+          }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── "View details" hint ──────────────────────────────────────────────────────
 
 function ViewDetailsHint() {
@@ -213,7 +282,7 @@ function FeaturedCard({ project, onOpen }: { project: Project; onOpen: () => voi
         transform: hovered ? 'translateY(-2px)' : 'none',
       }}
     >
-      <ProjectImageArea project={project} height={180} iconSize={48} />
+      <FeaturedCardSlideshow project={project} paused={hovered} />
 
       <div style={{ padding: 28, position: 'relative', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {/* Corner glow */}

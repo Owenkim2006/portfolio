@@ -3,12 +3,8 @@ export interface ResearchItem {
   title: string;
   institution: string;
   institutionShort: string;
-  role: string;
-  dateRange: string;
   description: string;
-  tags: string[];
   status: 'current' | 'completed';
-  highlight?: string;
   outputs: {
     type: 'paper' | 'poster' | 'talk' | 'conference';
     label: string;
@@ -42,7 +38,7 @@ export interface ExperienceItem {
   role: string;
   dateRange: string;
   location: string;
-  type: 'research' | 'industry' | 'startup';
+  type: 'research' | 'software';
   description: string;
   wins: string[];
   stack: string[];

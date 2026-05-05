@@ -6,7 +6,8 @@
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\owen1\\\\.vscodeprojects\\\\owen-portfolio_2\\\\portfolio-v2\\\\src\" -Recurse -File)",
       "Bash(Select-Object FullName)",
       "Bash(Sort-Object)",
-      "Bash(node -e \"require\\('@react-three/drei/core/useGLTF'\\); console.log\\('ok'\\)\")"
+      "Bash(node -e \"require\\('@react-three/drei/core/useGLTF'\\); console.log\\('ok'\\)\")",
+      "Bash(Get-ChildItem public/ -Recurse)"
     ]
   }
 }

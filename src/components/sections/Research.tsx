@@ -173,9 +173,6 @@ function ResearchCard({
             <h3 style={{ fontSize: 16, fontWeight: 500, color: '#f0f0f5', lineHeight: 1.4, marginBottom: 4 }}>
               {item.title}
             </h3>
-            <p style={{ fontSize: 14, color: '#1D9E75' }}>
-              {item.role}
-            </p>
             <p style={{ fontSize: 13, color: '#9898b0', marginTop: 2 }}>
               {item.institution}
             </p>
@@ -208,7 +205,6 @@ function ResearchCard({
             fontFamily: 'var(--font-jetbrains-mono, monospace)',
             color: '#5a5a78',
           }}>
-            {item.dateRange}
           </span>
         </div>
         </div>
@@ -219,37 +215,7 @@ function ResearchCard({
         {item.description}
       </p>
 
-      {/* Highlight callout */}
-      {item.highlight && (
-        <div style={{
-          background: 'rgba(29,158,117,0.08)',
-          borderLeft: '2px solid #1D9E75',
-          borderRadius: '0 6px 6px 0',
-          padding: '10px 16px',
-          marginBottom: 16,
-        }}>
-          <p style={{ fontSize: 14, color: '#9898b0', fontStyle: 'italic', lineHeight: 1.6 }}>
-            {item.highlight}
-          </p>
-        </div>
-      )}
 
-      {/* Tags */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
-        {item.tags.map((tag) => (
-          <span key={tag} style={{
-            fontSize: 10,
-            fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            padding: '2px 8px',
-            borderRadius: 4,
-            background: 'rgba(10,10,18,0.8)',
-            border: '0.5px solid rgba(255,255,255,0.1)',
-            color: '#9898b0',
-          }}>
-            {tag}
-          </span>
-        ))}
-      </div>
 
       {/* Outputs */}
       {item.outputs.length > 0 && (
@@ -265,6 +231,8 @@ function ResearchCard({
 
 // ─── Decorative neuron SVG ────────────────────────────────────────────────────
 
+/*
+
 function NeuronDecoration() {
   return (
     <svg
@@ -275,9 +243,9 @@ function NeuronDecoration() {
       aria-hidden="true"
       style={{ color: '#1D9E75', opacity: 0.4 }}
     >
-      {/* Cell body */}
+      {}
       <circle cx="40" cy="40" r="5" fill="currentColor" />
-      {/* Dendrites */}
+      {}
       <line x1="40" y1="35" x2="40" y2="14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       <line x1="40" y1="14" x2="30" y2="6"  stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
       <line x1="40" y1="14" x2="50" y2="8"  stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
@@ -290,11 +258,11 @@ function NeuronDecoration() {
       <line x1="43" y1="37" x2="62" y2="28" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       <line x1="62" y1="28" x2="70" y2="20" stroke="currentColor" strokeWidth="1"   strokeLinecap="round" />
       <line x1="62" y1="28" x2="68" y2="36" stroke="currentColor" strokeWidth="1"   strokeLinecap="round" />
-      {/* Axon */}
+      {}
       <line x1="40" y1="45" x2="40" y2="66" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       <line x1="40" y1="66" x2="32" y2="74" stroke="currentColor" strokeWidth="1"   strokeLinecap="round" />
       <line x1="40" y1="66" x2="48" y2="74" stroke="currentColor" strokeWidth="1"   strokeLinecap="round" />
-      {/* Terminal dots */}
+      {}
       <circle cx="30"  cy="6"  r="1.5" fill="currentColor" />
       <circle cx="50"  cy="8"  r="1.5" fill="currentColor" />
       <circle cx="26"  cy="18" r="1.5" fill="currentColor" />
@@ -308,6 +276,7 @@ function NeuronDecoration() {
     </svg>
   );
 }
+*/
 
 // ─── Sidebar institution entry ────────────────────────────────────────────────
 
@@ -440,7 +409,7 @@ export default function Research() {
               ))}
             </div>
             <div style={{ marginTop: 48 }}>
-              <NeuronDecoration />
+              {/* <NeuronDecoration /> */}
             </div>
           </div>
 

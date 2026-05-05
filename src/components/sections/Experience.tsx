@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import Image from 'next/image';
 import { experience } from '@/data/experience';
 import type { ExperienceItem } from '@/types';
+import ExperienceModal from '@/components/ui/ExperienceModal';
 
 // ─── Left-entry animation wrapper ────────────────────────────────────────────
 
@@ -26,19 +28,20 @@ function SlideInLeft({ children, delay = 0 }: { children: React.ReactNode; delay
 
 function ChevronRight() {
   return (
-    <svg
-      width={7}
-      height={11}
-      viewBox="0 0 7 11"
-      fill="none"
-      stroke="#D85A30"
-      strokeWidth={1.8}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      style={{ flexShrink: 0, marginTop: 3 }}
-    >
+    <svg width={7} height={11} viewBox="0 0 7 11" fill="none"
+      stroke="#D85A30" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"
+      aria-hidden="true" style={{ flexShrink: 0, marginTop: 3 }}>
       <path d="M1 1l5 4.5L1 10" />
+    </svg>
+  );
+}
+
+function ExpandIcon() {
+  return (
+    <svg width={11} height={11} viewBox="0 0 12 12" fill="none"
+      stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"
+      aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M1 4.5V1h3.5M7.5 1H11v3.5M11 7.5V11H7.5M4.5 11H1V7.5" />
     </svg>
   );
 }
@@ -56,8 +59,7 @@ function hexToRgba(hex: string, alpha: number): string {
 
 const TYPE_META: Record<ExperienceItem['type'], { label: string; text: string; bg: string; border: string }> = {
   research: { label: 'Research', text: '#1D9E75', bg: 'rgba(29,158,117,0.12)',  border: 'rgba(29,158,117,0.3)'  },
-  industry: { label: 'Industry', text: '#BA7517', bg: 'rgba(186,117,23,0.12)',  border: 'rgba(186,117,23,0.3)'  },
-  startup:  { label: 'Startup',  text: '#D85A30', bg: 'rgba(216,90,48,0.12)',   border: 'rgba(216,90,48,0.3)'   },
+  software: { label: 'Software', text: '#BA7517', bg: 'rgba(186,117,23,0.12)',  border: 'rgba(186,117,23,0.3)'  },
 };
 
 function TypeBadge({ type }: { type: ExperienceItem['type'] }) {
@@ -68,9 +70,7 @@ function TypeBadge({ type }: { type: ExperienceItem['type'] }) {
       fontFamily: 'var(--font-jetbrains-mono, monospace)',
       padding: '3px 10px',
       borderRadius: 999,
-      color: m.text,
-      background: m.bg,
-      border: `0.5px solid ${m.border}`,
+      color: m.text, background: m.bg, border: `0.5px solid ${m.border}`,
       whiteSpace: 'nowrap',
     }}>
       {m.label}
@@ -78,38 +78,40 @@ function TypeBadge({ type }: { type: ExperienceItem['type'] }) {
   );
 }
 
-// ─── Company logo placeholder ────────────────────────────────────────────────
+// ─── Company logo ─────────────────────────────────────────────────────────────
 
 function CompanyLogo({ item }: { item: ExperienceItem }) {
   const accentColor = item.color ?? TYPE_META[item.type].text;
-  const initials = item.company.slice(0, 2).toUpperCase();
 
   if (item.logo) {
     return (
-      <div style={{ width: 44, height: 44, borderRadius: 10, overflow: 'hidden', flexShrink: 0 }}>
-        <img src={item.logo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <div style={{
+        width: 44, height: 44, borderRadius: 10, overflow: 'hidden', flexShrink: 0,
+        border: '1px solid rgba(255,255,255,0.08)', background: 'white',
+      }}>
+        <Image
+          src={item.logo}
+          alt={item.company}
+          width={44}
+          height={44}
+          style={{ objectFit: 'contain', padding: 4 }}
+        />
       </div>
     );
   }
 
+  const initials = item.company.slice(0, 2).toUpperCase();
   return (
     <div style={{
-      width: 44,
-      height: 44,
-      borderRadius: 10,
-      flexShrink: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: hexToRgba(accentColor, 0.15),
       border: `1px solid ${hexToRgba(accentColor, 0.3)}`,
     }}>
       <span style={{
         fontSize: 13,
         fontFamily: 'var(--font-jetbrains-mono, monospace)',
-        fontWeight: 500,
-        color: accentColor,
-        letterSpacing: '0.02em',
+        fontWeight: 500, color: accentColor, letterSpacing: '0.02em',
       }}>
         {initials}
       </span>
@@ -130,37 +132,53 @@ function TimelineDot() {
       animate={{ backgroundColor: inView ? '#D85A30' : '#0a0a12' }}
       transition={{ duration: 0.35, delay: 0.15 }}
       style={{
-        position: 'absolute',
-        left: 12,
-        top: 24,
-        width: 16,
-        height: 16,
-        borderRadius: '50%',
-        border: '2px solid #D85A30',
-        zIndex: 1,
+        position: 'absolute', left: 12, top: 24,
+        width: 16, height: 16, borderRadius: '50%',
+        border: '2px solid #D85A30', zIndex: 1,
       }}
     />
   );
 }
 
+// ─── View details hint ────────────────────────────────────────────────────────
+
+function ViewDetailsHint() {
+  return (
+    <div
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 5,
+        fontSize: 11, fontFamily: 'var(--font-jetbrains-mono, monospace)',
+        color: '#5a5a78', opacity: 0.6, transition: 'opacity 200ms', cursor: 'pointer',
+        marginTop: 'auto', paddingTop: 12,
+      }}
+      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+      onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
+    >
+      <ExpandIcon /> View details
+    </div>
+  );
+}
+
 // ─── Experience card ──────────────────────────────────────────────────────────
 
-function ExperienceCard({ item }: { item: ExperienceItem }) {
+function ExperienceCard({ item, onOpen }: { item: ExperienceItem; onOpen: () => void }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
+      onClick={onOpen}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         background: 'rgba(26,26,46,0.5)',
-        border: `0.5px solid ${hovered ? 'rgba(216,90,48,0.25)' : 'rgba(255,255,255,0.07)'}`,
+        border: `0.5px solid ${hovered ? 'rgba(216,90,48,0.35)' : 'rgba(255,255,255,0.07)'}`,
         borderRadius: 12,
         padding: '22px 24px',
         transform: hovered ? 'translateY(-1px)' : 'none',
         transition: 'border-color 200ms, transform 200ms',
         display: 'flex',
         flexDirection: 'column',
+        cursor: 'pointer',
       }}
     >
       {/* Header */}
@@ -180,9 +198,7 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
             <p style={{
               fontSize: 11,
               fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              color: '#5a5a78',
-              textAlign: 'right',
-              lineHeight: 1.6,
+              color: '#5a5a78', textAlign: 'right', lineHeight: 1.6,
             }}>
               {item.dateRange}<br />{item.location}
             </p>
@@ -201,10 +217,8 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
           <p style={{
             fontSize: 11,
             fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            color: '#5a5a78',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            marginBottom: 8,
+            color: '#5a5a78', textTransform: 'uppercase',
+            letterSpacing: '0.08em', marginBottom: 8,
           }}>
             Key outcomes
           </p>
@@ -220,13 +234,12 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
       )}
 
       {/* Stack tags */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {item.stack.map((tech) => (
           <span key={tech} style={{
             fontSize: 10,
             fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            padding: '2px 8px',
-            borderRadius: 4,
+            padding: '2px 8px', borderRadius: 4,
             background: 'rgba(10,10,18,0.8)',
             border: '0.5px solid rgba(255,255,255,0.1)',
             color: '#9898b0',
@@ -235,6 +248,8 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
           </span>
         ))}
       </div>
+
+      <ViewDetailsHint />
     </div>
   );
 }
@@ -244,6 +259,13 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
 export default function Experience() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const lineInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
+
+  // Scroll lock while modal open
+  useEffect(() => {
+    document.body.style.overflow = selectedExp ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedExp]);
 
   return (
     <section style={{ padding: '120px 0', background: 'rgba(216,90,48,0.02)' }}>
@@ -253,21 +275,14 @@ export default function Experience() {
         <div style={{ marginBottom: 64 }}>
           <p style={{
             fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            fontSize: 12,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: '#D85A30',
-            marginBottom: 12,
+            fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: '#D85A30', marginBottom: 12,
           }}>
             Experience
           </p>
           <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            fontWeight: 500,
-            color: '#f0f0f5',
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
-            margin: 0,
+            fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 500,
+            color: '#f0f0f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0,
           }}>
             Where the work happened
           </h2>
@@ -287,14 +302,9 @@ export default function Experience() {
               animate={{ scaleY: lineInView ? 1 : 0 }}
               transition={{ duration: 1.2, ease: 'easeOut' }}
               style={{
-                position: 'absolute',
-                left: 19,
-                top: 0,
-                bottom: 0,
-                width: 1,
+                position: 'absolute', left: 19, top: 0, bottom: 0, width: 1,
                 background: 'linear-gradient(to bottom, transparent, rgba(216,90,48,0.4) 10%, rgba(216,90,48,0.4) 90%, transparent)',
-                transformOrigin: 'top',
-                pointerEvents: 'none',
+                transformOrigin: 'top', pointerEvents: 'none',
               }}
             />
 
@@ -310,7 +320,7 @@ export default function Experience() {
               >
                 <TimelineDot />
                 <SlideInLeft delay={i * 0.12}>
-                  <ExperienceCard item={item} />
+                  <ExperienceCard item={item} onOpen={() => setSelectedExp(item)} />
                 </SlideInLeft>
               </div>
             ))}
@@ -318,6 +328,16 @@ export default function Experience() {
           </div>
         </div>
       </div>
+
+      {/* Experience modal */}
+      <AnimatePresence>
+        {selectedExp && (
+          <ExperienceModal
+            experience={selectedExp}
+            onClose={() => setSelectedExp(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

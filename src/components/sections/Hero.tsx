@@ -19,7 +19,9 @@ const fade = (delay: number) => ({
 });
 
 export default function Hero() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile]         = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [isGrabbing, setIsGrabbing]       = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -30,7 +32,7 @@ export default function Hero() {
 
   const { scrollYProgress } = useScroll();
 
-  const brainOpacity  = useTransform(scrollYProgress, [0, 0.4],  [0.85, 0]);
+  const brainOpacity  = useTransform(scrollYProgress, [0, 0.4],  [1.0, 0]);
   const brainScale    = useTransform(scrollYProgress, [0, 0.4],  [1, 0.88]);
   const brainY        = useTransform(scrollYProgress, [0, 0.4],  [0, 40]);
   const textOpacity   = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
@@ -46,10 +48,10 @@ export default function Hero() {
       <motion.div
         className="relative z-10 flex flex-col justify-center"
         style={{
-          padding: isMobile ? '48px 32px 0' : `0 48px 0 64px`,
+          padding:   isMobile ? '48px 32px 0' : `0 48px 0 64px`,
           textAlign: isMobile ? 'center' : 'left',
-          opacity: isMobile ? undefined : textOpacity,
-          y: isMobile ? undefined : textY,
+          opacity:   isMobile ? undefined : textOpacity,
+          y:         isMobile ? undefined : textY,
         }}
       >
         <motion.p
@@ -95,13 +97,13 @@ export default function Hero() {
             <span
               key={label}
               style={{
-                fontSize: 11,
+                fontSize:   11,
                 fontFamily: 'var(--font-jetbrains-mono, monospace)',
-                padding: '4px 12px',
+                padding:    '4px 12px',
                 borderRadius: 999,
                 color,
                 background: `${color}1A`,
-                border: `0.5px solid ${color}4D`,
+                border:     `0.5px solid ${color}4D`,
                 whiteSpace: 'nowrap',
               }}
             >
@@ -115,38 +117,87 @@ export default function Hero() {
       <motion.div
         className="relative md:h-screen"
         style={isMobile ? {
-          height: '45vh',
-          opacity: 0.55,
+          display:        'flex',
+          justifyContent: 'center',
+          alignItems:     'center',
+          paddingTop:     '2rem',
+          paddingBottom:  '2rem',
         } : {
           opacity: brainOpacity,
-          scale: brainScale,
-          y: brainY,
+          scale:   brainScale,
+          y:       brainY,
         }}
       >
-        <div style={{
-          position: 'absolute',
-          inset: '-20% -10%',
-          zIndex: 5,
-          pointerEvents: 'none',
-        }}>
-          <BrainBackground />
+        {/* Brain canvas */}
+        <div
+          style={isMobile ? {
+            position: 'relative',
+            width:    320,
+            height:   320,
+            zIndex:   5,
+            cursor:   isGrabbing ? 'grabbing' : 'grab',
+          } : {
+            position: 'absolute',
+            inset:    '-20% -10%',
+            zIndex:   5,
+            cursor:   isGrabbing ? 'grabbing' : 'grab',
+          }}
+          onPointerDown={() => setIsGrabbing(true)}
+          onPointerUp={() => setIsGrabbing(false)}
+          onPointerLeave={() => setIsGrabbing(false)}
+        >
+          <BrainBackground onInteract={() => setHasInteracted(true)} />
         </div>
+
+        {/* Drag-to-rotate hint — desktop only */}
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: hasInteracted ? 0 : 1 }}
+            transition={{ delay: hasInteracted ? 0 : 1.8, duration: hasInteracted ? 0.4 : 0.6 }}
+            style={{
+              position:       'absolute',
+              bottom:         '2rem',
+              left:           0,
+              right:          0,
+              display:        'flex',
+              alignItems:     'center',
+              justifyContent: 'center',
+              gap:            6,
+              zIndex:         10,
+              pointerEvents:  'none',
+            }}
+          >
+            <svg
+              width={12} height={12} viewBox="0 0 12 12"
+              fill="none" stroke="currentColor" strokeWidth={1.5}
+              strokeLinecap="round" strokeLinejoin="round"
+              aria-hidden="true"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              {/* Circular arrow */}
+              <path d="M6 1.5A4.5 4.5 0 1 0 10.5 6" />
+              <path d="M10.5 6 L12 4.5 M10.5 6 L9 4.5" />
+            </svg>
+            <span className="font-mono text-xs text-text-muted">drag to rotate</span>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* ── Scroll indicator ───────────────────────────────────────────────── */}
       <motion.div
         style={{
-          position: 'absolute',
-          bottom: '2.5rem',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 6,
-          zIndex: 10,
-          opacity: indicatorOpacity,
-          pointerEvents: 'none',
+          position:       'absolute',
+          bottom:         '2.5rem',
+          left:           0,
+          right:          0,
+          display:        'flex',
+          flexDirection:  'column',
+          alignItems:     'center',
+          gap:            6,
+          zIndex:         10,
+          opacity:        indicatorOpacity,
+          pointerEvents:  'none',
         }}
       >
         <motion.span
