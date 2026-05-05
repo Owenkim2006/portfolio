@@ -44,6 +44,7 @@ export interface ExperienceItem {
   stack: string[];
   logo?: string;
   color?: string;
+  images?: string[];
 }
 
 export interface SocialLink {
