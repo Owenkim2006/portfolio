@@ -41,6 +41,9 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <div style={{ background: '#BA7517', color: '#0a0a12', textAlign: 'center', padding: '8px', fontSize: '14px', fontWeight: 600, letterSpacing: '0.05em', zIndex: 9999, position: 'sticky', top: 0 }}>
+          🚧 WORK IN PROGRESS 🚧
+        </div>
         {children}
         <ToastContainer />
       </body>

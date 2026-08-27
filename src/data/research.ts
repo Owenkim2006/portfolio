@@ -6,7 +6,7 @@ export const research: ResearchItem[] = [
     title: 'Confidential Neuromodulation Research Initiative on Transcranial Focused Ultrasound',
     institution: 'Owen Kim, Adam Waspe, Natalie Rhodes, Sebastian Coleman, George Ibrahim',
     institutionShort: 'SickKids',
-    description: 'Ibrahim Lab, The Hospital for Sick Children, University of Toronto.',
+    description: 'Ibrahim Lab, Posluns Centre for Image Guided Innovation and Therapeutic Intervention, ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ The Hospital for Sick Children, University of Toronto.',
     status: 'current',
     outputs: [
       { type: 'poster', label: 'NMH Trainee Research Day 2026', href: undefined },
