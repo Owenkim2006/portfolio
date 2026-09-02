@@ -4,17 +4,21 @@ import { useEffect, useState } from 'react';
 import { useActiveSection } from '@/hooks/useActiveSection';
 
 const NAV = [
-  { href: '#projects',   id: 'projects',   label: 'Projects',   dot: '#BA7517' },
-  { href: '#research',   id: 'research',   label: 'Research',   dot: '#1D9E75' },
-  { href: '#experience', id: 'experience', label: 'Experience', dot: '#D85A30' },
-  { href: '#contact',    id: 'contact',    label: 'Contact',    dot: '#7F77DD' },
+  { href: '#projects',   id: 'projects',   label: 'Projects'   },
+  { href: '#experience', id: 'experience', label: 'Experience' },
+  { href: '#research',   id: 'research',   label: 'Research'   },
+  { href: '#contact',    id: 'contact',    label: 'Contact'    },
 ];
 
 const NAV_IDS = NAV.map((n) => n.id);
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const activeSection = useActiveSection(NAV_IDS, { defaultId: '' });
+  const activeSection = useActiveSection(NAV_IDS, {
+    defaultId: '',
+    threshold: 0.3,
+    rootMargin: '-20% 0px -20% 0px',
+  });
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -31,15 +35,16 @@ export default function Navbar() {
         left: 0,
         right: 0,
         width: '100%',
-        height: 68,
+        height: 64,
         zIndex: 50,
         display: 'flex',
         alignItems: 'center',
-        transition: 'background 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease',
-        background: scrolled ? 'rgba(10,10,18,0.88)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(127,119,221,0.12)' : '1px solid transparent',
+        pointerEvents: 'auto',
+        transition: 'all 350ms ease',
+        background: scrolled ? 'rgba(8,11,20,0.9)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
       }}
     >
       <div style={{
@@ -54,11 +59,11 @@ export default function Navbar() {
         <a
           href="#hero"
           style={{
-            fontFamily: 'var(--font-jetbrains-mono, monospace)',
+            fontFamily: 'var(--font-mono)',
             fontSize: 14,
             fontWeight: 500,
             letterSpacing: '0.1em',
-            color: '#7F77DD',
+            color: 'var(--accent)',
             textDecoration: 'none',
           }}
         >
@@ -73,25 +78,14 @@ export default function Navbar() {
                 key={n.href}
                 href={n.href}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: isActive ? '#f0f0f5' : '#9898b0',
+                  fontSize: '0.875rem',
+                  color: isActive ? 'var(--accent-light)' : 'var(--text-secondary)',
                   textDecoration: 'none',
-                  transition: 'color 200ms',
+                  transition: 'color 150ms ease',
                 }}
+                onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+                onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
               >
-                <span style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: '50%',
-                  background: n.dot,
-                  flexShrink: 0,
-                  opacity: isActive ? 1 : 0.35,
-                  transition: 'opacity 200ms',
-                }} />
                 <span className="hidden sm:inline">{n.label}</span>
                 <span className="sm:hidden">{n.label[0]}</span>
               </a>
@@ -99,20 +93,20 @@ export default function Navbar() {
           })}
 
           <a
-            href="https://github.com/Owenkim2006"
+            href="https://www.linkedin.com/in/owenkimm/"
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontFamily: 'var(--font-jetbrains-mono, monospace)',
+              fontFamily: 'var(--font-mono)',
               fontSize: 12,
-              color: '#5a5a78',
+              color: 'var(--text-muted)',
               textDecoration: 'none',
-              transition: 'color 200ms',
+              transition: 'color 150ms ease',
             }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#7F77DD')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#5a5a78')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
           >
-            GitHub ↗
+            LinkedIn ↗
           </a>
         </div>
       </div>

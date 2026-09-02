@@ -1,17 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import type { Project } from '@/types';
 
 // ─── Shared constants ─────────────────────────────────────────────────────────
 
+// Single accent, category is conveyed by label text, not color.
 const CATEGORY_META: Record<Project['category'], { text: string; bg: string; border: string; label: string }> = {
-  'ai-health': { text: '#1D9E75', bg: 'rgba(29,158,117,0.12)',  border: 'rgba(29,158,117,0.3)',  label: 'AI & Health' },
-  hardware:    { text: '#BA7517', bg: 'rgba(186,117,23,0.12)',  border: 'rgba(186,117,23,0.3)',  label: 'Hardware'    },
-  software:    { text: '#7F77DD', bg: 'rgba(127,119,221,0.12)', border: 'rgba(127,119,221,0.3)', label: 'Software'    },
-  design:      { text: '#D85A30', bg: 'rgba(216,90,48,0.12)',   border: 'rgba(216,90,48,0.3)',   label: 'Design'      },
+  'ai-health': { text: '#9B94FF', bg: 'rgba(108,99,255,0.12)', border: 'rgba(108,99,255,0.3)', label: 'AI & Health' },
+  hardware:    { text: '#9B94FF', bg: 'rgba(108,99,255,0.12)', border: 'rgba(108,99,255,0.3)', label: 'Hardware'    },
+  software:    { text: '#9B94FF', bg: 'rgba(108,99,255,0.12)', border: 'rgba(108,99,255,0.3)', label: 'Software'    },
+  design:      { text: '#9B94FF', bg: 'rgba(108,99,255,0.12)', border: 'rgba(108,99,255,0.3)', label: 'Design'      },
 };
 
 // ─── Link pill ────────────────────────────────────────────────────────────────
@@ -48,25 +49,25 @@ function LinkPill({ link }: { link: Project['links'][number] }) {
   };
   if (link.type === 'demo') return (
     <a href={link.href} target="_blank" rel="noopener noreferrer"
-      style={{ ...base, background: '#BA7517', color: '#fff', border: '0.5px solid #BA7517' }}>
+      style={{ ...base, background: '#6C63FF', color: '#fff', border: '0.5px solid #6C63FF' }}>
       <ExternalIcon /> Live Demo
     </a>
   );
   if (link.type === 'github') return (
     <a href={link.href} target="_blank" rel="noopener noreferrer"
-      style={{ ...base, background: 'transparent', color: '#9898b0', border: '0.5px solid rgba(255,255,255,0.15)' }}>
+      style={{ ...base, background: 'transparent', color: '#8B93B0', border: '0.5px solid rgba(255,255,255,0.15)' }}>
       <GitHubIcon /> Code
     </a>
   );
   if (link.type === 'devpost') return (
     <a href={link.href} target="_blank" rel="noopener noreferrer"
-      style={{ ...base, background: 'transparent', color: '#7F77DD', border: '0.5px solid rgba(127,119,221,0.4)' }}>
+      style={{ ...base, background: 'transparent', color: '#9B94FF', border: '0.5px solid rgba(108,99,255,0.4)' }}>
       <ExternalIcon /> Devpost
     </a>
   );
   return (
     <a href={link.href} target="_blank" rel="noopener noreferrer"
-      style={{ ...base, background: 'transparent', color: '#9898b0', border: '0.5px solid rgba(255,255,255,0.15)' }}>
+      style={{ ...base, background: 'transparent', color: '#8B93B0', border: '0.5px solid rgba(255,255,255,0.15)' }}>
       <ExternalIcon /> View
     </a>
   );
@@ -164,7 +165,7 @@ function ImageSlideshow({ project, currentSlide, setCurrentSlide }: {
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -40 }}
-          transition={{ duration: 0.22 }}
+          transition={{ type: 'spring', bounce: 0, duration: 0.22 }}
           style={{ position: 'absolute', inset: 0 }}
         >
           {hasImages ? (
@@ -248,39 +249,58 @@ export default function ProjectModal({ project, onClose }: Props) {
   if (!project) return null;
 
   const cat = CATEGORY_META[project.category];
+  const prefersReduced = useReducedMotion();
+
+  // Backdrop fades only, never transform so layout centering is unaffected.
+  const backdropTransition = prefersReduced
+    ? { duration: 0.15 }
+    : { type: 'spring' as const, bounce: 0, duration: 0.25 };
+
+  // Panel: damping 0.8 / response 0.3, slight overshoot because the modal
+  // carries momentum from the click that opened it (Apple: drawer/sheet spec).
+  // Exit is critically damped (no bounce), dismissal has no input momentum.
+  const panelEnter = prefersReduced
+    ? { opacity: 0 }
+    : { opacity: 0, scale: 0.94, y: 16 };
+  const panelExit = prefersReduced
+    ? { opacity: 0 }
+    : { opacity: 0, scale: 0.96, y: 8, transition: { type: 'spring' as const, bounce: 0, duration: 0.2 } };
+  const panelTransition = prefersReduced
+    ? { duration: 0.15 }
+    : { type: 'spring' as const, bounce: 0.2, duration: 0.3 };
 
   return (
-    // Backdrop — fullscreen flex container for centering.
+    // Backdrop, fullscreen flex container for centering.
     // Only animates opacity so its layout is never transformed.
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      transition={backdropTransition}
       onClick={onClose}
       style={{
         position: 'fixed', inset: 0, zIndex: 100,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 16,
-        background: 'rgba(5,5,15,0.88)',
+        background: 'rgba(4,5,10,0.88)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
       }}
     >
-      {/* Panel — scale/y animation only, no centering transforms */}
+      {/* Panel, scale/y animation only, no centering transforms */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 16 }}
+        initial={panelEnter}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 8 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+        exit={panelExit}
+        transition={panelTransition}
         onClick={e => e.stopPropagation()}
         style={{
           position: 'relative',
           width: 'min(720px, 100%)',
           maxHeight: '88vh',
           overflowY: 'auto',
-          background: 'rgba(14,14,26,0.98)',
-          border: '1px solid rgba(127,119,221,0.2)',
+          background: 'var(--bg-card)',
+          border: '1px solid rgba(108,99,255,0.2)',
           borderRadius: 20,
           padding: 32,
         }}
@@ -297,10 +317,10 @@ export default function ProjectModal({ project, onClose }: Props) {
             }}>
               {cat.label}
             </span>
-            <h2 style={{ fontSize: 22, fontWeight: 500, color: '#f0f0f5', margin: '0 0 4px', letterSpacing: '-0.01em' }}>
+            <h2 style={{ fontSize: 22, fontWeight: 500, color: '#F0F2F8', margin: '0 0 4px', letterSpacing: '-0.01em' }}>
               {project.name}
             </h2>
-            <p style={{ fontSize: 14, color: '#BA7517', margin: 0 }}>{project.tagline}</p>
+            <p style={{ fontSize: 14, color: '#9B94FF', margin: 0 }}>{project.tagline}</p>
           </div>
           <button
             aria-label="Close modal"
@@ -308,7 +328,7 @@ export default function ProjectModal({ project, onClose }: Props) {
             style={{
               flexShrink: 0, width: 32, height: 32, borderRadius: '50%',
               background: 'rgba(255,255,255,0.06)', border: 'none',
-              color: '#9898b0', fontSize: 18, cursor: 'pointer',
+              color: '#8B93B0', fontSize: 18, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'background 150ms',
             }}
@@ -328,7 +348,7 @@ export default function ProjectModal({ project, onClose }: Props) {
 
         {/* 3. Long description */}
         {project.longDescription && (
-          <p style={{ fontSize: 14, color: '#9898b0', lineHeight: 1.75, marginBottom: 20 }}>
+          <p style={{ fontSize: 14, color: '#8B93B0', lineHeight: 1.75, marginBottom: 20 }}>
             {project.longDescription}
           </p>
         )}
@@ -338,7 +358,7 @@ export default function ProjectModal({ project, onClose }: Props) {
           <div style={{ marginBottom: 20 }}>
             <p style={{
               fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              fontSize: 11, color: '#5a5a78', textTransform: 'uppercase',
+              fontSize: 11, color: '#4A5270', textTransform: 'uppercase',
               letterSpacing: '0.08em', marginBottom: 12,
             }}>
               Highlights
@@ -350,7 +370,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                     flexShrink: 0, width: 6, height: 6, borderRadius: '50%',
                     background: cat.text, marginTop: 5,
                   }} />
-                  <span style={{ fontSize: 14, color: '#9898b0', lineHeight: 1.55 }}>{h}</span>
+                  <span style={{ fontSize: 14, color: '#8B93B0', lineHeight: 1.55 }}>{h}</span>
                 </li>
               ))}
             </ul>
@@ -361,7 +381,7 @@ export default function ProjectModal({ project, onClose }: Props) {
         <div style={{ marginBottom: 24 }}>
           <p style={{
             fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            fontSize: 11, color: '#5a5a78', textTransform: 'uppercase',
+            fontSize: 11, color: '#4A5270', textTransform: 'uppercase',
             letterSpacing: '0.08em', marginBottom: 10,
           }}>
             Stack
@@ -373,7 +393,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                 padding: '3px 10px', borderRadius: 4,
                 background: 'rgba(10,10,18,0.8)',
                 border: '0.5px solid rgba(255,255,255,0.1)',
-                color: '#9898b0',
+                color: '#8B93B0',
               }}>
                 {tag}
               </span>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ToastContainer } from '@/components/ui/Toast';
+import NeuronCanvas from '@/components/layout/NeuronCanvas';
 
 const inter = Inter({
   weight: ['400', '500'],
@@ -18,11 +19,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Owen Kim — Biomedical Engineer & AI Researcher',
+  title: 'Owen Kim, Biomedical Engineer & AI Researcher',
   description:
     'BME student at University of Waterloo. Building diagnostic AI and medical imaging tools at Harvard Medical School, UWaterloo Critical ML Lab, and SickKids.',
   openGraph: {
-    title: 'Owen Kim — Biomedical Engineer & AI Researcher',
+    title: 'Owen Kim, Biomedical Engineer & AI Researcher',
     description:
       'BME student at University of Waterloo. Building diagnostic AI and medical imaging tools at Harvard Medical School, UWaterloo Critical ML Lab, and SickKids.',
     type: 'website',
@@ -41,10 +42,10 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <div style={{ background: '#BA7517', color: '#0a0a12', textAlign: 'center', padding: '8px', fontSize: '14px', fontWeight: 600, letterSpacing: '0.05em', zIndex: 9999, position: 'sticky', top: 0 }}>
-          🚧 WORK IN PROGRESS 🚧
+        <div style={{ position: 'relative' }}>
+          <NeuronCanvas />
+          {children}
         </div>
-        {children}
         <ToastContainer />
       </body>
     </html>

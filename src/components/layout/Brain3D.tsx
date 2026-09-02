@@ -62,7 +62,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     scale: [0.52, 0.48, 0.88],
     baseRadius: 0.5,
     deform: { x: 0.7, y: 0.72, z: 1.35 },
-    sectionColor: '#BA7517',
+    sectionColor: '#6C63FF',
     section: 'projects',
     label: 'Temporal Lobe (R)',
   },
@@ -71,7 +71,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     scale: [0.78, 0.68, 0.72],
     baseRadius: 0.52,
     deform: { x: 0.92, y: 0.88, z: 0.82 },
-    sectionColor: '#BA7517',
+    sectionColor: '#6C63FF',
     section: 'projects',
     label: 'Occipital Lobe',
   },
@@ -80,7 +80,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     scale: [0.95, 0.52, 0.68],
     baseRadius: 0.55,
     deform: { x: 1.25, y: 0.65, z: 0.88 },
-    sectionColor: '#D85A30',
+    sectionColor: '#6C63FF',
     section: 'experience',
     label: 'Cerebellum',
   },
@@ -89,7 +89,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     scale: [0.28, 0.52, 0.28],
     baseRadius: 0.28,
     deform: { x: 0.55, y: 1.6, z: 0.55 },
-    sectionColor: '#7F77DD',
+    sectionColor: '#6C63FF',
     section: 'contact',
     label: 'Brainstem',
   },
@@ -111,9 +111,9 @@ const PARTICLE_COUNT = CONNECTIONS.length * 2;
 
 const LEGEND = [
   { label: 'Research',   color: '#1D9E75', section: 'research'   },
-  { label: 'Projects',   color: '#BA7517', section: 'projects'   },
-  { label: 'Experience', color: '#D85A30', section: 'experience' },
-  { label: 'Contact',    color: '#7F77DD', section: 'contact'    },
+  { label: 'Projects',   color: '#6C63FF', section: 'projects'   },
+  { label: 'Experience', color: '#6C63FF', section: 'experience' },
+  { label: 'Contact',    color: '#6C63FF', section: 'contact'    },
 ];
 
 // ─── Geometry helpers ─────────────────────────────────────────────────────────
@@ -269,7 +269,7 @@ function NIHBrain({ hoveredLobe }: { hoveredLobe: LobeKey | null }) {
     [],
   );
   const darkColor   = useMemo(() => new THREE.Color('#1e1e38'), []);
-  const purpleColor = useMemo(() => new THREE.Color('#7F77DD'), []);
+  const purpleColor = useMemo(() => new THREE.Color('#6C63FF'), []);
 
   useFrame(() => {
     if (!solidRef.current) return;
@@ -291,14 +291,14 @@ function NIHBrain({ hoveredLobe }: { hoveredLobe: LobeKey | null }) {
       <mesh ref={solidRef} geometry={geometry} castShadow>
         <meshStandardMaterial
           color="#1e1e38"
-          emissive="#7F77DD"
+          emissive="#6C63FF"
           emissiveIntensity={0.08}
           roughness={0.75}
           metalness={0.1}
         />
       </mesh>
       <mesh geometry={geometry}>
-        <meshBasicMaterial wireframe color="#7F77DD" opacity={0.04} transparent />
+        <meshBasicMaterial wireframe color="#6C63FF" opacity={0.04} transparent />
       </mesh>
     </group>
   );
@@ -308,7 +308,7 @@ useGLTF.preload('/models/brain.glb');
 
 // ─── LobeMesh (invisible raycaster) ──────────────────────────────────────────
 // Geometry matches the lobe regions for hit-testing. Material is fully
-// transparent — all visual feedback lives on NIHBrain instead.
+// transparent, all visual feedback lives on NIHBrain instead.
 
 function LobeMesh({
   lobeKey,
@@ -369,7 +369,7 @@ function CorpusCallosum() {
       <tubeGeometry args={[curve, 20, 0.04, 8, false]} />
       <meshStandardMaterial
         color="#2a2a4a"
-        emissive="#7F77DD"
+        emissive="#6C63FF"
         emissiveIntensity={0.06}
         roughness={0.9}
         transparent
@@ -386,7 +386,7 @@ function Connections({ hoveredLobe }: { hoveredLobe: LobeKey | null }) {
     <>
       {CONNECTIONS.map(([a, b], i) => {
         const isActive = hoveredLobe === a || hoveredLobe === b;
-        const color    = isActive && hoveredLobe ? LOBES[hoveredLobe].sectionColor : '#7F77DD';
+        const color    = isActive && hoveredLobe ? LOBES[hoveredLobe].sectionColor : '#6C63FF';
         const start    = LOBES[a].position;
         const end      = LOBES[b].position;
         const mid      = getMid(start, end);
@@ -458,7 +458,7 @@ function SignalParticles() {
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, PARTICLE_COUNT]}>
       <sphereGeometry args={[0.018, 8, 8]} />
-      <meshBasicMaterial color="#5DCAA5" transparent opacity={0.85} />
+      <meshBasicMaterial color="#9B94FF" transparent opacity={0.85} />
     </instancedMesh>
   );
 }
@@ -483,9 +483,9 @@ function Scene({
       <ambientLight intensity={0.2} />
       <directionalLight position={[2, 4, 3]}   intensity={1.1} color="#c8c0ff" castShadow={false} />
       <pointLight       position={[-3, 2, 2]}   intensity={0.7} color="#1D9E75" />
-      <pointLight       position={[3, -1, -2]}  intensity={0.5} color="#D85A30" />
-      <pointLight       position={[0, -2, 2]}   intensity={0.3} color="#BA7517" />
-      <hemisphereLight  args={['#7F77DD', '#0a0a12', 0.4]} />
+      <pointLight       position={[3, -1, -2]}  intensity={0.5} color="#9B94FF" />
+      <pointLight       position={[0, -2, 2]}   intensity={0.3} color="#4A43CC" />
+      <hemisphereLight  args={['#6C63FF', '#080b14', 0.4]} />
 
       <NIHBrain hoveredLobe={hoveredLobe} />
 
@@ -547,13 +547,13 @@ export default function Brain3D({ onSectionClick, miniMode = false, heroMode = f
         opacity: heroMode ? 0.55 : 1,
       }}
     >
-      {/* Vignette — skipped in heroMode (Hero provides its own gradient) */}
+      {/* Vignette, skipped in heroMode (Hero provides its own gradient) */}
       {!heroMode && (
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'radial-gradient(ellipse at center, transparent 40%, #0a0a12 100%)',
+            background: 'radial-gradient(ellipse at center, transparent 40%, #080b14 100%)',
             pointerEvents: 'none',
             zIndex: 1,
           }}
@@ -578,7 +578,7 @@ export default function Brain3D({ onSectionClick, miniMode = false, heroMode = f
         </Suspense>
       </Canvas>
 
-      {/* Section legend — hidden in miniMode / heroMode */}
+      {/* Section legend, hidden in miniMode / heroMode */}
       <div
         style={{
           display: noInteraction ? 'none' : 'flex',
@@ -602,15 +602,15 @@ export default function Brain3D({ onSectionClick, miniMode = false, heroMode = f
               gap: '8px',
               fontSize: '12px',
               fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              color: '#9898b0',
+              color: '#8B93B0',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#f0f0f5'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9898b0'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F0F2F8'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#8B93B0'; }}
           >
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: item.color, flexShrink: 0 }} />
             {item.label}

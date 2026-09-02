@@ -1,10 +1,8 @@
 'use client';
 
-import NeuronCanvas    from '@/components/layout/NeuronCanvas';
 import Navbar          from '@/components/layout/Navbar';
 import Footer          from '@/components/layout/Footer';
 import SectionDotNav   from '@/components/layout/SectionDotNav';
-import BrainWidget     from '@/components/layout/BrainWidget';
 import Hero            from '@/components/sections/Hero';
 import Projects        from '@/components/sections/Projects';
 import Research        from '@/components/sections/Research';
@@ -13,34 +11,31 @@ import Contact         from '@/components/sections/Contact';
 
 export default function Home() {
   return (
-    <main className="relative">
-      <NeuronCanvas />
-
+    <main className="relative pointer-events-none">
       <Navbar />
       <SectionDotNav />
 
-      <section id="hero">
+      <section id="hero" style={{ pointerEvents: 'none' }}>
         <Hero />
       </section>
 
-      <section id="projects" style={{ scrollMarginTop: 80 }}>
+      <section id="projects" className="section-overlay" style={{ scrollMarginTop: 80 }}>
         <Projects />
       </section>
 
-      <section id="research" style={{ scrollMarginTop: 80 }}>
-        <Research />
-      </section>
-
-      <section id="experience" style={{ scrollMarginTop: 80 }}>
+      <section id="experience" className="section-overlay" style={{ scrollMarginTop: 80 }}>
         <Experience />
       </section>
 
-      <section id="contact" style={{ scrollMarginTop: 80 }}>
+      <section id="research" className="section-overlay" style={{ scrollMarginTop: 80 }}>
+        <Research />
+      </section>
+
+      <section id="contact" className="section-overlay" style={{ scrollMarginTop: 80 }}>
         <Contact />
       </section>
 
       <Footer />
-      <BrainWidget />
     </main>
   );
 }

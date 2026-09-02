@@ -1,40 +1,27 @@
 export const THEME = {
   colors: {
-    neural: {
-      purple: '#7F77DD',
-      purpleLight: '#AFA9EC',
-      purpleDark: '#3C3489',
+    accent: {
+      base: '#6C63FF',
+      light: '#9B94FF',
+      dark: '#4A43CC',
     },
-    synapse: {
-      teal: '#1D9E75',
-      tealLight: '#5DCAA5',
-    },
-    axon: {
-      amber: '#BA7517',
-      amberLight: '#EF9F27',
-    },
-    dendrite: {
-      coral: '#D85A30',
-      coralLight: '#F0997B',
+    teal: {
+      base: '#1D9E75',
+      light: '#5DCAA5',
     },
     bg: {
-      base: '#0a0a12',
-      surface: '#12121f',
-      card: '#1a1a2e',
+      primary: '#080b14',
+      surface: '#0f1320',
+      card: '#141928',
+      cardHover: '#1a2035',
     },
     text: {
-      primary: '#f0f0f5',
-      secondary: '#9898b0',
-      muted: '#5a5a78',
+      primary: '#F0F2F8',
+      secondary: '#8B93B0',
+      muted: '#4A5270',
+      accent: '#9B94FF',
     },
-  },
-  sections: {
-    hero: 'neural',
-    research: 'synapse',
-    projects: 'axon',
-    experience: 'dendrite',
   },
 } as const;
 
 export type ThemeColor = typeof THEME.colors;
-export type SectionName = keyof typeof THEME.sections;

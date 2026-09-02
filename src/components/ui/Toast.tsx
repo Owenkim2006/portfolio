@@ -13,7 +13,7 @@ interface ToastItem {
 
 type Listener = (message: string, type: ToastType) => void;
 
-// Module-level event bus — works across all client components without Context
+// Module-level event bus, works across all client components without Context
 const listeners = new Set<Listener>();
 let _id = 0;
 
@@ -63,13 +63,13 @@ export function ToastContainer() {
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.2 }}
             style={{
-              background: 'rgba(18,18,31,0.95)',
-              border: `0.5px solid ${toast.type === 'success' ? 'rgba(29,158,117,0.4)' : 'rgba(127,119,221,0.3)'}`,
+              background: 'var(--bg-card)',
+              border: `0.5px solid ${toast.type === 'success' ? 'var(--teal-border)' : 'var(--border-accent)'}`,
               borderRadius: 8,
               padding: '8px 16px',
               fontSize: 13,
-              fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              color: toast.type === 'success' ? '#1D9E75' : '#9898b0',
+              fontFamily: 'var(--font-mono)',
+              color: toast.type === 'success' ? 'var(--teal-light)' : 'var(--text-secondary)',
               whiteSpace: 'nowrap',
             }}
           >

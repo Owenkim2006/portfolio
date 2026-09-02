@@ -7,9 +7,10 @@ import type { ExperienceItem } from '@/types';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
+// Single accent, job type is conveyed by label text, not color.
 const TYPE_META: Record<ExperienceItem['type'], { label: string; text: string; bg: string; border: string }> = {
-  research: { label: 'Research', text: '#1D9E75', bg: 'rgba(29,158,117,0.12)', border: 'rgba(29,158,117,0.3)' },
-  software: { label: 'Software', text: '#BA7517', bg: 'rgba(186,117,23,0.12)', border: 'rgba(186,117,23,0.3)' },
+  research: { label: 'Research', text: '#9B94FF', bg: 'rgba(108,99,255,0.12)', border: 'rgba(108,99,255,0.3)' },
+  software: { label: 'Software', text: '#9B94FF', bg: 'rgba(108,99,255,0.12)', border: 'rgba(108,99,255,0.3)' },
 };
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -17,7 +18,7 @@ const TYPE_META: Record<ExperienceItem['type'], { label: string; text: string; b
 function ChevronRight() {
   return (
     <svg width={7} height={11} viewBox="0 0 7 11" fill="none"
-      stroke="#D85A30" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"
+      stroke="#9B94FF" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"
       aria-hidden="true" style={{ flexShrink: 0, marginTop: 3 }}>
       <path d="M1 1l5 4.5L1 10" />
     </svg>
@@ -49,13 +50,13 @@ function PlaceholderSlide({ index, id }: { index: number; id: string }) {
   return (
     <div style={{
       width: '100%', height: '100%', position: 'relative',
-      background: 'linear-gradient(135deg, rgba(14,14,26,0.95) 0%, rgba(20,20,38,1) 100%)',
+      background: 'linear-gradient(135deg, rgba(20,25,40,0.95) 0%, rgba(20,20,38,1) 100%)',
     }}>
       <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0 }} aria-hidden="true">
         <defs>
           <pattern id={patternId} width="24" height="24" patternUnits="userSpaceOnUse">
-            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#D85A30" strokeWidth="0.5" opacity="0.08" />
-            <circle cx="0" cy="0" r="1.5" fill="#D85A30" opacity="0.12" />
+            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#6C63FF" strokeWidth="0.5" opacity="0.08" />
+            <circle cx="0" cy="0" r="1.5" fill="#6C63FF" opacity="0.12" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill={`url(#${patternId})`} />
@@ -66,9 +67,9 @@ function PlaceholderSlide({ index, id }: { index: number; id: string }) {
       }}>
         <div style={{
           width: 48, height: 48, borderRadius: '50%',
-          background: 'rgba(216,90,48,0.12)', border: '1px solid rgba(216,90,48,0.3)',
+          background: 'rgba(108,99,255,0.12)', border: '1px solid rgba(108,99,255,0.3)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-jetbrains-mono, monospace)', fontSize: 16, fontWeight: 500, color: '#D85A30',
+          fontFamily: 'var(--font-jetbrains-mono, monospace)', fontSize: 16, fontWeight: 500, color: '#9B94FF',
         }}>
           {index + 1}
         </div>
@@ -199,7 +200,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
   const hasLogo  = !!experience.logo;
 
   return (
-    // Backdrop — fullscreen flex container for centering, only opacity animated
+    // Backdrop, fullscreen flex container for centering, only opacity animated
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -210,12 +211,12 @@ export default function ExperienceModal({ experience, onClose }: Props) {
         position: 'fixed', inset: 0, zIndex: 100,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 16,
-        background: 'rgba(5,5,15,0.88)',
+        background: 'rgba(4,5,10,0.88)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
       }}
     >
-      {/* Panel — scale/y animation, no centering transform */}
+      {/* Panel, scale/y animation, no centering transform */}
       <motion.div
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -227,8 +228,8 @@ export default function ExperienceModal({ experience, onClose }: Props) {
           width: 'min(720px, 100%)',
           maxHeight: '88vh',
           overflowY: 'auto',
-          background: 'rgba(14,14,26,0.98)',
-          border: '1px solid rgba(216,90,48,0.15)',
+          background: 'rgba(20,25,40,0.98)',
+          border: '1px solid rgba(108,99,255,0.15)',
           borderRadius: 20,
           padding: 32,
         }}
@@ -239,7 +240,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
           <div style={{
             width: 56, height: 56, borderRadius: 12, flexShrink: 0,
             overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)',
-            background: hasLogo ? 'white' : 'rgba(216,90,48,0.12)',
+            background: hasLogo ? 'white' : 'rgba(108,99,255,0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             {hasLogo ? (
@@ -253,7 +254,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
             ) : (
               <span style={{
                 fontSize: 15, fontFamily: 'var(--font-jetbrains-mono, monospace)',
-                fontWeight: 600, color: '#D85A30',
+                fontWeight: 600, color: '#9B94FF',
               }}>
                 {experience.company.slice(0, 2).toUpperCase()}
               </span>
@@ -262,15 +263,15 @@ export default function ExperienceModal({ experience, onClose }: Props) {
 
           {/* Info */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 500, color: '#f0f0f5', margin: '0 0 4px', letterSpacing: '-0.01em' }}>
+            <h2 style={{ fontSize: 22, fontWeight: 500, color: '#F0F2F8', margin: '0 0 4px', letterSpacing: '-0.01em' }}>
               {experience.company}
             </h2>
-            <p style={{ fontSize: 14, color: '#D85A30', margin: '0 0 4px' }}>
+            <p style={{ fontSize: 14, color: '#9B94FF', margin: '0 0 4px' }}>
               {experience.role}
             </p>
             <p style={{
               fontSize: 11, fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              color: '#5a5a78', margin: '0 0 10px',
+              color: '#4A5270', margin: '0 0 10px',
             }}>
               {experience.dateRange} · {experience.location}
             </p>
@@ -290,7 +291,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
             style={{
               flexShrink: 0, width: 32, height: 32, borderRadius: '50%',
               background: 'rgba(255,255,255,0.06)', border: 'none',
-              color: '#9898b0', fontSize: 18, cursor: 'pointer',
+              color: '#8B93B0', fontSize: 18, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'background 150ms',
             }}
@@ -309,7 +310,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
         />
 
         {/* 3. Description */}
-        <p style={{ fontSize: 14, color: '#9898b0', lineHeight: 1.75, marginBottom: 20 }}>
+        <p style={{ fontSize: 14, color: '#8B93B0', lineHeight: 1.75, marginBottom: 20 }}>
           {experience.description}
         </p>
 
@@ -318,7 +319,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
           <div style={{ marginBottom: 20 }}>
             <p style={{
               fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              fontSize: 11, color: '#5a5a78', textTransform: 'uppercase',
+              fontSize: 11, color: '#4A5270', textTransform: 'uppercase',
               letterSpacing: '0.08em', marginBottom: 12,
             }}>
               Key outcomes
@@ -327,7 +328,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
               {experience.wins.map((win, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                   <ChevronRight />
-                  <span style={{ fontSize: 14, color: '#9898b0', lineHeight: 1.55 }}>{win}</span>
+                  <span style={{ fontSize: 14, color: '#8B93B0', lineHeight: 1.55 }}>{win}</span>
                 </div>
               ))}
             </div>
@@ -339,7 +340,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
           <div>
             <p style={{
               fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              fontSize: 11, color: '#5a5a78', textTransform: 'uppercase',
+              fontSize: 11, color: '#4A5270', textTransform: 'uppercase',
               letterSpacing: '0.08em', marginBottom: 8,
             }}>
               Stack
@@ -351,7 +352,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
                   padding: '3px 10px', borderRadius: 4,
                   background: 'rgba(10,10,18,0.8)',
                   border: '0.5px solid rgba(255,255,255,0.1)',
-                  color: '#9898b0',
+                  color: '#8B93B0',
                 }}>
                   {tech}
                 </span>

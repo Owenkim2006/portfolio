@@ -1,12 +1,14 @@
+export type ResearchStatus = 'review' | 'published';
+
 export interface ResearchItem {
   id: string;
   title: string;
-  institution: string;
-  institutionShort: string;
-  description: string;
-  status: 'current' | 'completed';
-  outputs: {
-    type: 'paper' | 'poster' | 'talk' | 'conference';
+  authors: string[];
+  venue?: string;
+  status: ResearchStatus;
+  tags: string[];
+  links: {
+    type: string;
     label: string;
     href?: string;
   }[];
@@ -21,10 +23,13 @@ export interface Project {
   tags: string[];
   outcomes: string[];
   featured: boolean;
+  wip?: boolean;
   image?: string;
   images?: string[];
+  thumbnail?: string;
   longDescription?: string;
   highlights?: string[];
+  gif?: string;
   links: {
     label: string;
     href: string;

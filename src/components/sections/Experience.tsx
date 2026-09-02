@@ -1,11 +1,15 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
 import { experience } from '@/data/experience';
 import type { ExperienceItem } from '@/types';
-import ExperienceModal from '@/components/ui/ExperienceModal';
+
+const COMPANY_URLS: Record<string, string> = {
+  'sickkids': 'https://pcigiti.com/',
+  'uwaterloo-research': 'https://sirisharambhatla.com/criticalml/',
+  'harvard': 'http://www.tearneylab.org/',
+};
 
 // ─── Left-entry animation wrapper ────────────────────────────────────────────
 
@@ -29,48 +33,30 @@ function SlideInLeft({ children, delay = 0 }: { children: React.ReactNode; delay
 function ChevronRight() {
   return (
     <svg width={7} height={11} viewBox="0 0 7 11" fill="none"
-      stroke="#D85A30" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"
+      stroke="#9B94FF" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"
       aria-hidden="true" style={{ flexShrink: 0, marginTop: 3 }}>
       <path d="M1 1l5 4.5L1 10" />
     </svg>
   );
 }
 
-function ExpandIcon() {
-  return (
-    <svg width={11} height={11} viewBox="0 0 12 12" fill="none"
-      stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"
-      aria-hidden="true" style={{ flexShrink: 0 }}>
-      <path d="M1 4.5V1h3.5M7.5 1H11v3.5M11 7.5V11H7.5M4.5 11H1V7.5" />
-    </svg>
-  );
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function hexToRgba(hex: string, alpha: number): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r},${g},${b},${alpha})`;
-}
-
 // ─── Type badge ───────────────────────────────────────────────────────────────
+// Single accent, job type is conveyed by label text, not color.
 
-const TYPE_META: Record<ExperienceItem['type'], { label: string; text: string; bg: string; border: string }> = {
-  research: { label: 'Research', text: '#1D9E75', bg: 'rgba(29,158,117,0.12)',  border: 'rgba(29,158,117,0.3)'  },
-  software: { label: 'Software', text: '#BA7517', bg: 'rgba(186,117,23,0.12)',  border: 'rgba(186,117,23,0.3)'  },
+const TYPE_META: Record<ExperienceItem['type'], { label: string }> = {
+  research: { label: 'Research' },
+  software: { label: 'Software' },
 };
 
 function TypeBadge({ type }: { type: ExperienceItem['type'] }) {
   const m = TYPE_META[type];
   return (
     <span style={{
-      fontSize: 11,
-      fontFamily: 'var(--font-jetbrains-mono, monospace)',
+      fontSize: '0.6875rem',
+      fontFamily: 'var(--font-mono)',
       padding: '3px 10px',
       borderRadius: 999,
-      color: m.text, background: m.bg, border: `0.5px solid ${m.border}`,
+      color: 'var(--accent-light)', background: 'var(--accent-subtle)', border: '1px solid var(--accent-border)',
       whiteSpace: 'nowrap',
     }}>
       {m.label}
@@ -81,40 +67,43 @@ function TypeBadge({ type }: { type: ExperienceItem['type'] }) {
 // ─── Company logo ─────────────────────────────────────────────────────────────
 
 function CompanyLogo({ item }: { item: ExperienceItem }) {
-  const accentColor = item.color ?? TYPE_META[item.type].text;
+  const [imgError, setImgError] = useState(false);
 
-  if (item.logo) {
+  if (item.logo && !imgError) {
     return (
       <div style={{
-        width: 44, height: 44, borderRadius: 10, overflow: 'hidden', flexShrink: 0,
-        border: '1px solid rgba(255,255,255,0.08)', background: 'white',
+        width: 44,
+        height: 44,
+        borderRadius: 10,
+        overflow: 'hidden',
+        border: '1px solid var(--border)',
+        background: 'white',
+        padding: 6,
+        flexShrink: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
-        <Image
+        <img
           src={item.logo}
           alt={item.company}
-          width={44}
-          height={44}
-          style={{ objectFit: 'contain', padding: 4 }}
+          onError={() => setImgError(true)}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
         />
       </div>
     );
   }
 
-  const initials = item.company.slice(0, 2).toUpperCase();
   return (
     <div style={{
-      width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+      width: 44, height: 44, borderRadius: 10,
+      background: 'var(--accent-subtle)',
+      border: '1px solid var(--accent-border)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: hexToRgba(accentColor, 0.15),
-      border: `1px solid ${hexToRgba(accentColor, 0.3)}`,
+      fontFamily: 'var(--font-mono)', fontSize: 13,
+      color: 'var(--accent-light)', fontWeight: 500, flexShrink: 0,
     }}>
-      <span style={{
-        fontSize: 13,
-        fontFamily: 'var(--font-jetbrains-mono, monospace)',
-        fontWeight: 500, color: accentColor, letterSpacing: '0.02em',
-      }}>
-        {initials}
-      </span>
+      {item.company.slice(0, 2).toUpperCase()}
     </div>
   );
 }
@@ -128,77 +117,69 @@ function TimelineDot() {
   return (
     <motion.div
       ref={ref}
-      initial={{ backgroundColor: '#0a0a12' }}
-      animate={{ backgroundColor: inView ? '#D85A30' : '#0a0a12' }}
+      initial={{ backgroundColor: 'var(--bg-primary)' }}
+      animate={{ backgroundColor: inView ? '#6C63FF' : 'var(--bg-primary)' }}
       transition={{ duration: 0.35, delay: 0.15 }}
       style={{
         position: 'absolute', left: 12, top: 24,
         width: 16, height: 16, borderRadius: '50%',
-        border: '2px solid #D85A30', zIndex: 1,
+        border: '2px solid #6C63FF', zIndex: 1,
       }}
     />
   );
 }
 
-// ─── View details hint ────────────────────────────────────────────────────────
-
-function ViewDetailsHint() {
-  return (
-    <div
-      style={{
-        display: 'inline-flex', alignItems: 'center', gap: 5,
-        fontSize: 11, fontFamily: 'var(--font-jetbrains-mono, monospace)',
-        color: '#5a5a78', opacity: 0.6, transition: 'opacity 200ms', cursor: 'pointer',
-        marginTop: 'auto', paddingTop: 12,
-      }}
-      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-      onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
-    >
-      <ExpandIcon /> View details
-    </div>
-  );
-}
-
 // ─── Experience card ──────────────────────────────────────────────────────────
 
-function ExperienceCard({ item, onOpen }: { item: ExperienceItem; onOpen: () => void }) {
+function ExperienceCard({ item }: { item: ExperienceItem }) {
   const [hovered, setHovered] = useState(false);
+  const companyUrl = COMPANY_URLS[item.id];
+  const isFullLink = !!companyUrl;
 
-  return (
+  const cardBody = (
     <div
-      onClick={onOpen}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: 'rgba(26,26,46,0.5)',
-        border: `0.5px solid ${hovered ? 'rgba(216,90,48,0.35)' : 'rgba(255,255,255,0.07)'}`,
+        background: 'var(--bg-card)',
+        border: `1px solid ${hovered ? 'var(--border-accent)' : 'var(--border)'}`,
         borderRadius: 12,
         padding: '22px 24px',
-        transform: hovered ? 'translateY(-1px)' : 'none',
-        transition: 'border-color 200ms, transform 200ms',
+        transform: hovered ? 'translateY(-2px)' : 'none',
+        transition: 'border-color 200ms ease, transform 200ms ease',
         display: 'flex',
         flexDirection: 'column',
-        cursor: 'pointer',
+        cursor: isFullLink ? 'pointer' : 'default',
+        position: 'relative',
       }}
     >
+      {isFullLink && (
+        <span style={{
+          position: 'absolute', top: 16, right: 16,
+          fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)',
+        }}>
+          ↗
+        </span>
+      )}
+
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
         <CompanyLogo item={item} />
         <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 500, color: '#f0f0f5', margin: 0 }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>
               {item.company}
             </h3>
-            <p style={{ fontSize: 14, color: '#D85A30', marginTop: 2 }}>
+            <p style={{ fontSize: '0.9375rem', color: 'var(--accent-light)', marginTop: 2 }}>
               {item.role}
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5, flexShrink: 0 }}>
             <TypeBadge type={item.type} />
             <p style={{
-              fontSize: 11,
-              fontFamily: 'var(--font-jetbrains-mono, monospace)',
-              color: '#5a5a78', textAlign: 'right', lineHeight: 1.6,
+              fontSize: '0.8125rem',
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--text-muted)', textAlign: 'right', lineHeight: 1.6,
             }}>
               {item.dateRange}<br />{item.location}
             </p>
@@ -207,7 +188,7 @@ function ExperienceCard({ item, onOpen }: { item: ExperienceItem; onOpen: () => 
       </div>
 
       {/* Description */}
-      <p style={{ fontSize: 14, color: '#9898b0', lineHeight: 1.7, margin: '14px 0' }}>
+      <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.65, margin: '14px 0' }}>
         {item.description}
       </p>
 
@@ -215,10 +196,10 @@ function ExperienceCard({ item, onOpen }: { item: ExperienceItem; onOpen: () => 
       {item.wins.length > 0 && (
         <div style={{ marginBottom: 14 }}>
           <p style={{
-            fontSize: 11,
-            fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            color: '#5a5a78', textTransform: 'uppercase',
-            letterSpacing: '0.08em', marginBottom: 8,
+            fontSize: '0.6875rem',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--text-muted)', textTransform: 'uppercase',
+            letterSpacing: '0.12em', marginBottom: 8,
           }}>
             Key outcomes
           </p>
@@ -226,7 +207,7 @@ function ExperienceCard({ item, onOpen }: { item: ExperienceItem; onOpen: () => 
             {item.wins.map((win, i) => (
               <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                 <ChevronRight />
-                <span style={{ fontSize: 14, color: '#9898b0', lineHeight: 1.5 }}>{win}</span>
+                <span style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{win}</span>
               </li>
             ))}
           </ul>
@@ -237,76 +218,92 @@ function ExperienceCard({ item, onOpen }: { item: ExperienceItem; onOpen: () => 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {item.stack.map((tech) => (
           <span key={tech} style={{
-            fontSize: 10,
-            fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            padding: '2px 8px', borderRadius: 4,
-            background: 'rgba(10,10,18,0.8)',
-            border: '0.5px solid rgba(255,255,255,0.1)',
-            color: '#9898b0',
+            fontSize: '0.6875rem',
+            fontFamily: 'var(--font-mono)',
+            padding: '3px 8px', borderRadius: 4,
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid var(--border)',
+            color: 'var(--text-muted)',
           }}>
             {tech}
           </span>
         ))}
       </div>
-
-      <ViewDetailsHint />
     </div>
   );
+
+  if (isFullLink) {
+    return (
+      <a href={companyUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+        {cardBody}
+      </a>
+    );
+  }
+
+  return cardBody;
 }
 
 // ─── Experience section ───────────────────────────────────────────────────────
 
 export default function Experience() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const lineInView = useInView(sectionRef, { once: true, margin: '-100px' });
-  const [selectedExp, setSelectedExp] = useState<ExperienceItem | null>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const [axonHeight, setAxonHeight] = useState(0);
 
-  // Scroll lock while modal open
   useEffect(() => {
-    document.body.style.overflow = selectedExp ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [selectedExp]);
+    const el = timelineRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => setAxonHeight(entries[0].contentRect.height));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
-    <section style={{ padding: '120px 0', background: 'rgba(216,90,48,0.02)' }}>
+    <section style={{ padding: '120px 0' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 64 }}>
-          <p style={{
-            fontFamily: 'var(--font-jetbrains-mono, monospace)',
-            fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
-            color: '#D85A30', marginBottom: 12,
+        <div style={{ marginBottom: 72 }}>
+          <h2 style={{
+            fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 500,
+            color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 16px',
           }}>
             Experience
-          </p>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 500,
-            color: '#f0f0f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0,
-          }}>
-            Where the work happened
           </h2>
-          <p style={{ color: '#9898b0', fontSize: 16, marginTop: 8, maxWidth: 540 }}>
-            Research labs, startups, and hospitals — building real things
-            in high-stakes environments
-          </p>
         </div>
 
         {/* Timeline */}
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div ref={sectionRef} style={{ position: 'relative' }}>
+          <div ref={timelineRef} style={{ position: 'relative' }}>
 
-            {/* Animated vertical line */}
-            <motion.div
-              initial={{ scaleY: 0 }}
-              animate={{ scaleY: lineInView ? 1 : 0 }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
-              style={{
-                position: 'absolute', left: 19, top: 0, bottom: 0, width: 1,
-                background: 'linear-gradient(to bottom, transparent, rgba(216,90,48,0.4) 10%, rgba(216,90,48,0.4) 90%, transparent)',
-                transformOrigin: 'top', pointerEvents: 'none',
-              }}
-            />
+            {/* Neural axon timeline */}
+            {axonHeight > 0 && (
+              <svg
+                aria-hidden="true"
+                className="hidden md:block"
+                style={{ position: 'absolute', left: 8, top: 0, width: 24, height: axonHeight, overflow: 'visible' }}
+              >
+                <line x1="12" y1="0" x2="12" y2={axonHeight} stroke="url(#axon-grad)" strokeWidth="1.2" />
+                <path d="M12 120 Q20 115 28 118" fill="none" stroke="#6C63FF" strokeWidth="0.5" opacity="0.3" />
+                <path d="M12 120 Q4 115 -4 118" fill="none" stroke="#6C63FF" strokeWidth="0.5" opacity="0.3" />
+                <path d="M12 280 Q22 274 30 277" fill="none" stroke="#6C63FF" strokeWidth="0.5" opacity="0.3" />
+                <path d="M12 280 Q2 274 -6 277" fill="none" stroke="#6C63FF" strokeWidth="0.5" opacity="0.3" />
+                <defs>
+                  <linearGradient id="axon-grad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="8%" stopColor="#6C63FF" stopOpacity="0.5" />
+                    <stop offset="92%" stopColor="#6C63FF" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+                <circle r="3" fill="#9B94FF" opacity="0">
+                  <animateMotion dur="4s" repeatCount="indefinite" begin="1s">
+                    <mpath href="#axon-line" />
+                  </animateMotion>
+                  <animate attributeName="opacity" values="0;0.8;0.8;0" dur="4s" repeatCount="indefinite" begin="1s" />
+                </circle>
+                <path id="axon-line" d={`M12 0 L12 ${axonHeight}`} fill="none" stroke="none" />
+              </svg>
+            )}
 
             {/* Cards */}
             {experience.map((item, i) => (
@@ -320,7 +317,7 @@ export default function Experience() {
               >
                 <TimelineDot />
                 <SlideInLeft delay={i * 0.12}>
-                  <ExperienceCard item={item} onOpen={() => setSelectedExp(item)} />
+                  <ExperienceCard item={item} />
                 </SlideInLeft>
               </div>
             ))}
@@ -328,16 +325,6 @@ export default function Experience() {
           </div>
         </div>
       </div>
-
-      {/* Experience modal */}
-      <AnimatePresence>
-        {selectedExp && (
-          <ExperienceModal
-            experience={selectedExp}
-            onClose={() => setSelectedExp(null)}
-          />
-        )}
-      </AnimatePresence>
     </section>
   );
 }

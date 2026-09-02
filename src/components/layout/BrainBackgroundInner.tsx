@@ -23,8 +23,8 @@ function HoloBrain({ onInteract }: { onInteract?: () => void }) {
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.material = new THREE.MeshStandardMaterial({
-          color:            '#0d0d1f',
-          emissive:         '#7F77DD',
+          color:            '#0a0e1a',
+          emissive:         '#6C63FF',
           emissiveIntensity: 0.35,
           roughness:         0.65,
           metalness:         0.2,
@@ -39,7 +39,7 @@ function HoloBrain({ onInteract }: { onInteract?: () => void }) {
     wireScene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.material = new THREE.MeshBasicMaterial({
-          color:       '#7F77DD',
+          color:       '#6C63FF',
           wireframe:   true,
           transparent: true,
           opacity:     0.12,
@@ -47,13 +47,13 @@ function HoloBrain({ onInteract }: { onInteract?: () => void }) {
       }
     });
 
-    // Outer glow shell — slightly larger, BackSide creates halo
+    // Outer glow shell, slightly larger, BackSide creates halo
     const glowScene = scene.clone();
     glowScene.scale.multiplyScalar(1.08);
     glowScene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.material = new THREE.MeshBasicMaterial({
-          color:       '#7F77DD',
+          color:       '#6C63FF',
           transparent: true,
           opacity:     0.04,
           side:        THREE.BackSide,
@@ -98,12 +98,11 @@ export default function BrainBackgroundInner({ onInteract }: { onInteract?: () =
         style={{ background: 'transparent', width: '100%', height: '100%' }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.15} />
-          <directionalLight position={[2, 4, 3]} intensity={1.2} color="#c8c0ff" />
-          <pointLight position={[-4, 2, 2]}  intensity={0.9} color="#1D9E75" />
-          <pointLight position={[4, -2, -2]} intensity={0.6} color="#D85A30" />
-          <pointLight position={[0, -4, 2]}  intensity={0.4} color="#7F77DD" />
-          <pointLight position={[0, 3, -3]}  intensity={0.5} color="#5DCAA5" />
+          <ambientLight intensity={0.2} />
+          <directionalLight position={[2, 4, 3]} intensity={1.3} color="#c4c0ff" />
+          <pointLight position={[-4, 3, 2]}  intensity={1.0} color="#6C63FF" />
+          <pointLight position={[4, -2, -2]} intensity={0.6} color="#9B94FF" />
+          <pointLight position={[0, 3, -4]}  intensity={0.4} color="#4A43CC" />
           <HoloBrain onInteract={onInteract} />
         </Suspense>
       </Canvas>

@@ -1,228 +1,168 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, useTransform, useScroll } from 'framer-motion';
-import BrainBackground from '@/components/layout/BrainBackground';
+import { useEffect, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import HeroBrain from '@/components/layout/HeroBrain';
 
-const NAVBAR_H = 68;
-
-const PILLS = [
-  { label: 'SickKids · R&D Engineer',      color: '#D85A30' },
-  { label: 'Harvard Medical · Tearney Lab', color: '#1D9E75' },
-  { label: 'UWaterloo · Critical ML Lab',   color: '#7F77DD' },
-];
-
-const fade = (delay: number) => ({
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, delay, ease: [0.25, 0.46, 0.45, 0.94] as const },
-});
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
-  const [isMobile, setIsMobile]         = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [isGrabbing, setIsGrabbing]       = useState(false);
+  const { scrollYProgress } = useScroll();
+  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
+  const brainOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const textY = useTransform(scrollYProgress, [0, 0.25], [0, -20]);
+
+  const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    const mq = window.matchMedia('(min-width: 768px)');
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
   }, []);
 
-  const { scrollYProgress } = useScroll();
-
-  const brainOpacity  = useTransform(scrollYProgress, [0, 0.4],  [1.0, 0]);
-  const brainScale    = useTransform(scrollYProgress, [0, 0.4],  [1, 0.88]);
-  const brainY        = useTransform(scrollYProgress, [0, 0.4],  [0, 40]);
-  const textOpacity   = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const textY         = useTransform(scrollYProgress, [0, 0.25], [0, -24]);
-  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
-
   return (
-    <section
-      className="relative grid grid-cols-1 md:grid-cols-2 overflow-hidden"
-      style={{ minHeight: '100vh', paddingTop: NAVBAR_H }}
+    <div
+      className="grid grid-cols-1 md:grid-cols-2 pointer-events-none"
+      style={{
+        minHeight: '100vh',
+        alignItems: 'center',
+        paddingTop: 64,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
-      {/* ── Left column — text ─────────────────────────────────────────────── */}
-      <motion.div
-        className="relative z-10 flex flex-col justify-center"
-        style={{
-          padding:   isMobile ? '48px 32px 0' : `0 48px 0 64px`,
-          textAlign: isMobile ? 'center' : 'left',
-          opacity:   isMobile ? undefined : textOpacity,
-          y:         isMobile ? undefined : textY,
-        }}
+      {/* Left column (text) */}
+      <div
+        className="px-6 md:pl-20 md:pr-10 text-center md:text-left"
+        style={{ position: 'relative', zIndex: 10 }}
       >
-        <motion.p
-          className="font-mono text-xs tracking-widest uppercase mb-5 text-neural-purple"
-          {...fade(0.1)}
-        >
-          Available · Fall 2026
-        </motion.p>
-
-        <motion.h1
-          className="font-medium leading-none mb-5 text-text-primary"
-          style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', letterSpacing: '-0.02em' }}
-          {...fade(0.2)}
-        >
-          Owen Kim
-        </motion.h1>
-
-        <motion.h2
-          className="text-lg md:text-xl mb-6 leading-snug text-text-secondary"
-          {...fade(0.3)}
-        >
-          Biomedical Engineer · Neuroengineering · Machine Learning
-        </motion.h2>
-
-        <motion.p
-          className="text-base leading-relaxed mb-8 text-text-secondary"
-          style={{ maxWidth: isMobile ? '100%' : 460 }}
-          {...fade(0.4)}
-        >
-          Biomedical Engineering student at the University of Waterloo (GPA 3.9/4.0)
-          exploring the intersection of neuroengineering and machine learning — building
-          diagnostic AI and medical devices that translate biological signals into
-          clinical impact.
-        </motion.p>
-
-        {/* Affiliation pills */}
-        <motion.div
-          className="flex flex-wrap gap-2"
-          style={{ justifyContent: isMobile ? 'center' : 'flex-start' }}
-          {...fade(0.5)}
-        >
-          {PILLS.map(({ label, color }) => (
-            <span
-              key={label}
-              style={{
-                fontSize:   11,
-                fontFamily: 'var(--font-jetbrains-mono, monospace)',
-                padding:    '4px 12px',
-                borderRadius: 999,
-                color,
-                background: `${color}1A`,
-                border:     `0.5px solid ${color}4D`,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {label}
-            </span>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* ── Right column — brain ───────────────────────────────────────────── */}
-      <motion.div
-        className="relative md:h-screen"
-        style={isMobile ? {
-          display:        'flex',
-          justifyContent: 'center',
-          alignItems:     'center',
-          paddingTop:     '2rem',
-          paddingBottom:  '2rem',
-        } : {
-          opacity: brainOpacity,
-          scale:   brainScale,
-          y:       brainY,
-        }}
-      >
-        {/* Brain canvas */}
+        {/* Dark gradient, keeps text readable regardless of what's behind
+            it. Desktop only: on mobile the brain sits below the text
+            instead of behind it, so no wash is needed there. */}
         <div
-          style={isMobile ? {
-            position: 'relative',
-            width:    320,
-            height:   320,
-            zIndex:   5,
-            cursor:   isGrabbing ? 'grabbing' : 'grab',
-          } : {
+          aria-hidden="true"
+          className="hidden md:block"
+          style={{
             position: 'absolute',
-            inset:    '-20% -10%',
-            zIndex:   5,
-            cursor:   isGrabbing ? 'grabbing' : 'grab',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: '52%',
+            background: 'linear-gradient(to right, rgba(8,11,20,0.98) 0%, rgba(8,11,20,0.80) 55%, rgba(8,11,20,0.20) 80%, transparent 100%)',
+            zIndex: 5,
+            pointerEvents: 'none',
           }}
-          onPointerDown={() => setIsGrabbing(true)}
-          onPointerUp={() => setIsGrabbing(false)}
-          onPointerLeave={() => setIsGrabbing(false)}
-        >
-          <BrainBackground onInteract={() => setHasInteracted(true)} />
-        </div>
+        />
 
-        {/* Drag-to-rotate hint — desktop only */}
-        {!isMobile && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: hasInteracted ? 0 : 1 }}
-            transition={{ delay: hasInteracted ? 0 : 1.8, duration: hasInteracted ? 0.4 : 0.6 }}
+        {/* Text content, the only part of the hero that intercepts clicks
+            on desktop besides the brain itself; everything else stays
+            pointer-events:none. */}
+        <motion.div style={{ opacity: textOpacity, y: textY, position: 'relative', zIndex: 10, pointerEvents: 'auto' }}>
+
+          {/* Name */}
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
             style={{
-              position:       'absolute',
-              bottom:         '2rem',
-              left:           0,
-              right:          0,
-              display:        'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              gap:            6,
-              zIndex:         10,
-              pointerEvents:  'none',
+              fontSize: 'clamp(2.8rem, 5.5vw, 4.5rem)',
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.05,
+              marginTop: 16,
             }}
           >
-            <svg
-              width={12} height={12} viewBox="0 0 12 12"
-              fill="none" stroke="currentColor" strokeWidth={1.5}
-              strokeLinecap="round" strokeLinejoin="round"
-              aria-hidden="true"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              {/* Circular arrow */}
-              <path d="M6 1.5A4.5 4.5 0 1 0 10.5 6" />
-              <path d="M10.5 6 L12 4.5 M10.5 6 L9 4.5" />
-            </svg>
-            <span className="font-mono text-xs text-text-muted">drag to rotate</span>
-          </motion.div>
-        )}
-      </motion.div>
+            Owen Kim
+          </motion.h1>
 
-      {/* ── Scroll indicator ───────────────────────────────────────────────── */}
-      <motion.div
-        style={{
-          position:       'absolute',
-          bottom:         '2.5rem',
-          left:           0,
-          right:          0,
-          display:        'flex',
-          flexDirection:  'column',
-          alignItems:     'center',
-          gap:            6,
-          zIndex:         10,
-          opacity:        indicatorOpacity,
-          pointerEvents:  'none',
-        }}
-      >
-        <motion.span
-          className="font-mono text-xs text-text-muted tracking-widest uppercase"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 0.6 }}
-        >
-          scroll
-        </motion.span>
-        <motion.div
-          animate={{ y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
-          className="text-text-muted"
-        >
-          <svg
-            width={12} height={8} viewBox="0 0 12 8"
-            fill="none" stroke="currentColor" strokeWidth={1.5}
-            strokeLinecap="round" strokeLinejoin="round"
-            aria-hidden="true"
+          {/* Bio */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE, delay: 0.4 }}
+            className="mx-auto md:mx-0"
+            style={{
+              fontSize: '0.9375rem',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.65,
+              maxWidth: 440,
+              marginTop: 16,
+            }}
           >
-            <path d="M1 1l5 5 5-5" />
-          </svg>
+            Biomedical Engineering student at the University of Waterloo
+            (GPA 3.91/4.0), building wearable systems, medical devices,
+            and machine learning models that improve quality of life
+            and translate research into impactful systems.
+          </motion.p>
+
+          {/* Scroll indicator */}
+          <motion.div
+            style={{ opacity: indicatorOpacity, marginTop: 48 }}
+            className="flex flex-col items-center md:items-start"
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.8125rem',
+                color: 'var(--text-muted)',
+              }}
+            >
+              scroll to explore
+            </span>
+            <svg
+              className="hero-chevron-bounce"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--text-muted)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ marginTop: 6 }}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </motion.div>
+
         </motion.div>
+      </div>
+
+      {/* Right column (brain), a single HeroBrain instance whose style
+          switches between the desktop and mobile spec, rather than
+          rendering two separate instances (which would load the 33MB
+          GLB model twice). */}
+      <motion.div
+        style={
+          isDesktop
+            ? {
+                position: 'relative',
+                height: '100vh',
+                cursor: 'grab',
+                opacity: brainOpacity,
+                pointerEvents: 'auto',
+              }
+            : {
+                position: 'relative',
+                height: '45vh',
+                opacity: 0.5,
+                pointerEvents: 'none',
+              }
+        }
+      >
+        {/* React Three Fiber's <Canvas> always sets pointer-events:auto on
+            its own internal wrapper div, regardless of what an ancestor's
+            pointer-events says (an explicit value on a descendant always
+            wins), so the pointerEvents:'none' above alone doesn't actually
+            stop the canvas from being draggable on mobile. `interactive`
+            disables OrbitControls itself instead, which is what actually
+            controls whether dragging does anything. */}
+        <HeroBrain interactive={isDesktop} />
       </motion.div>
-    </section>
+    </div>
   );
 }

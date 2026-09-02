@@ -36,8 +36,7 @@ src/
       NeuronCanvas.tsx    # 2D particle neuron field (hero background)
       Brain3D.tsx         # 3D interactive brain (R3F, dynamic import, no SSR)
       SectionDotNav.tsx   # Right-side fixed 5-dot section navigator (lg+ only)
-      BrainWidget.tsx     # Bottom-right floating panel: facts carousel + BrainChat tab
-      BrainChat.tsx       # Rule-based keyword-matching chatbot (no AI backend)
+      BrainWidget.tsx     # Bottom-right floating panel: lobe facts carousel
       NodeButton.tsx      # Pulsing orbital-ring nav button (built, not yet used in page)
       EEGProgressBar.tsx  # Animated EEG trace canvas (built, not yet rendered in page.tsx)
     sections/
@@ -122,16 +121,7 @@ When adding new sections or colors, update **both** `globals.css` (CSS vars) and
 
 ### `BrainWidget.tsx`
 - Floating button fixed bottom-right (z-50); pulses 3× when user scrolls past 25% of page
-- Opens a panel with two tabs:
-  - **Facts**: mini `Brain3DMini` (dynamically imported with `miniMode`) + auto-cycling lobe facts carousel synced to active section via `useActiveSection`
-  - **Chat**: renders `BrainChat`
-- `Brain3DMini` is a separate dynamic import of `Brain3D` to isolate the miniMode instance
-
-### `BrainChat.tsx`
-- Rule-based chatbot: pattern-matches keywords in user input against a hardcoded response map
-- Context-aware opener message based on active lobe section
-- Typing animation (3 pulsing dots), auto-scroll to newest message
-- **No AI backend** — pure string matching
+- Opens a panel showing an auto-cycling lobe facts carousel synced to active section via `useActiveSection`
 
 ### `EEGProgressBar.tsx`
 - Simulates alpha (10 Hz), beta (22 Hz), theta (6 Hz), delta (2 Hz) EEG bands on a 2D Canvas
@@ -210,7 +200,6 @@ All core components are built, wired, and functional:
 
 - **`EEGProgressBar.tsx`** — fully built but never imported/rendered in `page.tsx`. Add it if the scrolling EEG trace is desired.
 - **`NodeButton.tsx`** — fully built but not used anywhere. Intended as an orbital nav control; never integrated.
-- **`BrainChat` AI backend** — currently pure rule-based keyword matching. No LLM integration.
 - **Contact form** — `Contact.tsx` has only mailto/GitHub/LinkedIn links. No serverless form handler.
 - **Research output `href`s** — some outputs have `href: undefined` (shows "Coming soon" toast). Populate when links are available.
 - **Mobile 3D fallback** — no performance degradation strategy or static image fallback for low-end mobile.

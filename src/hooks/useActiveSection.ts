@@ -9,9 +9,9 @@ import { useState, useEffect, useRef } from 'react';
  */
 export function useActiveSection(
   sectionIds: readonly string[],
-  options?: { threshold?: number; defaultId?: string },
+  options?: { threshold?: number; defaultId?: string; rootMargin?: string },
 ): string {
-  const { threshold = 0.5, defaultId } = options ?? {};
+  const { threshold = 0.5, defaultId, rootMargin } = options ?? {};
   const [active, setActive] = useState<string>(defaultId ?? sectionIds[0] ?? '');
   const idsRef = useRef(sectionIds);
 
@@ -23,16 +23,16 @@ export function useActiveSection(
       if (!el) return;
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActive(id); },
-        { threshold },
+        { threshold, rootMargin },
       );
       obs.observe(el);
       observers.push(obs);
     });
 
     return () => observers.forEach((o) => o.disconnect());
-    // idsRef.current is stable; threshold changes recreate observers
+    // idsRef.current is stable; threshold/rootMargin changes recreate observers
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [threshold]);
+  }, [threshold, rootMargin]);
 
   return active;
 }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValueEvent } from 'framer-motion';
-import BrainChat from '@/components/layout/BrainChat';
 import { useScrollProgress } from '@/hooks/useScrollProgress';
 import { useActiveSection } from '@/hooks/useActiveSection';
 
@@ -11,39 +10,39 @@ import { useActiveSection } from '@/hooks/useActiveSection';
 const LOBE_FACTS = [
   {
     label: 'Frontal Cortex',
-    color: '#1D9E75',
+    color: '#6C63FF',
     section: 'research',
-    fact: 'The prefrontal cortex enables working memory and executive function — key to BCI research, where motor intentions must be decoded before conscious awareness.',
+    fact: 'The prefrontal cortex enables working memory and executive function, key to BCI research, where motor intentions must be decoded before conscious awareness.',
   },
   {
     label: 'Temporal Lobe',
-    color: '#1D9E75',
+    color: '#6C63FF',
     section: 'research',
-    fact: "Seizure activity most often originates in the temporal lobe. Owen's self-supervised EEG work at Toronto Western targeted these signatures — achieving 12% F1 improvement without manual labels.",
+    fact: "Seizure activity most often originates in the temporal lobe. Owen's self-supervised EEG work at Toronto Western targeted these signatures, achieving 12% F1 improvement without manual labels.",
   },
   {
     label: 'Parietal Lobe',
-    color: '#1D9E75',
+    color: '#6C63FF',
     section: 'research',
     fact: 'Sensorimotor integration in the parietal cortex is central to prosthetic control. Decoding parietal EEG activity lets algorithms predict intended limb movements in real time.',
   },
   {
     label: 'Occipital Lobe',
-    color: '#BA7517',
+    color: '#9B94FF',
     section: 'projects',
-    fact: 'Visual cortex neurons detect edges, motion, and contrast — the same features convolutional networks learn first. NeuroLink uses analogous hierarchies for EEG anomaly detection.',
+    fact: 'Visual cortex neurons detect edges, motion, and contrast, the same features convolutional networks learn first. NeuroLink uses analogous hierarchies for EEG anomaly detection.',
   },
   {
     label: 'Cerebellum',
-    color: '#D85A30',
+    color: '#4A43CC',
     section: 'experience',
     fact: 'The cerebellum holds 10× more neurons than the cortex in just 10% of brain volume. Its rapid error-correction loops inspired the feedback architecture in the NeurotechX headband.',
   },
   {
     label: 'Brainstem',
-    color: '#7F77DD',
+    color: '#6C63FF',
     section: 'contact',
-    fact: 'The brainstem sustains the most fundamental signals: breathing, heartbeat, consciousness. Owen is always open to fundamental questions — new directions, collaborations, ideas from first principles.',
+    fact: 'The brainstem sustains the most fundamental signals: breathing, heartbeat, consciousness. Owen is always open to fundamental questions, new directions, collaborations, ideas from first principles.',
   },
 ] as const;
 
@@ -61,11 +60,11 @@ const WIDGET_SECTION_IDS = ['hero', 'projects', 'research', 'experience', 'conta
 function NeuronIcon() {
   return (
     <svg width={22} height={22} viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="3" fill="#7F77DD" />
-      <line x1="11" y1="8"  x2="11" y2="2"  stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round" />
-      <line x1="11" y1="14" x2="11" y2="20" stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round" />
-      <line x1="8"  y1="11" x2="2"  y2="11" stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round" />
-      <line x1="14" y1="11" x2="20" y2="11" stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round" />
+      <circle cx="11" cy="11" r="3" fill="#6C63FF" />
+      <line x1="11" y1="8"  x2="11" y2="2"  stroke="#6C63FF" strokeWidth="1.3" strokeLinecap="round" />
+      <line x1="11" y1="14" x2="11" y2="20" stroke="#6C63FF" strokeWidth="1.3" strokeLinecap="round" />
+      <line x1="8"  y1="11" x2="2"  y2="11" stroke="#6C63FF" strokeWidth="1.3" strokeLinecap="round" />
+      <line x1="14" y1="11" x2="20" y2="11" stroke="#6C63FF" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -84,7 +83,6 @@ function CloseIcon() {
 
 export default function BrainWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'facts' | 'chat'>('facts');
   const [factIndex, setFactIndex] = useState(0);
   const [factVisible, setFactVisible] = useState(true);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -155,7 +153,7 @@ export default function BrainWidget() {
                     top: '50%',
                     transform: 'translateY(-50%)',
                     background: 'rgba(10,10,18,0.9)',
-                    color: '#f0f0f5',
+                    color: '#F0F2F8',
                     fontSize: 12,
                     fontFamily: 'var(--font-jetbrains-mono, monospace)',
                     padding: '4px 8px',
@@ -174,7 +172,7 @@ export default function BrainWidget() {
               position: 'absolute',
               inset: -5,
               borderRadius: '50%',
-              border: `1px solid rgba(127,119,221,${pulsing ? '0.6' : '0.25'})`,
+              border: `1px solid rgba(108,99,255,${pulsing ? '0.6' : '0.25'})`,
               animation: pulsing
                 ? 'widgetPulseHard 0.7s ease-in-out 3'
                 : 'widgetPulseIdle 2.5s ease-in-out infinite',
@@ -190,7 +188,7 @@ export default function BrainWidget() {
                 height: 52,
                 borderRadius: '50%',
                 background: 'rgba(18,18,31,0.95)',
-                border: '1px solid rgba(127,119,221,0.35)',
+                border: '1px solid rgba(108,99,255,0.35)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -220,7 +218,7 @@ export default function BrainWidget() {
               right: 24,
               width: 'min(300px, calc(100vw - 32px))',
               background: 'rgba(14,14,26,0.97)',
-              border: '1px solid rgba(127,119,221,0.3)',
+              border: '1px solid rgba(108,99,255,0.3)',
               borderRadius: 16,
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
@@ -237,37 +235,17 @@ export default function BrainWidget() {
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '10px 14px',
-              borderBottom: '0.5px solid rgba(127,119,221,0.12)',
+              borderBottom: '0.5px solid rgba(108,99,255,0.12)',
               flexShrink: 0,
             }}>
               {/* Title */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7F77DD', flexShrink: 0 }} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: '#f0f0f5' }}>Neuro Guide</span>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#6C63FF', flexShrink: 0 }} />
+                <span style={{ fontSize: 13, fontWeight: 500, color: '#F0F2F8' }}>Neuro Guide</span>
               </div>
 
-              {/* Tabs + close */}
+              {/* Close */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                {(['facts', 'chat'] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    style={{
-                      fontSize: 11,
-                      fontFamily: 'var(--font-jetbrains-mono, monospace)',
-                      padding: '3px 9px',
-                      borderRadius: 999,
-                      border: 'none',
-                      cursor: 'pointer',
-                      background: activeTab === tab ? 'rgba(127,119,221,0.2)' : 'transparent',
-                      color: activeTab === tab ? '#7F77DD' : '#5a5a78',
-                      transition: 'all 150ms',
-                      textTransform: 'capitalize',
-                    }}
-                  >
-                    {tab}
-                  </button>
-                ))}
                 <button
                   onClick={() => setIsOpen(false)}
                   aria-label="Close Neuro Guide"
@@ -275,7 +253,7 @@ export default function BrainWidget() {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    color: '#5a5a78',
+                    color: '#4A5270',
                     display: 'flex',
                     alignItems: 'center',
                     padding: 4,
@@ -283,24 +261,23 @@ export default function BrainWidget() {
                     borderRadius: 4,
                     transition: 'color 150ms',
                   }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#f0f0f5'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#5a5a78'; }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F0F2F8'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#4A5270'; }}
                 >
                   <CloseIcon />
                 </button>
               </div>
             </div>
 
-            {/* ── Facts tab ────────────────────────────────────────────────── */}
-            {activeTab === 'facts' && (
-              <div style={{
-                padding: '28px 16px 20px',
-                flexGrow: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                minHeight: 280,
-              }}>
+            {/* ── Facts ────────────────────────────────────────────────────── */}
+            <div style={{
+              padding: '28px 16px 20px',
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              minHeight: 280,
+            }}>
                 <motion.div
                   key={factIndex}
                   initial={{ opacity: 0, y: -4 }}
@@ -319,7 +296,7 @@ export default function BrainWidget() {
                   </p>
                   <p style={{
                     fontSize: 12.5,
-                    color: '#9898b0',
+                    color: '#8B93B0',
                     lineHeight: 1.65,
                   }}>
                     {currentFact.fact}
@@ -351,14 +328,6 @@ export default function BrainWidget() {
                   ))}
                 </div>
               </div>
-            )}
-
-            {/* ── Chat tab ─────────────────────────────────────────────────── */}
-            {activeTab === 'chat' && (
-              <div style={{ height: 320 }}>
-                <BrainChat activeLobe={currentFact.section} />
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
