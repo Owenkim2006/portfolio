@@ -62,18 +62,37 @@ export default function Hero() {
             pointer-events:none. */}
         <motion.div style={{ opacity: textOpacity, y: textY, position: 'relative', zIndex: 10, pointerEvents: 'auto' }}>
 
+          {/* Section label */}
+          <motion.span
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--accent-light)',
+              marginBottom: 12,
+              display: 'inline-block',
+            }}
+          >
+            Home
+          </motion.span>
+
           {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
             style={{
-              fontSize: 'clamp(2.8rem, 5.5vw, 4.5rem)',
-              fontWeight: 600,
+              fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
+              fontWeight: 500,
               color: 'var(--text-primary)',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.05,
-              marginTop: 16,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.2,
+              marginBottom: 0,
+              marginTop: 8,
             }}
           >
             Owen Kim
@@ -93,10 +112,10 @@ export default function Hero() {
               marginTop: 16,
             }}
           >
-            Biomedical Engineering student at the University of Waterloo
-            (GPA 3.91/4.0), building wearable systems, medical devices,
-            and machine learning models that improve quality of life
-            and translate research into impactful systems.
+            Biomedical Engineering student at the University of Waterloo,
+            building wearable systems, medical devices, and machine learning
+            models — translating research into systems that improve quality
+            of life.
           </motion.p>
 
           {/* Scroll indicator */}

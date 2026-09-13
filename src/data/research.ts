@@ -29,7 +29,7 @@ export const research: ResearchItem[] = [
       'Francisco Benavides',
       'Guillermo Tearney',
     ],
-    venue: 'Harvard Medical School, Tearney Lab · Wellman Center for Photomedicine, MGH',
+    venue: 'Presented at Harvard-MIT Biomedical Optics Summer Institute at MGH',
     status: 'published',
     tags: ['OCT Imaging', 'Deep Learning', "Parkinson's Disease", 'Segmentation'],
     links: [

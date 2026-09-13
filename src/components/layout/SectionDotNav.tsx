@@ -9,6 +9,7 @@ const SECTIONS = [
   { id: 'projects',   label: 'Projects',   color: 'var(--accent)' },
   { id: 'experience', label: 'Experience', color: 'var(--accent)' },
   { id: 'research',   label: 'Research',   color: 'var(--accent)' },
+  { id: 'about',      label: 'About',      color: 'var(--accent)' },
   { id: 'contact',    label: 'Contact',    color: 'var(--accent)' },
 ];
 

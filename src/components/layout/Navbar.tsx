@@ -7,6 +7,7 @@ const NAV = [
   { href: '#projects',   id: 'projects',   label: 'Projects'   },
   { href: '#experience', id: 'experience', label: 'Experience' },
   { href: '#research',   id: 'research',   label: 'Research'   },
+  { href: '/#about',     id: 'about',      label: 'About'      },
   { href: '#contact',    id: 'contact',    label: 'Contact'    },
 ];
 
@@ -93,20 +94,31 @@ export default function Navbar() {
           })}
 
           <a
-            href="https://www.linkedin.com/in/owenkimm/"
+            href="/documents/Owen Kim Resume - September 2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 12,
-              color: 'var(--text-muted)',
+              fontSize: 13,
+              color: 'var(--text-secondary)',
               textDecoration: 'none',
-              transition: 'color 150ms ease',
+              fontFamily: 'var(--font-mono)',
+              border: '1px solid var(--border)',
+              padding: '5px 12px',
+              borderRadius: 6,
+              transition: 'all 150ms ease',
             }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+            onMouseEnter={e => {
+              const el = e.currentTarget
+              el.style.borderColor = 'var(--accent-border)'
+              el.style.color = 'var(--accent-light)'
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget
+              el.style.borderColor = 'var(--border)'
+              el.style.color = 'var(--text-secondary)'
+            }}
           >
-            LinkedIn ↗
+            Resume ↗
           </a>
         </div>
       </div>

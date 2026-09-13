@@ -19,17 +19,30 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Owen Kim, Biomedical Engineer & AI Researcher',
-  description:
-    'BME student at University of Waterloo. Building diagnostic AI and medical imaging tools at Harvard Medical School, UWaterloo Critical ML Lab, and SickKids.',
+  title: {
+    default: 'Owen Kim',
+    template: '%s | Owen Kim',
+  },
+  description: 'Biomedical Engineering student at the University of Waterloo, building wearable systems, medical devices, and machine learning models that translate research into systems that improve quality of life.',
+  metadataBase: new URL('https://www.owenkim.ca'),
   openGraph: {
-    title: 'Owen Kim, Biomedical Engineer & AI Researcher',
-    description:
-      'BME student at University of Waterloo. Building diagnostic AI and medical imaging tools at Harvard Medical School, UWaterloo Critical ML Lab, and SickKids.',
-    type: 'website',
-    locale: 'en_CA',
-    url: 'https://owenkim.dev',
+    title: 'Owen Kim',
+    description: 'Biomedical Engineering student at the University of Waterloo, building wearable systems, medical devices, and machine learning models.',
+    url: 'https://www.owenkim.ca',
     siteName: 'Owen Kim',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Owen Kim',
+    description: 'Biomedical Engineering student at the University of Waterloo, building wearable systems, medical devices, and machine learning models.',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   },
 };
 

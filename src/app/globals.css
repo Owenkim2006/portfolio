@@ -4,8 +4,8 @@
 :root {
   /* Base */
   --bg-primary: #080b14;
-  --bg-surface: #0f1320;
-  --bg-card: #141928;
+  --bg-surface: #121728;
+  --bg-card: #161B2E;
   --bg-card-hover: #1a2035;
 
   /* Single accent — purple-blue */
@@ -22,9 +22,9 @@
   --teal-border: rgba(29, 158, 117, 0.25);
 
   /* Text hierarchy */
-  --text-primary: #F0F2F8;
-  --text-secondary: #8B93B0;
-  --text-muted: #4A5270;
+  --text-primary: #EEEEF5;
+  --text-secondary: #A0A8C0;
+  --text-muted: #606480;
   --text-accent: #9B94FF;
 
   /* Borders */
@@ -50,13 +50,13 @@
   --color-teal-light: #5DCAA5;
 
   --color-bg-base: #080b14;
-  --color-bg-surface: #0f1320;
-  --color-bg-card: #141928;
+  --color-bg-surface: #121728;
+  --color-bg-card: #161B2E;
   --color-bg-card-hover: #1a2035;
 
-  --color-text-primary: #F0F2F8;
-  --color-text-secondary: #8B93B0;
-  --color-text-muted: #4A5270;
+  --color-text-primary: #EEEEF5;
+  --color-text-secondary: #A0A8C0;
+  --color-text-muted: #606480;
 
   /* Fonts — CSS vars injected by next/font via layout.tsx */
   --font-sans: var(--font-inter), system-ui, sans-serif;

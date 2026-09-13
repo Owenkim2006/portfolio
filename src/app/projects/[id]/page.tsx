@@ -19,7 +19,7 @@ export async function generateMetadata(
   const project = projects.find((p) => p.id === id);
   if (!project) return {};
   return {
-    title: `${project.name}, Owen Kim`,
+    title: project.name,
     description: project.description,
   };
 }
@@ -181,9 +181,15 @@ export default async function ProjectPage(
                   Demo
                 </h2>
                 <div style={{
-                  borderRadius: 12,
+                  width: '100%',
+                  maxHeight: 500,
                   overflow: 'hidden',
+                  borderRadius: 12,
                   border: '1px solid var(--border)',
+                  background: 'var(--bg-card)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}>
                   <img
                     src={project.gif}
@@ -191,10 +197,9 @@ export default async function ProjectPage(
                     style={{
                       width: '100%',
                       height: 'auto',
-                      maxHeight: 480,
+                      maxHeight: 500,
                       objectFit: 'contain',
                       display: 'block',
-                      background: 'var(--bg-card)',
                     }}
                   />
                 </div>

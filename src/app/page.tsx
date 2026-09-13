@@ -7,6 +7,7 @@ import Hero            from '@/components/sections/Hero';
 import Projects        from '@/components/sections/Projects';
 import Research        from '@/components/sections/Research';
 import Experience      from '@/components/sections/Experience';
+import About           from '@/components/sections/About';
 import Contact         from '@/components/sections/Contact';
 
 export default function Home() {
@@ -29,6 +30,10 @@ export default function Home() {
 
       <section id="research" className="section-overlay" style={{ scrollMarginTop: 80 }}>
         <Research />
+      </section>
+
+      <section id="about" className="section-overlay" style={{ scrollMarginTop: 80 }}>
+        <About />
       </section>
 
       <section id="contact" className="section-overlay" style={{ scrollMarginTop: 80 }}>

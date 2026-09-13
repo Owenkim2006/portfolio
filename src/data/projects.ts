@@ -4,11 +4,11 @@ export const projects: Project[] = [
   {
     id: 'emg-prosthetic',
     name: 'Myoelectric Prosthetic Arm',
-    tagline: 'EMG-controlled prosthetic with 7-stage analog front-end and dog clutch locking',
+    tagline: 'EMG-controlled prosthetic with 7-stage analog circuit design',
     description: 'A complete myoelectric prosthetic hand designed for high-load operational tasks. Converts microvolt-level surface EMG signals into mechanical grip control through a 7-stage analog signal conditioning pipeline, non-blocking C++ firmware, and a bistable dog clutch locking mechanism.',
     longDescription: 'Surface EMG signals ranging from 10μV to 5mV are captured via skin electrodes and processed through a cascaded 7-stage single-supply analog architecture. The pipeline passes through an AD623 instrumentation amplifier (gain ~101), active Sallen-Key bandpass filter (48–400 Hz), isolation buffer, non-inverting amplifier (gain 11), peak envelope detector, and Schmitt trigger comparator, achieving total system gain of ~1,111x. The firmware runs a non-blocking time-domain state machine on an Arduino, requiring 500ms of sustained muscle activation before triggering to reject false positives from twitches and noise. A position servo controls a dog clutch that mechanically locks the finger transmission shafts, maintaining grip without continuous motor torque.',
     category: 'hardware',
-    tags: ['Electronics', 'Hardware', 'Health', 'Research'],
+    tags: ['Electronics', 'Hardware', 'Health', 'Design'],
     outcomes: [],
     highlights: [
     'AD623 INA (gain ~101) + Sallen-Key bandpass (48-400 Hz) + peak envelope detector + Schmitt trigger — total gain ~1,111x',
@@ -19,15 +19,16 @@ export const projects: Project[] = [
   ],
     featured: true,
     images: [
-      '/images/projects/prosthetic-full.jpg',
-      '/images/projects/prosthetic-perfboard.jpg',
-      '/images/projects/prosthetic-pcb.jpg',
-      '/images/projects/prosthetic-flowchart.jpg',
-      '/images/projects/prosthetic-bode.jpg',
-      '/images/projects/prosthetic-breadboard.jpg',
+      '/images/projects/emg2.png',
+      '/images/projects/emg3.PNG',
+      '/images/projects/emg4.PNG',
+      '/images/projects/emg5.jpg',
+      '/images/projects/emg6.jpg',
+      '/images/projects/emg7.jpg',
+      '/images/projects/emg8.png',
     ],
-    gif: '/images/projects/prosthetic-demo.gif',
-    thumbnail: '/images/projects/prosthetic-demo.gif',
+    gif: '/images/projects/emg1.gif',
+    thumbnail: '/images/projects/emg1.gif',
     links: [
       { label: 'GitHub', href: 'https://github.com/Owenkim2006/myoelectric-prosthetic', type: 'github' },
     ],
@@ -39,7 +40,7 @@ export const projects: Project[] = [
     description: 'Building a custom ear-worn physiological sensing device that measures heart rate and motion during running using PPG and IMU sensors, with BLE streaming and eventual integration with a running application.',
     longDescription: 'A full-stack wearable system spanning biology, sensor physics, electronics, signal processing, embedded systems, and wireless communication. The device combines a MAX30102 PPG sensor and BMI270 IMU on an ESP32 MCU, streaming physiological and motion data over BLE to a running application. The pipeline goes from optical PPG acquisition through DC removal, bandpass filtering, and peak detection to estimate beat-to-beat intervals and heart rate. The IMU enables motion artifact detection and eventual adaptive filtering. Final system targets a custom PCB in an ear-hook enclosure.',
     category: 'hardware',
-    tags: ['Electronics', 'Hardware', 'Health', 'Research', 'Machine Learning'],
+    tags: ['Electronics', 'Hardware', 'Health', 'Machine Learning'],
     outcomes: [
       'MAX30102 PPG + BMI270 IMU over I2C on ESP32',
       'BLE streaming to running application',
@@ -73,7 +74,7 @@ export const projects: Project[] = [
       'Cross-functional execution across software and business operations',
     ],
     highlights: [
-      "Won People's Choice Award at UW Velocity Future Cities Pitch Competition",
+      "Won $2500, People's Choice Award at UW Velocity Future Cities Pitch Competition",
       'Co-founded and led execution across engineering and product design',
       'Decentralized platform architecture for scalable city deployment',
       'Owned cross-functional strategy across software and business operations',
@@ -83,6 +84,8 @@ export const projects: Project[] = [
     images: [
       '/images/projects/um1.png',
       '/images/projects/um2.png',
+      '/images/projects/um3.png',
+      '/images/projects/um4.png',
       '/images/projects/unitedmobilitylogo.png',
     ],
     links: [
@@ -114,7 +117,8 @@ export const projects: Project[] = [
     'Built with OpenCV, dlib 68-point facial landmark model, and NumPy',
   ],
   featured: false,
-  images: [],
+  thumbnail: '/images/projects/stroke1.JPG',
+  images: ['/images/projects/stroke1.JPG'],
   links: [
     {
       label: 'GitHub',
@@ -130,7 +134,7 @@ export const projects: Project[] = [
     description: 'Human-centered design project creating accessible physical activity tools for children with cerebral palsy, in partnership with KidsAbility Centre for Child Development.',
     longDescription: 'Applied QFD and iterative prototyping to increase physical activity participation for children with cerebral palsy. User research with KidsAbility participants directly informed design requirements, producing an accessible activity system accommodating a range of motor abilities.',
     category: 'design',
-    tags: ['Design', 'Health', 'Research'],
+    tags: ['Design', 'Health'],
     outcomes: [
       'Accessible activity system designed with KidsAbility',
       'QFD-driven design requirements from user research',
@@ -142,7 +146,17 @@ export const projects: Project[] = [
       'Accommodates a range of motor abilities and cerebral palsy presentations',
     ],
     featured: false,
-    images: [],
-    links: [],
+    thumbnail: '/images/projects/kids1.PNG',
+    images: [
+      '/images/projects/kids1.PNG',
+      '/images/projects/kids2.PNG',
+    ],
+    links: [
+      {
+        label: 'Design Report',
+        href: '/documents/BME 161 Design Report_.pdf',
+        type: 'other' as const,
+      },
+    ],
   },
 ]

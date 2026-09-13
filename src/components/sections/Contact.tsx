@@ -24,21 +24,36 @@ const links = [
 
 export default function Contact() {
   return (
-    <div className="py-36 px-8 md:px-16 lg:px-24">
-      <div className="max-w-5xl mx-auto text-center">
-        <AnimateOnScroll>
-          <p className="font-mono text-xs tracking-widest uppercase mb-6 text-accent-light">
-            Contact
-          </p>
-          <h2 className="text-4xl md:text-6xl font-medium leading-tight mb-6 text-text-primary">
-            Let&apos;s build something
-            <br />
-            <span className="text-accent-light">worth remembering.</span>
-          </h2>
-          <p className="font-mono text-xs text-text-muted mb-12 tracking-wide">
-            Based in Waterloo, ON · Open to remote and hybrid
-          </p>
-        </AnimateOnScroll>
+    <section style={{ paddingTop: 120, paddingBottom: 120 }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: 56 }}>
+          <AnimateOnScroll>
+            <span style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--accent-light)',
+              marginBottom: 12,
+              display: 'inline-block',
+            }}>
+              Contact
+            </span>
+            <h2 style={{
+              fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.2,
+              marginBottom: 0,
+              marginTop: 8,
+            }}>
+              Contact
+            </h2>
+          </AnimateOnScroll>
+        </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {links.map((link, index) => (
@@ -54,6 +69,6 @@ export default function Contact() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -43,18 +43,20 @@ export default function Slideshow({ images, name }: { images: string[]; name: st
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Image container, fixed height, image covers it */}
-      <div style={{ position: 'relative', height: 360, background: 'var(--bg-card)' }}>
+      {/* Image container, fixed height, full image shown without cropping */}
+      <div style={{ position: 'relative', height: 400, overflow: 'hidden', background: 'var(--bg-card)' }}>
         <img
           key={current}
           src={images[current]}
           alt={`${name} screenshot ${current + 1}`}
           style={{
+            position: 'absolute',
+            inset: 0,
             width: '100%',
             height: '100%',
             objectFit: 'contain',
             objectPosition: 'center',
-            display: 'block',
+            background: 'var(--bg-card)',
           }}
         />
 

@@ -110,23 +110,6 @@ function ResearchCard({ item }: { item: ResearchItem }) {
           {item.venue}
         </p>
       )}
-
-      {item.tags.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 12 }}>
-          {item.tags.map((tag) => (
-            <span key={tag} style={{
-              fontSize: '0.6875rem',
-              fontFamily: 'var(--font-mono)',
-              padding: '3px 8px', borderRadius: 4,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-muted)',
-            }}>
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -135,15 +118,30 @@ function ResearchCard({ item }: { item: ResearchItem }) {
 
 export default function Research() {
   return (
-    <section style={{ padding: '64px 0' }}>
+    <section style={{ paddingTop: 120, paddingBottom: 120 }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 32 }}>
+        <div style={{ marginBottom: 56 }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 11,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--accent-light)',
+            marginBottom: 12,
+            display: 'inline-block',
+          }}>
+            Research
+          </span>
           <h2 style={{
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
-            fontWeight: 500, letterSpacing: '-0.02em',
-            color: 'var(--text-primary)', lineHeight: 1.15, margin: 0,
+            fontWeight: 500,
+            color: 'var(--text-primary)',
+            letterSpacing: '-0.02em',
+            lineHeight: 1.2,
+            marginBottom: 0,
+            marginTop: 8,
           }}>
             Research
           </h2>

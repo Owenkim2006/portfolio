@@ -18,8 +18,7 @@ type FilterKey =
   | 'Hardware'
   | 'Health'
   | 'Software'
-  | 'Design'
-  | 'Research';
+  | 'Design';
 
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'all',               label: 'All'               },
@@ -29,7 +28,6 @@ const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'Health',            label: 'Health'            },
   { key: 'Software',          label: 'Software'          },
   { key: 'Design',            label: 'Design'            },
-  { key: 'Research',          label: 'Research'          },
 ];
 
 // ─── Arrow ────────────────────────────────────────────────────────────────────
@@ -49,20 +47,22 @@ function FocalImage({ project }: { project: Project }) {
   const cardImage = project.thumbnail ?? project.images?.[0];
 
   return (
-    <div style={{
-      width: '100%', height: 120,
-      background: 'var(--bg-surface)',
-      borderBottom: '1px solid var(--border)',
-      position: 'relative', overflow: 'hidden',
-      flexShrink: 0,
-    }}>
+    <div
+      className="h-full max-md:h-40"
+      style={{
+        width: '100%',
+        flexShrink: 0,
+        background: 'var(--bg-card)',
+        position: 'relative', overflow: 'hidden',
+      }}
+    >
       {cardImage ? (
         <Image
           src={cardImage}
           alt={project.name}
           fill
-          style={{ objectFit: 'cover' }}
-          sizes="(max-width: 768px) 100vw, 1100px"
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          sizes="(max-width: 768px) 100vw, 280px"
           unoptimized={cardImage.endsWith('.gif')}
         />
       ) : (
@@ -88,64 +88,93 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <div style={{
-          background: 'var(--bg-card)',
-          border: `1px solid ${hovered ? 'var(--border-accent)' : 'var(--border)'}`,
-          borderRadius: 12,
-          overflow: 'hidden',
-          transition: 'border-color 200ms ease, transform 200ms ease',
-          transform: hovered ? 'translateY(-2px)' : 'none',
-          position: 'relative',
-        }}>
-          {project.wip && (
-            <span style={{
-              position: 'absolute',
-              top: 14,
-              right: 14,
-              fontFamily: 'var(--font-mono)',
-              fontSize: 10,
-              letterSpacing: '0.08em',
-              padding: '3px 8px',
-              borderRadius: 4,
-              background: 'rgba(234, 179, 8, 0.12)',
-              border: '1px solid rgba(234, 179, 8, 0.35)',
-              color: '#fbbf24',
-              zIndex: 1,
-            }}>
-              IN PROGRESS
-            </span>
-          )}
-
-          {/* Focal image */}
+        <div
+          className="grid grid-cols-[280px_1fr] max-md:grid-cols-1"
+          style={{
+            gap: 0,
+            minHeight: 200,
+            background: 'var(--bg-card)',
+            border: `1px solid ${hovered ? 'var(--border-accent)' : 'var(--border)'}`,
+            borderRadius: 12,
+            overflow: 'hidden',
+            marginBottom: 16,
+            transition: 'border-color 200ms ease, transform 200ms ease',
+            transform: hovered ? 'translateY(-2px)' : 'none',
+            position: 'relative',
+          }}
+        >
+          {/* Left — focal image */}
           <FocalImage project={project} />
 
-          {/* Content */}
-          <div style={{ padding: 18 }}>
+          {/* Right — content */}
+          <div style={{
+            padding: '28px 32px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: 16,
+            minWidth: 0,
+          }}>
 
-            <h3 style={{
-              fontSize: 'clamp(1.1rem, 1.6vw, 1.4rem)',
-              fontWeight: 500, letterSpacing: '-0.02em',
-              color: 'var(--text-primary)',
-              margin: '0 0 4px', lineHeight: 1.15,
-            }}>
-              {project.name}
-            </h3>
-            <p style={{ fontSize: 13, color: 'var(--accent-light)', margin: '0 0 12px', fontWeight: 500 }}>
-              {project.tagline}
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-              {project.tags.slice(0, 4).map((tag) => (
-                <span key={tag} style={{
-                  fontSize: '0.6875rem',
+            {/* Top */}
+            <div>
+              <h3 style={{
+                fontSize: 'clamp(1.1rem, 1.6vw, 1.4rem)',
+                fontWeight: 500, letterSpacing: '-0.02em',
+                color: 'var(--text-primary)',
+                margin: '0 0 4px', lineHeight: 1.15,
+              }}>
+                {project.name}
+              </h3>
+              <p style={{ fontSize: 13, color: 'var(--accent-light)', margin: '0 0 12px', fontWeight: 500 }}>
+                {project.tagline}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                {project.tags.slice(0, 4).map((tag) => (
+                  <span key={tag} style={{
+                    fontSize: '0.6875rem',
+                    fontFamily: 'var(--font-mono)',
+                    padding: '3px 8px', borderRadius: 4,
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-muted)',
+                  }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom — links + WIP badge */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+              {project.links.map((link) => (
+                <span key={link.href} style={{
                   fontFamily: 'var(--font-mono)',
-                  padding: '3px 8px', borderRadius: 4,
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-muted)',
+                  fontSize: 11,
+                  padding: '3px 8px',
+                  borderRadius: 4,
+                  border: '1px solid var(--border-hover)',
+                  color: hovered ? 'var(--accent-light)' : 'var(--text-secondary)',
+                  transition: 'color 200ms ease',
                 }}>
-                  {tag}
+                  {link.label} ↗
                 </span>
               ))}
+
+              {project.wip && (
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  letterSpacing: '0.08em',
+                  padding: '3px 8px',
+                  borderRadius: 4,
+                  background: 'rgba(234, 179, 8, 0.12)',
+                  border: '1px solid rgba(234, 179, 8, 0.35)',
+                  color: '#fbbf24',
+                }}>
+                  IN PROGRESS
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -194,7 +223,7 @@ function CompactRow({ project, globalIndex, listIndex }: { project: Project; glo
                 src={cardImage}
                 alt={project.name}
                 fill
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
                 sizes="40px"
                 unoptimized={cardImage.endsWith('.gif')}
               />
@@ -233,15 +262,30 @@ export default function Projects() {
   const compact  = filtered.filter((p) => !p.featured);
 
   return (
-    <section style={{ padding: '120px 0' }}>
+    <section style={{ paddingTop: 120, paddingBottom: 120 }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 72, position: 'relative' }}>
+        <div style={{ marginBottom: 56 }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 11,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--accent-light)',
+            marginBottom: 12,
+            display: 'inline-block',
+          }}>
+            Projects
+          </span>
           <h2 style={{
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
-            fontWeight: 500, letterSpacing: '-0.02em',
-            color: 'var(--text-primary)', lineHeight: 1.15, margin: '0 0 16px',
+            fontWeight: 500,
+            color: 'var(--text-primary)',
+            letterSpacing: '-0.02em',
+            lineHeight: 1.2,
+            marginBottom: 0,
+            marginTop: 8,
           }}>
             Projects
           </h2>
@@ -281,7 +325,7 @@ export default function Projects() {
             <motion.div key="content" layout>
 
               {featured.length > 0 && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+                <div>
                   {featured.map((project, i) => (
                     <motion.div key={project.id} layout>
                       <FeaturedCard project={project} index={i} />
