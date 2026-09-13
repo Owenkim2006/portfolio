@@ -87,7 +87,7 @@ export default function About() {
                 lineHeight: 1.75,
                 margin: 0,
               }}>
-                I'm a Biomedical Engineering student at the University of Waterloo who likes building things, from a custom PCB for an EMG-controlled prosthetic hand to a wearable PPG sensor for tracking heart rate on a run. Right now I'm doing an R&D co-op at SickKids working on pediatric neural modulation tech, and I'm generally chasing the intersection of hardware, sensors, and AI, aiming to eventually build real, shipped products in neurotech and medical devices. Off the clock, you'll usually find me playing volleyball, basketball, or ultimate frisbee!
+                I'm a Biomedical Engineering student at the University of Waterloo who is eager to join the wearable device and neurotech fields. Right now I'm doing an R&D co-op at SickKids working on pediatric neuromodulation tech, and I'm generally chasing the intersection of hardware, sensors, and AI, aiming to eventually build real, shipped products. Off the clock, you'll usually find me playing volleyball, basketball, or ultimate frisbee!
               </p>
             </div>
 

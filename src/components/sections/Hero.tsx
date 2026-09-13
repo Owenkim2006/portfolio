@@ -62,37 +62,18 @@ export default function Hero() {
             pointer-events:none. */}
         <motion.div style={{ opacity: textOpacity, y: textY, position: 'relative', zIndex: 10, pointerEvents: 'auto' }}>
 
-          {/* Section label */}
-          <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 11,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-light)',
-              marginBottom: 12,
-              display: 'inline-block',
-            }}
-          >
-            Home
-          </motion.span>
-
           {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
             style={{
-              fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
-              fontWeight: 500,
+              fontSize: 'clamp(3.2rem, 8vw, 6.5rem)',
+              fontWeight: 600,
               color: 'var(--text-primary)',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.2,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.05,
               marginBottom: 0,
-              marginTop: 8,
             }}
           >
             Owen Kim
@@ -113,7 +94,7 @@ export default function Hero() {
           >
             Biomedical Engineering student at the University of Waterloo,
             building wearable systems, medical devices, and machine learning
-            models — translating research into systems that improve quality
+            models, translating research into systems that improve quality
             of life.
           </motion.p>
 

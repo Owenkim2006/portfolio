@@ -20,13 +20,17 @@ export const projects: Project[] = [
     featured: true,
     images: [
       '/images/projects/emg2.png',
-      '/images/projects/emg3.PNG',
-      '/images/projects/emg4.PNG',
-      '/images/projects/emg5.jpg',
-      '/images/projects/emg6.jpg',
-      '/images/projects/emg7.jpg',
+      '/images/projects/emg3.png',
+      '/images/projects/emg4.png',
+      '/images/projects/emg5.png',
+      '/images/projects/emg6.png',
+      '/images/projects/emg7.png',
       '/images/projects/emg8.png',
+      '/images/projects/emg9.png',
+      '/images/projects/emg10.png',
     ],
+    // TODO: compress emg1.gif — currently 84MB, target under 5MB
+    // Use ezgif.com/optimize to reduce file size
     gif: '/images/projects/emg1.gif',
     thumbnail: '/images/projects/emg1.gif',
     links: [
@@ -117,8 +121,8 @@ export const projects: Project[] = [
     'Built with OpenCV, dlib 68-point facial landmark model, and NumPy',
   ],
   featured: false,
-  thumbnail: '/images/projects/stroke1.JPG',
-  images: ['/images/projects/stroke1.JPG'],
+  thumbnail: '/images/projects/stroke1.png',
+  images: ['/images/projects/stroke1.png'],
   links: [
     {
       label: 'GitHub',
@@ -146,10 +150,10 @@ export const projects: Project[] = [
       'Accommodates a range of motor abilities and cerebral palsy presentations',
     ],
     featured: false,
-    thumbnail: '/images/projects/kids1.PNG',
+    thumbnail: '/images/projects/kids1.png',
     images: [
-      '/images/projects/kids1.PNG',
-      '/images/projects/kids2.PNG',
+      '/images/projects/kids1.png',
+      '/images/projects/kids2.png',
     ],
     links: [
       {
