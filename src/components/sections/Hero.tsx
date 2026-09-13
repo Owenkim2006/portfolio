@@ -36,7 +36,7 @@ export default function Hero() {
     >
       {/* Left column (text) */}
       <div
-        className="px-6 md:pl-20 md:pr-10 text-center md:text-left"
+        className="px-5 pt-[100px] pb-6 text-left md:px-0 md:pl-20 md:pr-10 md:pt-0 md:pb-0"
         style={{ position: 'relative', zIndex: 10 }}
       >
         {/* Dark gradient, keeps text readable regardless of what's behind
@@ -103,7 +103,6 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.4 }}
-            className="mx-auto md:mx-0"
             style={{
               fontSize: '0.9375rem',
               color: 'var(--text-secondary)',
@@ -118,10 +117,10 @@ export default function Hero() {
             of life.
           </motion.p>
 
-          {/* Scroll indicator */}
+          {/* Scroll indicator — hidden on mobile, takes up space there */}
           <motion.div
             style={{ opacity: indicatorOpacity, marginTop: 48 }}
-            className="flex flex-col items-center md:items-start"
+            className="hidden md:flex md:flex-col md:items-start"
           >
             <span
               style={{
@@ -167,20 +166,19 @@ export default function Hero() {
               }
             : {
                 position: 'relative',
+                width: '100%',
                 height: '45vh',
                 opacity: 0.5,
-                pointerEvents: 'none',
+                pointerEvents: 'auto',
               }
         }
       >
         {/* React Three Fiber's <Canvas> always sets pointer-events:auto on
             its own internal wrapper div, regardless of what an ancestor's
-            pointer-events says (an explicit value on a descendant always
-            wins), so the pointerEvents:'none' above alone doesn't actually
-            stop the canvas from being draggable on mobile. `interactive`
-            disables OrbitControls itself instead, which is what actually
-            controls whether dragging does anything. */}
-        <HeroBrain interactive={isDesktop} />
+            pointer-events says. The brain is touch-interactive on mobile
+            too (see HeroBrainInner's OrbitControls touches config), so
+            `interactive` is always true here. */}
+        <HeroBrain interactive={true} />
       </motion.div>
     </div>
   );

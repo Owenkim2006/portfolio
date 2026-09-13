@@ -12,6 +12,7 @@ const NAV = [
 ];
 
 const NAV_IDS = NAV.map((n) => n.id);
+const RESUME_HREF = '/documents/Owen Kim Resume - September 2026.pdf';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -71,40 +72,40 @@ export default function Navbar() {
           OK.
         </a>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+        <div className="flex items-center gap-3 sm:gap-8">
           {NAV.map((n) => {
             const isActive = activeSection === n.id;
             return (
               <a
                 key={n.href}
                 href={n.href}
+                className="text-[11px] tracking-normal sm:text-sm"
                 style={{
-                  fontSize: '0.875rem',
                   color: isActive ? 'var(--accent-light)' : 'var(--text-secondary)',
                   textDecoration: 'none',
                   transition: 'color 150ms ease',
+                  whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
                 onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
               >
-                <span className="hidden sm:inline">{n.label}</span>
-                <span className="sm:hidden">{n.label[0]}</span>
+                {n.label}
               </a>
             );
           })}
 
           <a
-            href="/documents/Owen Kim Resume - September 2026.pdf"
+            href={RESUME_HREF}
             target="_blank"
             rel="noopener noreferrer"
+            className="text-[11px] px-2 py-1 sm:text-[13px] sm:px-3 sm:py-[5px]"
             style={{
-              fontSize: 13,
               color: 'var(--text-secondary)',
               textDecoration: 'none',
               fontFamily: 'var(--font-mono)',
               border: '1px solid var(--border)',
-              padding: '5px 12px',
               borderRadius: 6,
+              whiteSpace: 'nowrap',
               transition: 'all 150ms ease',
             }}
             onMouseEnter={e => {

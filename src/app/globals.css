@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* ─── Box model reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  max-width: 100%;
+}
+
 /* ─── Design tokens (CSS custom properties) ─── */
 :root {
   /* Base */
@@ -152,4 +161,17 @@ body {
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   pointer-events: auto;
+}
+
+/* ─── Mobile padding safety net ─── */
+@media (max-width: 768px) {
+  section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .max-w-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

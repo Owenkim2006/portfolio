@@ -10,17 +10,14 @@ export default function Icon() {
         style={{
           width: 32,
           height: 32,
-          borderRadius: 6,
-          background: '#080b14',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 14,
+          fontSize: 15,
           fontWeight: 700,
           color: '#6C63FF',
           fontFamily: 'system-ui',
-          paddingLeft: 3,
-          paddingBottom: 2,
+          background: 'transparent',
         }}
       >
         OK.

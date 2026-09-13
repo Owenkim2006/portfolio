@@ -267,17 +267,6 @@ export default function Projects() {
 
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--accent-light)',
-            marginBottom: 12,
-            display: 'inline-block',
-          }}>
-            Projects
-          </span>
           <h2 style={{
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
             fontWeight: 500,
@@ -285,7 +274,6 @@ export default function Projects() {
             letterSpacing: '-0.02em',
             lineHeight: 1.2,
             marginBottom: 0,
-            marginTop: 8,
           }}>
             Projects
           </h2>

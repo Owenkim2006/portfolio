@@ -66,7 +66,7 @@ export default async function ProjectPage(
         background: 'rgba(8,11,20,0.92)',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 32px', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="px-5 md:px-8" style={{ maxWidth: 1100, margin: '0 auto', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" style={{
             fontFamily: 'var(--font-jetbrains-mono, monospace)',
             fontSize: 14, fontWeight: 500, letterSpacing: '0.1em',
@@ -85,7 +85,7 @@ export default async function ProjectPage(
         </div>
       </div>
 
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 32px 120px' }}>
+      <div className="px-5 md:px-8 max-w-[800px] md:max-w-[1100px]" style={{ margin: '0 auto', paddingTop: 64, paddingBottom: 120 }}>
 
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
@@ -129,18 +129,16 @@ export default async function ProjectPage(
         <Slideshow images={project.images ?? []} name={project.name} />
 
         {/* Content grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr) 300px',
-          gap: '0 80px',
-          alignItems: 'start',
-        }}>
+        <div
+          className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_300px] gap-x-0 md:gap-x-20 gap-y-10 md:gap-y-0"
+          style={{ alignItems: 'start' }}
+        >
 
           {/* Left: description + highlights */}
           <div>
             <p style={{
-              fontSize: 16, color: '#F0F2F8', lineHeight: 1.8,
-              marginBottom: 48, fontWeight: 400,
+              width: '100%', fontSize: 16, color: '#F0F2F8', lineHeight: 1.8,
+              marginBottom: 48, fontWeight: 400, wordBreak: 'break-word',
             }}>
               {project.longDescription ?? project.description}
             </p>

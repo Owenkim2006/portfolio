@@ -13,7 +13,7 @@ interface HeroBrainProps {
 
 export default function HeroBrain({ interactive = true }: HeroBrainProps) {
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ touchAction: 'none', width: '100%', height: '100%' }}>
       <HeroBrainInner interactive={interactive} />
     </div>
   );

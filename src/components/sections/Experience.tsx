@@ -117,6 +117,7 @@ function TimelineDot() {
   return (
     <motion.div
       ref={ref}
+      className="hidden md:block"
       initial={{ backgroundColor: 'var(--bg-primary)' }}
       animate={{ backgroundColor: inView ? '#6C63FF' : 'var(--bg-primary)' }}
       transition={{ duration: 0.35, delay: 0.15 }}
@@ -140,11 +141,11 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className="p-4 md:p-[22px_24px]"
       style={{
         background: 'var(--bg-card)',
         border: `1px solid ${hovered ? 'var(--border-accent)' : 'var(--border)'}`,
         borderRadius: 12,
-        padding: '22px 24px',
         transform: hovered ? 'translateY(-2px)' : 'none',
         transition: 'border-color 200ms ease, transform 200ms ease',
         display: 'flex',
@@ -165,21 +166,21 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
         <CompanyLogo item={item} />
-        <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+        <div className="flex-col md:flex-row md:items-start md:justify-between" style={{ flex: 1, minWidth: 0, display: 'flex', gap: 12 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>
+            <h3 className="text-[15px] md:text-base" style={{ fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>
               {item.company}
             </h3>
             <p style={{ fontSize: '0.9375rem', color: 'var(--accent-light)', marginTop: 2 }}>
               {item.role}
             </p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5, flexShrink: 0 }}>
+          <div className="items-start md:items-end" style={{ display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0 }}>
             <TypeBadge type={item.type} />
-            <p style={{
+            <p className="text-left md:text-right" style={{
               fontSize: '0.8125rem',
               fontFamily: 'var(--font-mono)',
-              color: 'var(--text-muted)', textAlign: 'right', lineHeight: 1.6,
+              color: 'var(--text-muted)', lineHeight: 1.6,
             }}>
               {item.dateRange}<br />{item.location}
             </p>
@@ -263,17 +264,6 @@ export default function Experience() {
 
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--accent-light)',
-            marginBottom: 12,
-            display: 'inline-block',
-          }}>
-            Experience
-          </span>
           <h2 style={{
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
             fontWeight: 500,
@@ -281,7 +271,6 @@ export default function Experience() {
             letterSpacing: '-0.02em',
             lineHeight: 1.2,
             marginBottom: 0,
-            marginTop: 8,
           }}>
             Experience
           </h2>
@@ -325,9 +314,9 @@ export default function Experience() {
             {experience.map((item, i) => (
               <div
                 key={item.id}
+                className="pl-0 md:pl-12"
                 style={{
                   position: 'relative',
-                  paddingLeft: 48,
                   marginBottom: i < experience.length - 1 ? 40 : 0,
                 }}
               >

@@ -71,45 +71,56 @@ function ResearchCard({ item }: { item: ResearchItem }) {
 
   return (
     <div style={{ padding: '20px 0', borderBottom: '1px solid var(--border)' }}>
-      <div>
-        {primaryLink?.href ? (
-          <a
-            href={primaryLink.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontSize: 15, fontWeight: 500, color: 'var(--accent-light)',
-              textDecoration: 'none',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-            onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-          >
-            {item.title}
-          </a>
-        ) : (
-          <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)' }}>
-            {item.title}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+
+        {/* Line 1: Title */}
+        <div>
+          {primaryLink?.href ? (
+            <a
+              href={primaryLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: 15, fontWeight: 500, color: 'var(--accent-light)',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+            >
+              {item.title}
+            </a>
+          ) : (
+            <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)' }}>
+              {item.title}
+            </span>
+          )}
+        </div>
+
+        {/* Line 2: Status badge — its own line */}
+        <div>
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: 10,
+            padding: '2px 8px', borderRadius: 4, display: 'inline-block',
+            letterSpacing: '0.06em',
+            background: meta.background, border: meta.border, color: meta.color,
+          }}>
+            {meta.label}
           </span>
+        </div>
+
+        {/* Line 3: Authors */}
+        <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
+          <AuthorList authors={item.authors} />
+        </div>
+
+        {/* Line 4: Venue */}
+        {item.venue && (
+          <div style={{ fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic' }}>
+            {item.venue}
+          </div>
         )}
-        <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: 10,
-          padding: '2px 8px', borderRadius: 4, display: 'inline-block',
-          marginLeft: 10,
-          background: meta.background, border: meta.border, color: meta.color,
-        }}>
-          {meta.label}
-        </span>
+
       </div>
-
-      <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '4px 0 0' }}>
-        <AuthorList authors={item.authors} />
-      </p>
-
-      {item.venue && (
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic', margin: '4px 0 0' }}>
-          {item.venue}
-        </p>
-      )}
     </div>
   );
 }
@@ -123,17 +134,6 @@ export default function Research() {
 
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--accent-light)',
-            marginBottom: 12,
-            display: 'inline-block',
-          }}>
-            Research
-          </span>
           <h2 style={{
             fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
             fontWeight: 500,
@@ -141,7 +141,6 @@ export default function Research() {
             letterSpacing: '-0.02em',
             lineHeight: 1.2,
             marginBottom: 0,
-            marginTop: 8,
           }}>
             Research
           </h2>

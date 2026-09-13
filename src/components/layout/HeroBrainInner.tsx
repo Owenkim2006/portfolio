@@ -170,7 +170,7 @@ export default function HeroBrainInner({ interactive = true }: HeroBrainInnerPro
       camera={{ position: [0, 0.1, 3.8], fov: 46 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
-      style={{ background: 'transparent', cursor: interactive ? 'grab' : 'default' }}
+      style={{ background: 'transparent', cursor: interactive ? 'grab' : 'default', touchAction: 'none', width: '100%', height: '100%' }}
       performance={{ min: 0.5 }}
     >
       {/* Lighting to create the electric blue glow effect */}
@@ -213,6 +213,10 @@ export default function HeroBrainInner({ interactive = true }: HeroBrainInnerPro
         enableRotate={interactive}
         enableZoom={false}
         enablePan={false}
+        touches={{
+          ONE: THREE.TOUCH.ROTATE,
+          TWO: THREE.TOUCH.DOLLY_PAN,
+        }}
         autoRotate={true}
         autoRotateSpeed={0.5}
         rotateSpeed={0.5}
