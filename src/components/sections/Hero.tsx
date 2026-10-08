@@ -98,6 +98,29 @@ export default function Hero() {
             of life.
           </motion.p>
 
+          <motion.a
+            href="/portfolio"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE, delay: 0.5 }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              marginTop: 24,
+              padding: '10px 20px',
+              background: 'var(--accent)',
+              color: 'white',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
+              textDecoration: 'none',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            View Portfolio →
+          </motion.a>
+
           {/* Scroll indicator — hidden on mobile, takes up space there */}
           <motion.div
             style={{ opacity: indicatorOpacity, marginTop: 48 }}

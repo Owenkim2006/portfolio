@@ -1,5 +1,11 @@
 import { ExperienceItem } from '@/types'
 
+export const COMPANY_URLS: Record<string, string> = {
+  'sickkids': 'https://pcigiti.com/',
+  'uwaterloo-research': 'https://sirisharambhatla.com/criticalml/',
+  'harvard': 'http://www.tearneylab.org/',
+}
+
 export const experience: ExperienceItem[] = [
   {
     id: 'sickkids',

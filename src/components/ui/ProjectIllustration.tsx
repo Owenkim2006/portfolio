@@ -128,45 +128,6 @@ function UnitedMobility({ style }: Props) {
   );
 }
 
-function StrokeAlert({ style }: Props) {
-  return (
-    <svg viewBox="0 0 800 300" fill="none" aria-hidden="true" style={style}>
-      {/* Left face, normal */}
-      <ellipse cx="220" cy="150" rx="80" ry="100" stroke={P} strokeWidth="1.5" opacity="0.35" />
-      {/* Eyes */}
-      <ellipse cx="195" cy="120" rx="9" ry="7" stroke={P} strokeWidth="1" opacity="0.4" />
-      <ellipse cx="245" cy="120" rx="9" ry="7" stroke={P} strokeWidth="1" opacity="0.4" />
-      {/* Mouth, level */}
-      <path d="M196,185 Q220,198 244,185" stroke={P} strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-      {/* Eyebrows, level */}
-      <line x1="186" y1="108" x2="208" y2="106" stroke={P} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
-      <line x1="232" y1="106" x2="254" y2="108" stroke={P} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
-      <text x="220" y="265" fill={P} opacity="0.2" fontSize="11" fontFamily="monospace" textAnchor="middle">Normal</text>
-
-      {/* Divider */}
-      <line x1="400" y1="30" x2="400" y2="270" stroke={P} strokeWidth="0.5" opacity="0.12" strokeDasharray="4 6" />
-
-      {/* Right face, drooping (stroke) */}
-      <ellipse cx="580" cy="150" rx="80" ry="100" stroke={P} strokeWidth="1.5" opacity="0.55" />
-      {/* Eyes, one slightly drooping */}
-      <ellipse cx="555" cy="120" rx="9" ry="7" stroke={P} strokeWidth="1" opacity="0.5" />
-      <ellipse cx="605" cy="124" rx="9" ry="6" stroke={P} strokeWidth="1" opacity="0.5" />
-      {/* Mouth, drooping right */}
-      <path d="M556,185 Q580,194 604,200" stroke={P} strokeWidth="1.5" strokeLinecap="round" opacity="0.55" />
-      {/* Eyebrow right, lower */}
-      <line x1="546" y1="108" x2="568" y2="106" stroke={P} strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-      <line x1="592" y1="112" x2="614" y2="116" stroke={P} strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-      {/* Alert lines */}
-      <line x1="640" y1="70" x2="680" y2="50" stroke={P} strokeWidth="1" opacity="0.3" />
-      <line x1="650" y1="80" x2="695" y2="68" stroke={P} strokeWidth="1" opacity="0.3" />
-      <circle cx="700" cy="55" r="16" stroke={P} strokeWidth="1.5" opacity="0.4" />
-      <text x="700" y="51" fill={P} opacity="0.5" fontSize="14" fontFamily="monospace" textAnchor="middle" fontWeight="700">!</text>
-      <text x="700" y="66" fill={P} opacity="0.3" fontSize="8" fontFamily="monospace" textAnchor="middle">FAST</text>
-      <text x="580" y="265" fill={P} opacity="0.3" fontSize="11" fontFamily="monospace" textAnchor="middle">Detected</text>
-    </svg>
-  );
-}
-
 function KidsAbility({ style }: Props) {
   return (
     <svg viewBox="0 0 800 300" fill="none" aria-hidden="true" style={style}>
@@ -271,7 +232,6 @@ const ILLUSTRATIONS: Record<string, (props: Props) => React.ReactElement> = {
   'emg-prosthetic':  EMGProsthetic,
   'fortifai':        FORTifAI,
   'united-mobility': UnitedMobility,
-  'strokealert':     StrokeAlert,
   'kidsability':     KidsAbility,
   'cryptocompanion': CryptoCompanion,
   'qr-generator':    QRGenerator,

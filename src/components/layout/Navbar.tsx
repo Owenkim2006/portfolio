@@ -94,6 +94,20 @@ export default function Navbar() {
                 </a>
               );
             })}
+            <a
+              href="/portfolio"
+              style={{
+                fontSize: '0.875rem',
+                color: 'var(--text-secondary)',
+                textDecoration: 'none',
+                transition: 'color 150ms ease',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
+            >
+              Portfolio ↗
+            </a>
           </div>
 
           <a

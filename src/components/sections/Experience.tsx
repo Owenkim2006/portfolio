@@ -2,14 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { experience } from '@/data/experience';
+import { experience, COMPANY_URLS } from '@/data/experience';
 import type { ExperienceItem } from '@/types';
-
-const COMPANY_URLS: Record<string, string> = {
-  'sickkids': 'https://pcigiti.com/',
-  'uwaterloo-research': 'https://sirisharambhatla.com/criticalml/',
-  'harvard': 'http://www.tearneylab.org/',
-};
 
 // ─── Left-entry animation wrapper ────────────────────────────────────────────
 

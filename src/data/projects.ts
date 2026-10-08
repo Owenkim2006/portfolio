@@ -125,37 +125,6 @@ export const projects: Project[] = [
       },
     ],
   },
-{
-  id: 'strokealert',
-  name: 'StrokeAlert',
-  tagline: 'Real-time stroke detection via facial asymmetry analysis',
-  description: 'Real-time stroke detection using OpenCV and dlib — analyzes facial landmark asymmetry (eye tilt via KL divergence, mouth angle deviation) to flag potential stroke symptoms from webcam or photo input.',
-  longDescription: 'Uses dlib facial landmark detection to evaluate eye and mouth symmetry in real-time. Eye asymmetry is measured via tilt angle comparison and KL divergence between upper and lower eyelid distributions. Mouth angle deviation is calculated from corner-to-nose-bridge angles. If both metrics exceed thresholds, the system flags a potential stroke. Inspired by published prehospital stroke detection research.',
-  category: 'ai-health',
-  tags: ['Machine Learning', 'Health', 'Software'],
-  outcomes: [
-    'Real-time FAST stroke criteria detection from webcam or photos',
-    'Eye asymmetry via KL divergence between eyelid distributions',
-    'Mouth angle deviation from facial landmark geometry',
-  ],
-  highlights: [
-    'Eye asymmetry detection via tilt angle and KL divergence between eyelid distributions',
-    'Mouth angle deviation measured from corner-to-nose-bridge facial landmark geometry',
-    'Dual-mode: runs on static photos or live webcam feed',
-    'Inspired by published research on prehospital stroke detection using mobile AI',
-    'Built with OpenCV, dlib 68-point facial landmark model, and NumPy',
-  ],
-  featured: false,
-  thumbnail: '/images/projects/stroke1.png',
-  images: ['/images/projects/stroke1.png'],
-  links: [
-    {
-      label: 'GitHub',
-      href: 'https://github.com/Owenkim2006/StrokeFaceDetection_OpenCV',
-      type: 'github' as const,
-    },
-  ],
-},
   {
     id: 'kidsability',
     name: 'KidsAbility Design Project',
