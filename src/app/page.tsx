@@ -4,7 +4,7 @@ import Navbar          from '@/components/layout/Navbar';
 import Footer          from '@/components/layout/Footer';
 import SectionDotNav   from '@/components/layout/SectionDotNav';
 import Hero            from '@/components/sections/Hero';
-import Projects        from '@/components/sections/Projects';
+import Research        from '@/components/sections/Research';
 import Experience      from '@/components/sections/Experience';
 import About           from '@/components/sections/About';
 import Contact         from '@/components/sections/Contact';
@@ -19,19 +19,19 @@ export default function Home() {
         <Hero />
       </section>
 
-      <section id="projects" className="section-overlay" style={{ scrollMarginTop: 80 }}>
-        <Projects />
-      </section>
-
-      <section id="experience" className="section-overlay" style={{ scrollMarginTop: 80 }}>
+      <section id="experience" className="section-overlay" style={{ scrollMarginTop: 56 }}>
         <Experience />
       </section>
 
-      <section id="about" className="section-overlay" style={{ scrollMarginTop: 80 }}>
+      <section id="research" className="section-overlay" style={{ scrollMarginTop: 56 }}>
+        <Research />
+      </section>
+
+      <section id="about" className="section-overlay" style={{ scrollMarginTop: 56 }}>
         <About />
       </section>
 
-      <section id="contact" className="section-overlay" style={{ scrollMarginTop: 80 }}>
+      <section id="contact" className="section-overlay" style={{ scrollMarginTop: 56 }}>
         <Contact />
       </section>
 

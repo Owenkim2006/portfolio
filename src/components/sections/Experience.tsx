@@ -30,13 +30,13 @@ function CompanyLogo({ item }: { item: ExperienceItem }) {
   if (item.logo && !imgError) {
     return (
       <div style={{
-        width: 44,
-        height: 44,
-        borderRadius: 10,
+        width: 36,
+        height: 36,
+        borderRadius: 8,
         overflow: 'hidden',
         border: '1px solid var(--border)',
         background: 'white',
-        padding: 6,
+        padding: 5,
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
@@ -54,11 +54,11 @@ function CompanyLogo({ item }: { item: ExperienceItem }) {
 
   return (
     <div style={{
-      width: 44, height: 44, borderRadius: 10,
+      width: 36, height: 36, borderRadius: 8,
       background: 'var(--accent-subtle)',
       border: '1px solid var(--accent-border)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'var(--font-mono)', fontSize: 13,
+      fontFamily: 'var(--font-mono)', fontSize: 12,
       color: 'var(--accent-light)', fontWeight: 500, flexShrink: 0,
     }}>
       {item.company.slice(0, 2).toUpperCase()}
@@ -80,7 +80,7 @@ function TimelineDot() {
       animate={{ backgroundColor: inView ? '#6C63FF' : 'var(--bg-primary)' }}
       transition={{ duration: 0.35, delay: 0.15 }}
       style={{
-        position: 'absolute', left: 12, top: 24,
+        position: 'absolute', left: 12, top: 22,
         width: 16, height: 16, borderRadius: '50%',
         border: '2px solid #6C63FF', zIndex: 1,
       }}
@@ -99,13 +99,12 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="p-4 md:p-[22px_24px]"
+      className="p-3 md:p-[14px_18px]"
       style={{
         background: 'var(--bg-card)',
         border: `1px solid ${hovered ? 'var(--border-accent)' : 'var(--border)'}`,
         borderRadius: 12,
-        transform: hovered ? 'translateY(-2px)' : 'none',
-        transition: 'border-color 200ms ease, transform 200ms ease',
+        transition: 'border-color 150ms ease',
         display: 'flex',
         flexDirection: 'column',
         cursor: isFullLink ? 'pointer' : 'default',
@@ -162,13 +161,13 @@ export default function Experience() {
   }, []);
 
   return (
-    <section style={{ paddingTop: 120, paddingBottom: 120 }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+    <section style={{ paddingTop: 64, paddingBottom: 64 }}>
+      <div style={{ maxWidth: 768, margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 56 }}>
+        <div style={{ marginBottom: 28 }}>
           <h2 style={{
-            fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
+            fontSize: 'clamp(1.35rem, 2.2vw, 1.75rem)',
             fontWeight: 500,
             color: 'var(--text-primary)',
             letterSpacing: '-0.02em',
@@ -180,7 +179,7 @@ export default function Experience() {
         </div>
 
         {/* Timeline */}
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+        <div style={{ maxWidth: 720, margin: '0 auto' }}>
           <div ref={timelineRef} style={{ position: 'relative' }}>
 
             {/* Neural axon timeline */}
@@ -220,7 +219,7 @@ export default function Experience() {
                 className="pl-0 md:pl-12"
                 style={{
                   position: 'relative',
-                  marginBottom: i < experience.length - 1 ? 40 : 0,
+                  marginBottom: i < experience.length - 1 ? 12 : 0,
                 }}
               >
                 <TimelineDot />

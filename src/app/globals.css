@@ -157,9 +157,8 @@ body {
 /* ─── Content section overlay — keeps text readable over the NeuronCanvas background ─── */
 .section-overlay {
   position: relative;
-  background: rgba(8, 11, 20, 0.75);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  /* Opaque enough to read over the canvas without a per-frame backdrop blur. */
+  background: rgba(8, 11, 20, 0.86);
   pointer-events: auto;
 }
 

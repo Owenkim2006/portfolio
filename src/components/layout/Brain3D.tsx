@@ -36,7 +36,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     baseRadius: 0.62,
     deform: { x: 1.0, y: 0.82, z: 1.12 },
     sectionColor: '#1D9E75',
-    section: 'about',
+    section: 'research',
     label: 'Frontal Lobe',
   },
   parietal: {
@@ -45,7 +45,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     baseRadius: 0.56,
     deform: { x: 1.05, y: 0.85, z: 0.95 },
     sectionColor: '#1D9E75',
-    section: 'about',
+    section: 'research',
     label: 'Parietal Lobe',
   },
   temporal_L: {
@@ -54,7 +54,7 @@ const LOBES: Record<LobeKey, LobeData> = {
     baseRadius: 0.5,
     deform: { x: 0.7, y: 0.72, z: 1.35 },
     sectionColor: '#1D9E75',
-    section: 'about',
+    section: 'research',
     label: 'Temporal Lobe (L)',
   },
   temporal_R: {
@@ -110,7 +110,7 @@ const LOBE_KEYS = Object.keys(LOBES) as LobeKey[];
 const PARTICLE_COUNT = CONNECTIONS.length * 2;
 
 const LEGEND = [
-  { label: 'About',      color: '#1D9E75', section: 'about'      },
+  { label: 'Research',   color: '#1D9E75', section: 'research'   },
   { label: 'Projects',   color: '#6C63FF', section: 'projects'   },
   { label: 'Experience', color: '#6C63FF', section: 'experience' },
   { label: 'Contact',    color: '#6C63FF', section: 'contact'    },

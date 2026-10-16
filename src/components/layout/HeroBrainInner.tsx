@@ -7,7 +7,7 @@ import * as THREE from 'three';
 
 function BrainScene() {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/brain.glb');
+  const { scene } = useGLTF('/models/brain-lite.glb');
 
   useEffect(() => {
     // Reset to the raw, untransformed geometry before measuring, React's
@@ -35,29 +35,26 @@ function BrainScene() {
     // Apply the electric blue wireframe aesthetic
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
-        // Solid dark base mesh
         child.material = new THREE.MeshStandardMaterial({
           color: '#020818',
           emissive: '#1a3aff',
-          emissiveIntensity: 0.15,
+          emissiveIntensity: 0.35,
           roughness: 0.8,
           metalness: 0.1,
           transparent: true,
           opacity: 0.85,
         });
       }
+      // Hide any line geometry baked into the GLB (crosshairs, axes, etc.)
+      if (child instanceof THREE.Line || child instanceof THREE.LineSegments) {
+        child.visible = false;
+      }
     });
   }, [scene]);
 
-  return (
+    return (
     <group ref={groupRef}>
-      {/* Base solid mesh */}
       <primitive object={scene} />
-
-      {/* Wireframe overlay, the glowing blue lines */}
-      <WireframeOverlay scene={scene} />
-
-      {/* Outer glow shell */}
       <GlowShell scene={scene} />
     </group>
   );
@@ -162,14 +159,17 @@ function GlowShell({ scene }: { scene: THREE.Object3D }) {
 
 interface HeroBrainInnerProps {
   interactive?: boolean;
+  // Stops the render loop while the hero is scrolled out of view.
+  active?: boolean;
 }
 
-export default function HeroBrainInner({ interactive = true }: HeroBrainInnerProps) {
+export default function HeroBrainInner({ interactive = true, active = true }: HeroBrainInnerProps) {
   return (
     <Canvas
+      frameloop={active ? 'always' : 'never'}
       camera={{ position: [0, 0.1, 3.8], fov: 46 }}
       dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
       style={{ background: 'transparent', cursor: interactive ? 'grab' : 'default', touchAction: 'none', width: '100%', height: '100%' }}
       performance={{ min: 0.5 }}
     >
@@ -227,4 +227,4 @@ export default function HeroBrainInner({ interactive = true }: HeroBrainInnerPro
   );
 }
 
-useGLTF.preload('/models/brain.glb');
+useGLTF.preload('/models/brain-lite.glb');

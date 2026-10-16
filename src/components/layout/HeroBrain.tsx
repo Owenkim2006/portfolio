@@ -9,12 +9,13 @@ const HeroBrainInner = dynamic(
 
 interface HeroBrainProps {
   interactive?: boolean;
+  active?: boolean;
 }
 
-export default function HeroBrain({ interactive = true }: HeroBrainProps) {
+export default function HeroBrain({ interactive = true, active = true }: HeroBrainProps) {
   return (
     <div style={{ touchAction: 'none', width: '100%', height: '100%' }}>
-      <HeroBrainInner interactive={interactive} />
+      <HeroBrainInner interactive={interactive} active={active} />
     </div>
   );
 }

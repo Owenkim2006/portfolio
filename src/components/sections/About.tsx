@@ -4,11 +4,11 @@ import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
 export default function About() {
   return (
-    <section style={{ paddingTop: 120, paddingBottom: 120, position: 'relative' }}>
+    <section style={{ paddingTop: 64, paddingBottom: 64, position: 'relative' }}>
       <div
-        className="grid grid-cols-2 gap-[80px] max-md:grid-cols-1 max-md:gap-[40px]"
+        className="grid grid-cols-[260px_1fr] gap-[48px] max-md:grid-cols-1 max-md:gap-[28px]"
         style={{
-          maxWidth: 1100,
+          maxWidth: 900,
           margin: '0 auto',
           padding: '0 24px',
           alignItems: 'center',
@@ -20,7 +20,7 @@ export default function About() {
           <div style={{
             position: 'relative',
             width: '100%',
-            maxWidth: 400,
+            maxWidth: 260,
             margin: '0 auto',
           }}>
             {/* Photo placeholder — replace src with real photo */}
@@ -66,11 +66,11 @@ export default function About() {
         <AnimateOnScroll delay={0.1}>
           <div>
             <h2 style={{
-              fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
+              fontSize: 'clamp(1.35rem, 2.2vw, 1.75rem)',
               fontWeight: 500,
               color: 'var(--text-primary)',
               letterSpacing: '-0.02em',
-              marginBottom: 40,
+              marginBottom: 16,
             }}>
               About
             </h2>
@@ -93,7 +93,7 @@ export default function About() {
 
             {/* Quick facts */}
             <div style={{
-              marginTop: 32,
+              marginTop: 24,
               display: 'flex',
               flexDirection: 'column',
               gap: 10,

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import HeroBrain from '@/components/layout/HeroBrain';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -14,6 +14,8 @@ export default function Hero() {
   const textY = useTransform(scrollYProgress, [0, 0.25], [0, -20]);
 
   const [isDesktop, setIsDesktop] = useState(true);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroVisible = useInView(heroRef);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)');
@@ -25,18 +27,19 @@ export default function Hero() {
 
   return (
     <div
+      ref={heroRef}
       className="grid grid-cols-1 md:grid-cols-2 pointer-events-none"
       style={{
-        minHeight: '100vh',
+        minHeight: '78vh',
         alignItems: 'center',
-        paddingTop: 64,
+        paddingTop: 52,
         position: 'relative',
         overflow: 'hidden',
       }}
     >
       {/* Left column (text) */}
       <div
-        className="px-5 pt-[100px] pb-6 text-left md:px-0 md:pl-20 md:pr-10 md:pt-0 md:pb-0"
+        className="px-5 pt-[56px] pb-4 text-left md:px-0 md:pl-20 md:pr-10 md:pt-0 md:pb-0"
         style={{ position: 'relative', zIndex: 10 }}
       >
         {/* Dark gradient, keeps text readable regardless of what's behind
@@ -68,7 +71,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
             style={{
-              fontSize: 'clamp(3.2rem, 8vw, 6.5rem)',
+              fontSize: 'clamp(2.4rem, 5.5vw, 4.25rem)',
               fontWeight: 600,
               color: 'var(--text-primary)',
               letterSpacing: '-0.03em',
@@ -88,8 +91,8 @@ export default function Hero() {
               fontSize: '0.9375rem',
               color: 'var(--text-secondary)',
               lineHeight: 1.65,
-              maxWidth: 440,
-              marginTop: 16,
+              maxWidth: 420,
+              marginTop: 12,
             }}
           >
             Biomedical Engineering student at the University of Waterloo,
@@ -107,8 +110,8 @@ export default function Hero() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              marginTop: 24,
-              padding: '10px 20px',
+              marginTop: 20,
+              padding: '8px 16px',
               background: 'var(--accent)',
               color: 'white',
               borderRadius: 8,
@@ -123,7 +126,7 @@ export default function Hero() {
 
           {/* Scroll indicator — hidden on mobile, takes up space there */}
           <motion.div
-            style={{ opacity: indicatorOpacity, marginTop: 48 }}
+            style={{ opacity: indicatorOpacity, marginTop: 32 }}
             className="hidden md:flex md:flex-col md:items-start"
           >
             <span
@@ -163,7 +166,7 @@ export default function Hero() {
           isDesktop
             ? {
                 position: 'relative',
-                height: '100vh',
+                height: '78vh',
                 cursor: 'grab',
                 opacity: brainOpacity,
                 pointerEvents: 'auto',
@@ -171,7 +174,7 @@ export default function Hero() {
             : {
                 position: 'relative',
                 width: '100%',
-                height: '45vh',
+                height: '36vh',
                 opacity: 0.5,
                 pointerEvents: 'auto',
               }
@@ -182,7 +185,7 @@ export default function Hero() {
             pointer-events says. The brain is touch-interactive on mobile
             too (see HeroBrainInner's OrbitControls touches config), so
             `interactive` is always true here. */}
-        <HeroBrain interactive={true} />
+        <HeroBrain interactive={true} active={heroVisible} />
       </motion.div>
     </div>
   );

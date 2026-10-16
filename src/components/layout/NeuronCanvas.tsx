@@ -375,13 +375,21 @@ function NeuronCanvas() {
       rafId = requestAnimationFrame(tick);
     }
 
+    // Don't burn frames while the tab is in the background.
+    function onVisibility() {
+      cancelAnimationFrame(rafId);
+      if (!document.hidden) rafId = requestAnimationFrame(tick);
+    }
+
     resize();
     window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', onVisibility);
     rafId = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
 
