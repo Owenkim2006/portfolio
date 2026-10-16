@@ -22,42 +22,6 @@ function SlideInLeft({ children, delay = 0 }: { children: React.ReactNode; delay
   );
 }
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-function ChevronRight() {
-  return (
-    <svg width={7} height={11} viewBox="0 0 7 11" fill="none"
-      stroke="#9B94FF" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"
-      aria-hidden="true" style={{ flexShrink: 0, marginTop: 3 }}>
-      <path d="M1 1l5 4.5L1 10" />
-    </svg>
-  );
-}
-
-// ─── Type badge ───────────────────────────────────────────────────────────────
-// Single accent, job type is conveyed by label text, not color.
-
-const TYPE_META: Record<ExperienceItem['type'], { label: string }> = {
-  research: { label: 'Research' },
-  software: { label: 'Software' },
-};
-
-function TypeBadge({ type }: { type: ExperienceItem['type'] }) {
-  const m = TYPE_META[type];
-  return (
-    <span style={{
-      fontSize: '0.6875rem',
-      fontFamily: 'var(--font-mono)',
-      padding: '3px 10px',
-      borderRadius: 999,
-      color: 'var(--accent-light)', background: 'var(--accent-subtle)', border: '1px solid var(--accent-border)',
-      whiteSpace: 'nowrap',
-    }}>
-      {m.label}
-    </span>
-  );
-}
-
 // ─── Company logo ─────────────────────────────────────────────────────────────
 
 function CompanyLogo({ item }: { item: ExperienceItem }) {
@@ -158,71 +122,16 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <CompanyLogo item={item} />
-        <div className="flex-col md:flex-row md:items-start md:justify-between" style={{ flex: 1, minWidth: 0, display: 'flex', gap: 12 }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <h3 className="text-[15px] md:text-base" style={{ fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>
-              {item.company}
-            </h3>
-            <p style={{ fontSize: '0.9375rem', color: 'var(--accent-light)', marginTop: 2 }}>
-              {item.role}
-            </p>
-          </div>
-          <div className="items-start md:items-end" style={{ display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0 }}>
-            <TypeBadge type={item.type} />
-            <p className="text-left md:text-right" style={{
-              fontSize: '0.8125rem',
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--text-muted)', lineHeight: 1.6,
-            }}>
-              {item.dateRange}<br />{item.location}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Description */}
-      <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.65, margin: '14px 0' }}>
-        {item.description}
-      </p>
-
-      {/* Wins */}
-      {item.wins.length > 0 && (
-        <div style={{ marginBottom: 14 }}>
-          <p style={{
-            fontSize: '0.6875rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--text-muted)', textTransform: 'uppercase',
-            letterSpacing: '0.12em', marginBottom: 8,
-          }}>
-            Key outcomes
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h3 className="text-[15px] md:text-base" style={{ fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>
+            {item.company}
+          </h3>
+          <p style={{ fontSize: '0.9375rem', color: 'var(--accent-light)', marginTop: 2 }}>
+            {item.role}
           </p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: 7, listStyle: 'none', margin: 0, padding: 0 }}>
-            {item.wins.map((win, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                <ChevronRight />
-                <span style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{win}</span>
-              </li>
-            ))}
-          </ul>
         </div>
-      )}
-
-      {/* Stack tags */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-        {item.stack.map((tech) => (
-          <span key={tech} style={{
-            fontSize: '0.6875rem',
-            fontFamily: 'var(--font-mono)',
-            padding: '3px 8px', borderRadius: 4,
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid var(--border)',
-            color: 'var(--text-muted)',
-          }}>
-            {tech}
-          </span>
-        ))}
       </div>
     </div>
   );

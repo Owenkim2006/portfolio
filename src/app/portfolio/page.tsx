@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { projects } from '@/data/projects';
-import { research } from '@/data/research';
 import { experience } from '@/data/experience';
 import { PF } from '@/lib/portfolioTheme';
 
@@ -45,25 +44,12 @@ function fromExperience(id: string): PortfolioItem | null {
   };
 }
 
-function fromResearch(id: string): PortfolioItem | null {
-  const r = research.find((x) => x.id === id);
-  if (!r) return null;
-  return {
-    id: r.id,
-    href: `/research/${r.id}`,
-    name: r.title,
-    tagline: r.authors.slice(0, 2).join(', ') + (r.authors.length > 2 ? ' et al.' : ''),
-  };
-}
-
 // Hand-ordered: most recent / most important first.
 const ITEMS: PortfolioItem[] = [
   fromExperience('sickkids'),
   fromExperience('uwaterloo-research'),
   fromExperience('harvard'),
   fromProject('emg-prosthetic'),
-  fromResearch('dicoh'),
-  fromResearch('harvard-parkinsons'),
   fromProject('cardioglasses'),
   fromProject('united-mobility'),
   fromProject('kidsability'),

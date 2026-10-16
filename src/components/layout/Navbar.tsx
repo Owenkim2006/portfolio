@@ -6,7 +6,6 @@ import { useActiveSection } from '@/hooks/useActiveSection';
 const NAV = [
   { href: '#projects',   id: 'projects',   label: 'Projects'   },
   { href: '#experience', id: 'experience', label: 'Experience' },
-  { href: '#research',   id: 'research',   label: 'Research'   },
   { href: '/#about',     id: 'about',      label: 'About'      },
   { href: '#contact',    id: 'contact',    label: 'Contact'    },
 ];

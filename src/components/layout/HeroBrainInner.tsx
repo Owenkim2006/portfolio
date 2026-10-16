@@ -82,7 +82,7 @@ function WireframeOverlay({ scene }: { scene: THREE.Object3D }) {
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         // Primary wireframe, bright electric blue
-        const wireGeo = new THREE.WireframeGeometry(child.geometry);
+        const wireGeo = new THREE.EdgesGeometry(child.geometry, 15);
         const wireMat = new THREE.LineBasicMaterial({
           color: '#4488ff',
           transparent: true,
