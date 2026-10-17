@@ -4,15 +4,10 @@ import AnimateOnScroll from '@/components/ui/AnimateOnScroll'
 
 export default function About() {
   return (
-    <section style={{ paddingTop: 64, paddingBottom: 64, position: 'relative' }}>
+    <section className="home-section" style={{ position: 'relative' }}>
       <div
-        className="grid grid-cols-[260px_1fr] gap-[48px] max-md:grid-cols-1 max-md:gap-[28px]"
-        style={{
-          maxWidth: 900,
-          margin: '0 auto',
-          padding: '0 24px',
-          alignItems: 'center',
-        }}
+        className="home-container grid grid-cols-[240px_1fr] gap-[44px] max-md:grid-cols-1 max-md:gap-[24px]"
+        style={{ alignItems: 'center' }}
       >
 
         {/* Left — photo */}
@@ -20,7 +15,7 @@ export default function About() {
           <div style={{
             position: 'relative',
             width: '100%',
-            maxWidth: 260,
+            maxWidth: 240,
             margin: '0 auto',
           }}>
             {/* Photo placeholder — replace src with real photo */}
@@ -65,15 +60,7 @@ export default function About() {
         {/* Right — bio text */}
         <AnimateOnScroll delay={0.1}>
           <div>
-            <h2 style={{
-              fontSize: 'clamp(1.35rem, 2.2vw, 1.75rem)',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              letterSpacing: '-0.02em',
-              marginBottom: 16,
-            }}>
-              About
-            </h2>
+            <h2 className="home-h2" style={{ marginBottom: 14 }}>About</h2>
 
             {/* Bio — placeholder, Owen will fill this in */}
             <div style={{
@@ -82,21 +69,21 @@ export default function About() {
               gap: 16,
             }}>
               <p style={{
-                fontSize: '0.9375rem',
+                fontSize: '1.0625rem',
                 color: 'var(--text-secondary)',
-                lineHeight: 1.75,
+                lineHeight: 1.65,
                 margin: 0,
               }}>
-                I'm a Biomedical Engineering student at the University of Waterloo who is eager to join the wearable device and neurotech fields. Right now I'm doing an R&D co-op at SickKids working on pediatric neuromodulation tech, and I'm generally chasing the intersection of hardware, sensors, and AI, aiming to eventually build real, shipped products. Off the clock, you'll usually find me playing volleyball, basketball, or ultimate frisbee!
+                I'm a Biomedical Engineering student at the University of Waterloo, interested in neurotech, wearables, and the intersection of hardware and ML. I'm looking for Summer 2027 hardware and ML roles where I can help ship real products. Off the clock, you'll usually find me running, or playing volleyball, basketball, or ultimate frisbee.
               </p>
             </div>
 
             {/* Quick facts */}
             <div style={{
-              marginTop: 24,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 10,
+              marginTop: 20,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+              gap: '8px 24px',
             }}>
               {[
                 { label: 'Location', value: 'Waterloo, ON' },
@@ -106,13 +93,13 @@ export default function About() {
               ].map(item => (
                 <div key={item.label} style={{
                   display: 'flex',
-                  gap: 16,
-                  fontSize: 13,
+                  gap: 14,
+                  fontSize: 15,
                 }}>
                   <span style={{
                     fontFamily: 'var(--font-mono)',
                     color: 'var(--text-muted)',
-                    minWidth: 90,
+                    minWidth: 86,
                     flexShrink: 0,
                   }}>
                     {item.label}

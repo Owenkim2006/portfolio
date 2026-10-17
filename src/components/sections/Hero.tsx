@@ -28,18 +28,18 @@ export default function Hero() {
   return (
     <div
       ref={heroRef}
-      className="grid grid-cols-1 md:grid-cols-2 pointer-events-none"
+      className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] pointer-events-none"
       style={{
-        minHeight: '78vh',
+        minHeight: '100svh',
         alignItems: 'center',
-        paddingTop: 52,
+        paddingTop: 64,
         position: 'relative',
         overflow: 'hidden',
       }}
     >
       {/* Left column (text) */}
       <div
-        className="px-5 pt-[56px] pb-4 text-left md:px-0 md:pl-20 md:pr-10 md:pt-0 md:pb-0"
+        className="hero-text px-5 pt-[56px] pb-4 text-left md:pr-6 md:pt-0 md:pb-0"
         style={{ position: 'relative', zIndex: 10 }}
       >
         {/* Dark gradient, keeps text readable regardless of what's behind
@@ -71,7 +71,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
             style={{
-              fontSize: 'clamp(2.4rem, 5.5vw, 4.25rem)',
+              fontSize: 'clamp(2.8rem, 6vw, 5rem)',
               fontWeight: 600,
               color: 'var(--text-primary)',
               letterSpacing: '-0.03em',
@@ -88,17 +88,17 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.4 }}
             style={{
-              fontSize: '0.9375rem',
+              fontSize: '1.0625rem',
               color: 'var(--text-secondary)',
-              lineHeight: 1.65,
-              maxWidth: 420,
+              lineHeight: 1.6,
+              maxWidth: 480,
               marginTop: 12,
             }}
           >
-            Biomedical Engineering student at the University of Waterloo,
-            building wearable systems, medical devices, and machine learning
-            models, translating research into systems that improve quality
-            of life.
+            Biomedical Engineering student at the University of Waterloo
+            (3.91 GPA). I build ultrasound neuromodulation hardware, analog
+            biosignal front-ends, and medical imaging ML. I&apos;m seeking
+            Summer 2027 roles.
           </motion.p>
 
           <motion.a
@@ -110,12 +110,12 @@ export default function Hero() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              marginTop: 20,
-              padding: '8px 16px',
+              marginTop: 26,
+              padding: '14px 28px',
               background: 'var(--accent)',
               color: 'white',
-              borderRadius: 8,
-              fontSize: 13,
+              borderRadius: 10,
+              fontSize: 16,
               fontWeight: 500,
               textDecoration: 'none',
               fontFamily: 'var(--font-sans)',
@@ -159,14 +159,14 @@ export default function Hero() {
 
       {/* Right column (brain), a single HeroBrain instance whose style
           switches between the desktop and mobile spec, rather than
-          rendering two separate instances (which would load the 33MB
-          GLB model twice). */}
+          rendering two separate instances (which would load the GLB
+          model twice). */}
       <motion.div
         style={
           isDesktop
             ? {
                 position: 'relative',
-                height: '78vh',
+                height: '100svh',
                 cursor: 'grab',
                 opacity: brainOpacity,
                 pointerEvents: 'auto',
@@ -174,7 +174,7 @@ export default function Hero() {
             : {
                 position: 'relative',
                 width: '100%',
-                height: '36vh',
+                height: '44vh',
                 opacity: 0.5,
                 pointerEvents: 'auto',
               }

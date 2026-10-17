@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-const RESUME_HREF = '/documents/Owen Kim Resume - September 2026.pdf';
+const RESUME_HREF = '/documents/Owen_Kim_Resume.pdf';
 
 const LINKS = [
   { href: '/portfolio',                     label: 'Portfolio', external: false },
   { href: 'mailto:o5kim@uwaterloo.ca',      label: 'Email',     external: false },
+  { href: 'https://www.linkedin.com/in/owenkimm/', label: 'LinkedIn', external: true },
   { href: 'https://github.com/Owenkim2006', label: 'GitHub',    external: true  },
   { href: RESUME_HREF,                      label: 'Resume',    external: true  },
 ];
@@ -28,7 +29,7 @@ export default function Navbar() {
         top: 0,
         left: 0,
         right: 0,
-        height: 52,
+        height: 64,
         zIndex: 50,
         display: 'flex',
         alignItems: 'center',
@@ -40,19 +41,24 @@ export default function Navbar() {
     >
       <style>{`
         .nav-link {
-          font-size: 13px;
+          font-size: 15px;
+          font-weight: 500;
           color: var(--text-secondary);
           text-decoration: none;
           white-space: nowrap;
+          padding: 8px 12px;
           transition: color 150ms ease;
         }
         .nav-link:hover { color: var(--text-primary); }
+        @media (max-width: 640px) {
+          .nav-link { font-size: 13px; padding: 6px 5px; }
+        }
       `}</style>
 
       <div
         className="px-5 md:px-8"
         style={{
-          maxWidth: 1100,
+          maxWidth: 1120,
           margin: '0 auto',
           width: '100%',
           display: 'flex',
@@ -64,7 +70,7 @@ export default function Navbar() {
           href="#hero"
           style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: 13,
+            fontSize: 15,
             fontWeight: 500,
             letterSpacing: '0.1em',
             color: 'var(--accent)',
@@ -74,7 +80,7 @@ export default function Navbar() {
           OK.
         </a>
 
-        <div className="gap-4 md:gap-6" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="gap-1 md:gap-3" style={{ display: 'flex', alignItems: 'center' }}>
           {LINKS.map((l) => (
             <a
               key={l.label}

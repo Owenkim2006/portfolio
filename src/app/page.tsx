@@ -6,8 +6,6 @@ import SectionDotNav   from '@/components/layout/SectionDotNav';
 import Hero            from '@/components/sections/Hero';
 import Research        from '@/components/sections/Research';
 import Experience      from '@/components/sections/Experience';
-import About           from '@/components/sections/About';
-import Contact         from '@/components/sections/Contact';
 
 export default function Home() {
   return (
@@ -25,14 +23,6 @@ export default function Home() {
 
       <section id="research" className="section-overlay" style={{ scrollMarginTop: 56 }}>
         <Research />
-      </section>
-
-      <section id="about" className="section-overlay" style={{ scrollMarginTop: 56 }}>
-        <About />
-      </section>
-
-      <section id="contact" className="section-overlay" style={{ scrollMarginTop: 56 }}>
-        <Contact />
       </section>
 
       <Footer />

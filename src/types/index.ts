@@ -5,6 +5,8 @@ export interface ResearchItem {
   title: string;
   authors: string[];
   venue?: string;
+  /** Rendered as the Abstract section on /research/[id] */
+  abstract?: string;
   status: ResearchStatus;
   tags: string[];
   links: {

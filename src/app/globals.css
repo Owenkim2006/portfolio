@@ -157,9 +157,36 @@ body {
 /* ─── Content section overlay — keeps text readable over the NeuronCanvas background ─── */
 .section-overlay {
   position: relative;
-  /* Opaque enough to read over the canvas without a per-frame backdrop blur. */
-  background: rgba(8, 11, 20, 0.86);
+  background: var(--bg-primary);
   pointer-events: auto;
+}
+
+/* ─── Home page sections ─── */
+.home-section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.home-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.home-h2 {
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 28px;
+}
+
+/* Hero text lines up with the left edge of .home-container. */
+@media (min-width: 768px) {
+  .hero-text {
+    padding-left: max(32px, calc((100vw - 1120px) / 2 + 32px));
+  }
 }
 
 /* ─── Mobile padding safety net ─── */
@@ -173,4 +200,12 @@ body {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+  /* The section above already carries the 20px side padding. */
+  .home-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
+
+

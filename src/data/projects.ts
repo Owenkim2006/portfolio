@@ -5,17 +5,17 @@ export const projects: Project[] = [
     id: 'cardioglasses',
     name: 'CardioGlasses',
     tagline: 'Smart glasses that check a heart patient\'s pulse against their own normal',
-    description: 'Glasses with a behind-the-ear PPG + IMU that compare a heart patient\'s pulse to their personal baseline and medical record, and speak up only when it matters. Won the Healthcare Track at the University of Michigan hackathon. Built in 24 hours by a team of 3 Waterloo BME students. I led the hardware.',
+    description: 'Glasses with a behind-the-ear PPG + IMU that compare a heart patient\'s pulse to their personal baseline and medical record, and speak up only when it matters. Won the Healthcare Track at MHacks (University of Michigan). Built in 24 hours by a team of 3 Waterloo BME students. I led the hardware.',
     longDescription: 'Older adults with heart disease are monitored in clinic but blind at home, and most wearables give them numbers, not answers. CardioGlasses streams pulse and motion from a MAX30102 PPG and MPU6050 IMU on an ESP32 over BLE, derives heart rate, activity and signal quality, then compares them against the patient\'s personal baseline and medical record to decide between normal, monitor, notify, or escalate. Instead of just flagging "HR is high", it watches recovery after activity, and the record changes how it monitors (AFib switches to irregular-rhythm mode; beta-blockers change the recovery comparison). Alerts are delivered as a voice check-in with an "I\'m OK" / "I need help" response, and a caregiver is texted automatically after 60 s with no answer. I owned the sensors, firmware, BLE bridge, mount, and validation.',
     category: 'hardware',
     tags: ['Electronics', 'Hardware', 'Health', 'Software'],
     outcomes: [
-      'Healthcare Track winner, University of Michigan hackathon',
+      'Healthcare Track winner, MHacks (University of Michigan)',
       '1.7 bpm difference vs AirPods heart rate reference',
       '100 Hz wireless streaming with 0 dropped samples',
     ],
     highlights: [
-      'Won the Healthcare Track at the University of Michigan hackathon',
+      'Won the Healthcare Track at MHacks, University of Michigan\'s hackathon',
       'ESP32 + MAX30102 PPG (100 Hz, 18-bit) + MPU6050 IMU on a shared I2C bus, mounted in the ear crease behind the ear',
       'Custom BLE protocol: 24-byte binary records, 4 per notification, sample counter instead of timestamps. 0 dropped samples over 60 s on battery',
       'IMU motion gating flagged 19% of a recording as motion, matching the corrupted PPG segments',
@@ -57,10 +57,9 @@ export const projects: Project[] = [
       '/images/projects/emg9.png',
       '/images/projects/emg10.png',
     ],
-    // TODO: compress emg1.gif — currently 84MB, target under 5MB
-    // Use ezgif.com/optimize to reduce file size
-    gif: '/images/projects/emg1.gif',
-    thumbnail: '/images/projects/emg1.gif',
+    // Demo converted from the 84MB emg1.gif to a 0.7MB looping MP4
+    gif: '/images/projects/emg1.mp4',
+    thumbnail: '/images/projects/emg2.png',
     links: [
       { label: 'GitHub', href: 'https://github.com/Owenkim2006/myoelectric-prosthetic', type: 'github' },
     ],

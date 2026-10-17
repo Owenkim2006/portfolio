@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { experience, COMPANY_URLS } from '@/data/experience';
-import { PF } from '@/lib/portfolioTheme';
-import DetailLayout, { BulletList, LinkList, SectionLabel, TagList } from '@/components/portfolio/DetailLayout';
+import Article, { Figure, FigureGrid, List, Paragraphs, Section } from '@/components/portfolio/Article';
 
 export async function generateStaticParams() {
   return experience.map((e) => ({ id: e.id }));
@@ -28,45 +27,38 @@ export default async function ExperiencePage(
   if (!item) notFound();
 
   const companyUrl = COMPANY_URLS[item.id];
+  const images = item.images ?? [];
 
   return (
-    <DetailLayout
-      badge="Experience"
+    <Article
+      kicker="Experience"
       title={item.company}
-      subtitle={item.role}
-      images={item.images}
-      sidebar={
-        <>
-          <div>
-            <SectionLabel>Details</SectionLabel>
-            <p style={{ fontSize: 14, color: PF.textSecondary, lineHeight: 1.7, margin: 0 }}>
-              {item.dateRange}<br />{item.location}
-            </p>
-          </div>
-          {item.stack.length > 0 && (
-            <div>
-              <SectionLabel>Stack</SectionLabel>
-              <TagList tags={item.stack} />
-            </div>
-          )}
-          {companyUrl && (
-            <div>
-              <SectionLabel>Links</SectionLabel>
-              <LinkList links={[{ label: 'Website', href: companyUrl }]} />
-            </div>
-          )}
-        </>
-      }
+      deck={item.role}
+      meta={<>{item.dateRange} · {item.location}</>}
+      links={companyUrl ? [{ label: 'Website', href: companyUrl }] : []}
     >
-      <p style={{ fontSize: 16, color: PF.textPrimary, lineHeight: 1.8, margin: 0 }}>
-        {item.description}
-      </p>
+      <Section title="Overview">
+        <Paragraphs text={item.description} />
+      </Section>
+
+      {images[0] && <Figure src={images[0]} n={1} caption={item.company} />}
+
       {item.wins.length > 0 && (
-        <div>
-          <SectionLabel>Key outcomes</SectionLabel>
-          <BulletList items={item.wins} />
-        </div>
+        <Section title="Contributions">
+          <List items={item.wins} />
+          {item.stack.length > 0 && (
+            <p className="article-p">
+              <em>Tools and methods:</em> {item.stack.join(', ')}.
+            </p>
+          )}
+        </Section>
       )}
-    </DetailLayout>
+
+      {images.length > 1 && (
+        <Section title="Figures">
+          <FigureGrid images={images.slice(1)} start={2} />
+        </Section>
+      )}
+    </Article>
   );
 }

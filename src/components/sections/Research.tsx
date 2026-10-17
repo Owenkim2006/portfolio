@@ -1,48 +1,10 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 import { research } from '@/data/research';
 import type { ResearchItem, ResearchStatus } from '@/types';
 
-// ─── Left-entry animation wrapper ────────────────────────────────────────────
-
-function SlideInLeft({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -28 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -28 }}
-      transition={{ duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// ─── Status badge meta ────────────────────────────────────────────────────────
-
-const STATUS_META: Record<ResearchStatus, { label: string; background: string; border: string; color: string }> = {
-  review: {
-    label: 'Under Review',
-    background: 'rgba(108,99,255,0.10)',
-    border: '1px solid var(--accent-border)',
-    color: 'var(--accent-light)',
-  },
-  published: {
-    label: 'Completed',
-    background: 'rgba(29,158,117,0.08)',
-    border: '1px solid rgba(29,158,117,0.25)',
-    color: 'var(--teal-light)',
-  },
-};
-
-const GROUPS: { status: ResearchStatus }[] = [
-  { status: 'review'    },
-  { status: 'published' },
-];
+// Under-review work first, then completed.
+const STATUS_ORDER: ResearchStatus[] = ['review', 'published'];
 
 // ─── Author list, bolds "Owen Kim" wherever it appears ───────────────────────
 
@@ -52,7 +14,7 @@ function AuthorList({ authors }: { authors: string[] }) {
       {authors.map((author, i) => (
         <span key={i}>
           {author === 'Owen Kim' ? (
-            <strong style={{ color: 'var(--text-primary)', fontWeight: 500 }}>Owen Kim</strong>
+            <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Owen Kim</strong>
           ) : (
             author
           )}
@@ -63,106 +25,56 @@ function AuthorList({ authors }: { authors: string[] }) {
   );
 }
 
-// ─── Research card ────────────────────────────────────────────────────────────
+// ─── Publication entry (Google Scholar style: title, authors, venue) ─────────
 
-function ResearchCard({ item }: { item: ResearchItem }) {
-  const meta = STATUS_META[item.status];
-  const primaryLink = item.links[0];
+function ResearchEntry({ item }: { item: ResearchItem }) {
+  const href = item.links.find((l) => l.href)?.href;
+  // "Under review" doubles as the venue line until there is a real venue.
+  const venue = item.venue ?? (item.status === 'review' ? 'Under review' : undefined);
 
   return (
-    <div style={{ padding: '14px 0', borderBottom: '1px solid var(--border)' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-
-        {/* Line 1: Title */}
-        <div>
-          {primaryLink?.href ? (
-            <a
-              href={primaryLink.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontSize: 15, fontWeight: 500, color: 'var(--accent-light)',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              {item.title}
-            </a>
-          ) : (
-            <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)' }}>
-              {item.title}
-            </span>
-          )}
-        </div>
-
-        {/* Line 2: Status badge — its own line */}
-        <div>
-          <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 10,
-            padding: '2px 8px', borderRadius: 4, display: 'inline-block',
-            letterSpacing: '0.06em',
-            background: meta.background, border: meta.border, color: meta.color,
-          }}>
-            {meta.label}
-          </span>
-        </div>
-
-        {/* Line 3: Authors */}
-        <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-          <AuthorList authors={item.authors} />
-        </div>
-
-        {/* Line 4: Venue */}
-        {item.venue && (
-          <div style={{ fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic' }}>
-            {item.venue}
-          </div>
-        )}
-
+    <li style={{ padding: '20px 0', borderBottom: '1px solid var(--border)' }}>
+      {href ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" className="research-title">
+          {item.title}
+        </a>
+      ) : (
+        <span className="research-title">{item.title}</span>
+      )}
+      <div style={{ fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.5, marginTop: 6 }}>
+        <AuthorList authors={item.authors} />
       </div>
-    </div>
+      {venue && (
+        <div style={{ fontSize: 15, color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: 1.5, marginTop: 2 }}>
+          {venue}
+        </div>
+      )}
+    </li>
   );
 }
 
 // ─── Research section ─────────────────────────────────────────────────────────
 
 export default function Research() {
+  const items = STATUS_ORDER.flatMap((s) => research.filter((r) => r.status === s));
+
   return (
-    <section style={{ paddingTop: 64, paddingBottom: 64 }}>
-      <div style={{ maxWidth: 768, margin: '0 auto', padding: '0 24px' }}>
+    <section className="home-section">
+      <style>{`
+        .research-title {
+          display: block;
+          font-size: 17px; font-weight: 500; line-height: 1.4;
+          color: var(--text-primary); text-decoration: none;
+        }
+        a.research-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+      `}</style>
 
-        {/* Header */}
-        <div style={{ marginBottom: 28 }}>
-          <h2 style={{
-            fontSize: 'clamp(1.35rem, 2.2vw, 1.75rem)',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            letterSpacing: '-0.02em',
-            lineHeight: 1.2,
-            marginBottom: 0,
-          }}>
-            Research
-          </h2>
-        </div>
+      <div className="home-container">
+        <h2 className="home-h2" style={{ marginBottom: 8 }}>Research</h2>
 
-        {/* Groups */}
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          {GROUPS.map((group) => {
-            const items = research.filter((r) => r.status === group.status);
-            if (items.length === 0) return null;
-            return (
-              <div key={group.status}>
-                {items.map((item, i) => (
-                  <SlideInLeft key={item.id} delay={i * 0.06}>
-                    <ResearchCard item={item} />
-                  </SlideInLeft>
-                ))}
-              </div>
-            );
-          })}
-        </div>
-
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 900 }}>
+          {items.map((item) => <ResearchEntry key={item.id} item={item} />)}
+        </ul>
       </div>
     </section>
   );

@@ -84,7 +84,7 @@ function Card({ item }: { item: PortfolioItem }) {
       </div>
 
       <div style={{ padding: '18px 20px', borderTop: `1px solid ${PF.accentLight}` }}>
-        <div style={{ fontSize: 16, fontWeight: 500, color: PF.textPrimary, marginBottom: 6 }}>
+        <div style={{ fontFamily: PF.fontSerif, fontSize: 18, fontWeight: 600, color: PF.textPrimary, marginBottom: 6 }}>
           {item.name}
         </div>
         <div style={{
@@ -103,7 +103,6 @@ function Card({ item }: { item: PortfolioItem }) {
 export default function PortfolioPage() {
   return (
     <div style={{
-      // Sits above the global NeuronCanvas rendered by the root layout.
       position: 'relative', zIndex: 1,
       background: PF.pageBg, minHeight: '100vh',
       fontFamily: PF.fontSans, color: PF.textPrimary,
@@ -114,12 +113,12 @@ export default function PortfolioPage() {
         @media (max-width: 599px) { .pf-grid { grid-template-columns: 1fr; } }
 
         .pf-card {
-          background: ${PF.cardBg}; border: 1px solid ${PF.cardBorder}; border-radius: 12px;
+          background: ${PF.cardBg}; border: 1px solid ${PF.cardBorder}; border-radius: 6px;
           overflow: hidden; cursor: pointer;
           transition: box-shadow 150ms ease, transform 150ms ease;
         }
         .pf-card:hover, .pf-card:focus-visible {
-          box-shadow: 0 4px 20px rgba(74,66,204,0.12);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
           transform: translateY(-2px);
           outline: none;
         }
@@ -130,7 +129,7 @@ export default function PortfolioPage() {
         {/* Header */}
         <header style={{ paddingTop: 64, paddingBottom: 40, textAlign: 'center' }}>
           <h1 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, color: PF.textPrimary,
+            fontFamily: PF.fontSerif, fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, color: PF.textPrimary,
             letterSpacing: '-0.02em', marginBottom: 8,
           }}>
             Owen Kim

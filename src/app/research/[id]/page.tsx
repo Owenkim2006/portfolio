@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { research } from '@/data/research';
 import { PF } from '@/lib/portfolioTheme';
-import DetailLayout, { LinkList, SectionLabel, TagList } from '@/components/portfolio/DetailLayout';
+import Article, { Paragraphs, Section } from '@/components/portfolio/Article';
 
 const STATUS_LABEL = {
   review: 'Under review',
@@ -37,33 +37,11 @@ export default async function ResearchPage(
     .map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <DetailLayout
-      badge="Research"
+    <Article
+      kicker={`Research · ${STATUS_LABEL[item.status]}`}
       title={item.title}
-      sidebar={
+      meta={
         <>
-          <div>
-            <SectionLabel>Status</SectionLabel>
-            <p style={{ fontSize: 14, color: PF.textSecondary, margin: 0 }}>{STATUS_LABEL[item.status]}</p>
-          </div>
-          {item.tags.length > 0 && (
-            <div>
-              <SectionLabel>Tags</SectionLabel>
-              <TagList tags={item.tags} />
-            </div>
-          )}
-          {links.length > 0 && (
-            <div>
-              <SectionLabel>Links</SectionLabel>
-              <LinkList links={links} />
-            </div>
-          )}
-        </>
-      }
-    >
-      <div>
-        <SectionLabel>Authors</SectionLabel>
-        <p style={{ fontSize: 16, color: PF.textSecondary, lineHeight: 1.8, margin: 0 }}>
           {item.authors.map((a, i) => (
             <span key={a}>
               {a === 'Owen Kim'
@@ -72,16 +50,26 @@ export default async function ResearchPage(
               {i < item.authors.length - 1 && ', '}
             </span>
           ))}
-        </p>
-      </div>
-      {item.venue && (
-        <div>
-          <SectionLabel>Venue</SectionLabel>
-          <p style={{ fontSize: 16, color: PF.textSecondary, fontStyle: 'italic', lineHeight: 1.7, margin: 0 }}>
-            {item.venue}
-          </p>
-        </div>
+        </>
+      }
+      links={links}
+    >
+      {item.abstract && (
+        <Section title="Abstract">
+          <Paragraphs text={item.abstract} />
+        </Section>
       )}
-    </DetailLayout>
+      {/* The status already shows in the kicker, so skip a bare "Under Review" venue. */}
+      {item.venue && item.venue.toLowerCase() !== 'under review' && (
+        <Section title="Publication">
+          <Paragraphs text={item.venue} />
+        </Section>
+      )}
+      {item.tags.length > 0 && (
+        <Section title="Keywords">
+          <p className="article-p">{item.tags.join(', ')}</p>
+        </Section>
+      )}
+    </Article>
   );
 }
