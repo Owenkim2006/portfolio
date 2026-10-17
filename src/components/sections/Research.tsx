@@ -69,10 +69,10 @@ export default function Research() {
         a.research-title:hover { text-decoration: underline; text-underline-offset: 3px; }
       `}</style>
 
-      <div className="home-container">
+      <div className="home-container" style={{ maxWidth: 964 }}>
         <h2 className="home-h2" style={{ marginBottom: 8 }}>Research</h2>
 
-        <ul style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 900 }}>
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
           {items.map((item) => <ResearchEntry key={item.id} item={item} />)}
         </ul>
       </div>

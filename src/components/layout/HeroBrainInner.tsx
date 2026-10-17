@@ -167,7 +167,7 @@ export default function HeroBrainInner({ interactive = true, active = true }: He
   return (
     <Canvas
       frameloop={active ? 'always' : 'never'}
-      camera={{ position: [0, 0.1, 3.2], fov: 46 }}
+      camera={{ position: [0, 0.1, 3.5], fov: 46 }}
       dpr={[1, 1.5]}
       gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
       style={{ background: 'transparent', cursor: interactive ? 'grab' : 'default', touchAction: 'none', width: '100%', height: '100%' }}

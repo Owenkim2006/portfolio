@@ -115,10 +115,10 @@ export default function Experience() {
         }
       `}</style>
 
-      <div className="home-container">
+      <div className="home-container" style={{ maxWidth: 964 }}>
         <h2 className="home-h2">Experience</h2>
 
-        <div style={{ maxWidth: 900 }}>
+        <div>
           {experience.map((item, i) => (
             <div key={item.id} className="grid grid-cols-1 md:grid-cols-[150px_40px_minmax(0,1fr)]">
 
